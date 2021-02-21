@@ -1,9 +1,8 @@
 # wfbot
-[![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-1f425f.svg)](https://nodejs.org) [![LICENSE !](https://img.shields.io/github/license/GlobalArtLimited/wfbot.png)](https://github.com/GlobalArtLimited/wfbot/blob/master/LICENSE) 
-
-# README.md
 - russian [Русский]
 - english [English](../README_en.md)
+
+[![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-1f425f.svg)](https://nodejs.org) [![LICENSE !](https://img.shields.io/github/license/GlobalArtLimited/wfbot.png)](https://github.com/GlobalArtLimited/wfbot/blob/master/LICENSE) 
 
 <p align="center">
     <a href="https://ru.warface.com"><img src="https://i.imgur.com/V32gM6h.png"></a> <a href="https://discord.com">
