@@ -4,7 +4,7 @@
     <a href="https://ru.warface.com"><img src="https://i.imgur.com/V32gM6h.png"></a> <a href="https://discord.com">
     <img src="https://i.imgur.com/80yu4rz.png"></a> 
     <br>
-    Warface Discord бот, для работы со статистикой игроков
+    Warface Discord бот для работы со статистикой игроков
 </p>
 
 ## Функционал
