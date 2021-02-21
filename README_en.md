@@ -11,7 +11,7 @@
     Warface Discord bot for working with player statistics
 </p>
 
-## Functional
+## Features
 Among the functions of the bot there are such commands, for example: checking the current number of players on the servers, checking statistics, clan statistics, game ratings and much more.
 For all commands, use !help
 
