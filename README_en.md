@@ -1,5 +1,5 @@
 # wfbot
-- russian [Русский](../README.md)
+- russian [Русский](./README.md)
 - english [English]
 
 [![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-1f425f.svg)](https://nodejs.org) [![LICENSE !](https://img.shields.io/github/license/GlobalArtLimited/wfbot.png)](https://github.com/GlobalArtLimited/wfbot/blob/master/LICENSE) 
