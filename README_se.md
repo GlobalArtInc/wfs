@@ -7,7 +7,7 @@
 [![Crowdin](https://badges.crowdin.net/warface/localized.svg)](https://crowdin.com/project/warface)
 [![LICENSE !](https://img.shields.io/github/license/GlobalArtLimited/wfbot.png)](https://github.com/GlobalArtLimited/wfbot/blob/master/LICENSE)
 
-[Dokumentation](https://wfbot.cf/swagger)
+[Dokumentation](https://wfbot.cf/swagger/)
 
 <p align="center">
     <a href="https://ru.warface.com"><img src="https://i.imgur.com/V32gM6h.png"></a> <a href="https://discord.com">
