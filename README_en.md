@@ -5,7 +5,7 @@
 
 [![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-1f425f.svg)](https://nodejs.org)
 [![Typescript](https://img.shields.io/badge/Written%20on-TypeScript-blue)](https://typescriptlang.org/)
-[![Crowdin](https://badges.crowdin.net/warface/localized.svg)](https://crowdin.com/project/warface)
+[![Weblate](https://translate.globalart.dev/widgets/wfs/-/svg-badge.svg)](https://translate.globalart.dev/projects/wfs/)
 [![LICENSE !](https://img.shields.io/github/license/GlobalArtLimited/wfbot.png)](https://github.com/GlobalArtLimited/wfbot/blob/master/LICENSE)
 
 [Documentation](https://wfbot.cf/swagger/)
