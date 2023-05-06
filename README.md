@@ -8,7 +8,7 @@
 [![Weblate](https://translate.globalart.dev/widgets/wfs/-/svg-badge.svg)](https://translate.globalart.dev/projects/wfs/)
 [![LICENSE !](https://img.shields.io/github/license/GlobalArtLimited/wfbot.png)](https://github.com/GlobalArtLimited/wfbot/blob/master/LICENSE)
 
-[Документация](https://wfbot.cf/swagger/)
+[Документация](https://wfs.globalart.dev/swagger/)
 
 <p align="center">
     <a href="https://ru.warface.com"><img src="https://i.imgur.com/V32gM6h.png"></a> <a href="https://discord.com">
