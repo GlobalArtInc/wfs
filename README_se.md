@@ -31,6 +31,6 @@ Under botens funktion kan fel uppstå:
 - :no_entry_sign: = Saknade Behörigheter
 
 ## Lägg till servern
-För att lägga till en bot, följ [link](https://discord.com/oauth2/authorize?client_id=800354757297438750&scope=both+applications.commands&permissions=355392)sedan väljer du den server som i bilden nedan.
+För att lägga till en bot, följ [link](https://discord.com/oauth2/authorize?client_id=800354757297438750&scope=bot+applications.commands&permissions=1374393078)sedan väljer du den server som i bilden nedan.
 
 ![example](https://i.imgur.com/KCdUbpd.png)

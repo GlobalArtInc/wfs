@@ -30,6 +30,6 @@ During the operation of the bot, errors may occur:
 - :no_entry_sign: = Missing Permissions
 
 ## Add to the server
-To add a bot, follow the [link](https://discord.com/oauth2/authorize?client_id=800354757297438750&scope=bot+applications.commands&permissions=355392), then select the server as in the picture below.
+To add a bot, follow the [link](https://discord.com/oauth2/authorize?client_id=800354757297438750&scope=bot+applications.commands&permissions=1374393078), then select the server as in the picture below.
 
 ![example](https://i.imgur.com/KCdUbpd.png)
