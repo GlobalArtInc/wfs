@@ -39,4 +39,4 @@ jobs:
               --repo=$HARBOR_HOST/${HARBOR_PROJECT}/wfs \
               --repo-harbor-username=$HARBOR_USERNAME \
               --repo-harbor-password=$HARBOR_PASSWORD \
-              --atomic=true --set ENVNAME=$ENVNAME --loose-giterminism=true --set ci_url=$CI_URL --set CI_URL=$CI_URL --set APPNAME=$APPNAME
+              --atomic=true --set ENVNAME=$ENVNAME --secret-values=.helm/secrets-$ENVNAME.yaml --values=.helm/values-$ENVNAME.yaml --loose-giterminism=true --set ci_url=$CI_URL --set CI_URL=$CI_URL --set APPNAME=$APPNAME
