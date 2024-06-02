@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NAMESPACE: wfs-prod
+      ENVNAME: prod
+      APPNAME: wfs
       HARBOR_PROJECT: github
       HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
@@ -33,7 +35,7 @@ jobs:
               --kube-config=$HOME/.kube/config \
               --skip-tls-verify-registry=true \
               --repo-container-registry=harbor \
-              --repo=$HARBOR_HOST/${HARBOR_PROJECT}/nestcord \
+              --repo=$HARBOR_HOST/${HARBOR_PROJECT}/wfs \
               --repo-harbor-username=$HARBOR_USERNAME \
               --repo-harbor-password=$HARBOR_PASSWORD \
-              --atomic=true
+              --atomic=true --set ENVNAME=$ENVNAME --loose-giterminism=true --set ci_url=wfs.globalart.dev --set CI_URL=wfs.globalart.dev --set APPNAME=$APPNAME
