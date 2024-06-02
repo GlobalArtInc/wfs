@@ -18,7 +18,6 @@ jobs:
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
       HARBOR_HOST: ${{ secrets.HARBOR_HOST }}
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-      WERF_SECRET_KEY: ${{ secrets.WERF_SECRET_KEY }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -26,10 +25,12 @@ jobs:
     - name: Deploy
       run: |
         mkdir -p $HOME/.kube
+        mkdir -p $HOME/.werf
         cat <<EOF > $HOME/.kube/config
         ${{ secrets.KUBE_CONFIG }}
         EOF
         curl -sSL https://werf.io/install.sh | bash -s -- --version 1.2 --channel stable
+        echo "$WERF_SECRET_KEY" > $HOME/.werf/global_secret_key
         source $("$HOME/bin/trdl" use werf "1.2" "stable")
         werf cr login -u $HARBOR_USERNAME -p $HARBOR_PASSWORD $HARBOR_HOST
         werf converge --namespace=$NAMESPACE \
