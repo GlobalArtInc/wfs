@@ -1,4 +1,4 @@
-it./g{{ if (eq .env "dev") }}
+{{ if (eq .env "dev") }}
 ---
 image: wfs
 from: node:19
