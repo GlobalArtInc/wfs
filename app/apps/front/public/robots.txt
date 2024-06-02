@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Host: wfs.globalart.dev
+Sitemap: https://wfs.globalart.dev/sitemap.xml

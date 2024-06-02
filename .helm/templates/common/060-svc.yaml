@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-api
+  labels:
+    app: {{ .Chart.Name }}-api
+spec:
+  clusterIP: None
+  selector:
+    app: {{ .Chart.Name }}-api
+  ports:
+  - name: {{ .Chart.Name }}-api
+    port: 80
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-cron
+  labels:
+    app: {{ .Chart.Name }}-cron
+spec:
+  clusterIP: None
+  selector:
+    app: {{ .Chart.Name }}-cron
+  ports:
+  - name: {{ .Chart.Name }}-cron
+    port: 80
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-discord
+  labels:
+    app: {{ .Chart.Name }}-discord
+spec:
+  clusterIP: None
+  selector:
+    app: {{ .Chart.Name }}-discord
+  ports:
+  - name: {{ .Chart.Name }}-discord
+    port: 80
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-vk
+  labels:
+    app: {{ .Chart.Name }}-vk
+spec:
+  clusterIP: None
+  selector:
+    app: {{ .Chart.Name }}-vk
+  ports:
+  - name: {{ .Chart.Name }}-vk
+    port: 80
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-telegram
+  labels:
+    app: {{ .Chart.Name }}-telegram
+spec:
+  clusterIP: None
+  selector:
+    app: {{ .Chart.Name }}-telegram
+  ports:
+  - name: {{ .Chart.Name }}-telegram
+    port: 80
+    protocol: TCP
+---

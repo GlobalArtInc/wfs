@@ -1,0 +1,37 @@
+
+{{ if (ne .env "dev") }}
+---
+artifact: wfs-front-builder
+from: node:16
+git:
+- add: /app/apps/front
+  to: /workspace/wfs
+  stageDependencies:
+    setup:
+    - "*/**"
+    install:
+    - "package.json"
+    - "package-lock.json"
+ansible:
+  install:
+  - name: Setting up ssh
+    shell: | 
+      printf "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config 
+      echo 'export SSH_AUTH_SOCK=/ssh-agent' >> ~/.bashrc
+  - name: "Install libs"
+    shell: |
+      cd /workspace/wfs && npm ci
+  setup:
+  - name: "Compile"
+    shell: |
+      cd /workspace/wfs && npm run build
+---
+image: wfs-front
+from: nginx
+import:
+- artifact: wfs-front-builder
+  add: /workspace/wfs/dist
+  to: /usr/share/nginx/html/
+  after: setup
+---
+{{ end }}

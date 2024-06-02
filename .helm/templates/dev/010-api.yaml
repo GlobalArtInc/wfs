@@ -1,0 +1,41 @@
+{{ $replicaCount := index .Values "replicaCount" }}
+{{ if (eq .Values.werf.env "dev") }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Chart.Name }}-api
+  labels:
+    app: {{ .Chart.Name }}-api
+spec:
+  replicas: {{ $replicaCount }}
+  serviceName: {{ .Chart.Name }}-api
+  selector:
+      matchLabels:
+        app: {{ .Chart.Name }}-api
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-api
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}-api
+        image: '{{ index .Values.werf.image "wfs-api" }}'
+        envFrom:
+        - configMapRef:
+            name: {{ .Chart.Name }}-common-config
+
+        volumeMounts:
+        - mountPath: /workspace
+          name: workspace
+        - name: id-rsa-vcs
+          mountPath: "/root/.ssh/id_rsa"
+          subPath: "id_rsa"  
+      volumes:
+        - name: workspace
+          persistentVolumeClaim:
+            claimName:  {{ .Chart.Name }}-workspace-apps-pv-claim
+        - name: id-rsa-vcs
+          secret:
+            secretName: id-rsa-vcs
+            defaultMode: 0600
+{{ end }}

@@ -1,0 +1,71 @@
+{{ if (eq .env "dev") }}
+---
+image: wfs
+from: node:19
+git:
+- add: /prepare-scripts
+  to: /install/prepare-scripts
+docker:
+  WORKDIR: /workspace/
+  USER: root
+  EXPOSE: "80"
+
+ansible:
+ install:
+ - name: Setting up ssh
+   shell: |
+     printf "Host git.globalart.dev\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
+     echo 'export SSH_AUTH_SOCK=/ssh-agent' >> ~/.bashrc
+ - name: "Install additional packages"
+   apt:
+     state: present
+     update_cache: yes
+     pkg:
+       - locales
+       - mc
+       - vim
+       - neovim
+ - name:
+   shell: | 
+    npm -g i @nestjs/cli
+ - name: StrictHostKeyChecking no
+   shell: |
+     printf "Host git.globalart.dev\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
+---
+image: wfs-api
+fromImage: wfs
+docker:
+  CMD: ["/bin/sleep", "infinity"]
+  WORKDIR: /workspace
+---
+image: wfs-cron
+fromImage: wfs
+docker:
+  CMD: ["/bin/sleep", "infinity"]
+  WORKDIR: /workspace
+---
+image: wfs-discord
+fromImage: wfs
+docker:
+  CMD: ["/bin/sleep", "infinity"]
+  WORKDIR: /workspace
+---
+image: wfs-vk
+fromImage: wfs
+docker:
+  CMD: ["/bin/sleep", "infinity"]
+  WORKDIR: /workspace
+---
+image: wfs-telegram
+fromImage: wfs
+docker:
+  CMD: ["/bin/sleep", "infinity"]
+  WORKDIR: /workspace
+---
+image: wfs-front
+fromImage: wfs
+docker:
+  CMD: ["/bin/sleep", "infinity"]
+  WORKDIR: /workspace
+---
+{{ end }}

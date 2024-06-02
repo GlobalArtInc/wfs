@@ -1,0 +1,9 @@
+deployEnv: stage
+replicaCount: 1
+apiUrl: http://wfs-api.wfs-stage.svc.cluster.local/api
+translatorUrl: http://translator-service-api.translator-stage.svc.cluster.local/api
+apiHost: wfs.glbart.dev
+remoteDictsBotUrl: https://translator.globalart.dev/api/public/translates?projectId=8
+remoteDictsAchievementsUrl: https://translator.globalart.dev/api/public/translates?projectId=9
+translatorBotProjectId: 8
+translatorAchievementProjectId: 9

@@ -1,0 +1,29 @@
+{{ $replicaCount := index .Values "replicaCount" }}
+{{ if  (ne .Values.werf.env "dev") }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-discord
+  labels:
+    app: {{ .Chart.Name }}-discord
+spec:
+  replicas: {{ $replicaCount }}
+  selector:
+      matchLabels:
+        app: {{ .Chart.Name }}-discord
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-discord
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}-discord
+        image: '{{ index .Values.werf.image "wfs-discord" }}'
+        envFrom:
+        - configMapRef:
+            name: {{ .Chart.Name }}-common-config
+      volumes:
+        - name: config-files
+          configMap:
+            name: {{ .Chart.Name }}-common-config
+{{ end }}

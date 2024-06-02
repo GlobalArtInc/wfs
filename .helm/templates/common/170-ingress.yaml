@@ -1,0 +1,70 @@
+{{ define "tls" }}
+{{ if (ne .Values.werf.env "dev") }}
+tls:
+- hosts:
+    - {{ .Values.ci_url }}
+    - {{ .Values.ci_api_url }}
+  secretName: tls-wfs
+{{ end }}
+{{ end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-api
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+{{ if (ne .Values.werf.env "dev") }}
+    cert-manager.io/cluster-issuer: "letsencrypt"
+{{ end }}
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.org/websocket-svcs: {{ .Chart.Name }}-api
+spec:
+{{ include "tls" . | indent 2 }}
+  rules:
+  - host: {{ .Values.ci_url  }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: /api
+        backend:
+          service:
+            name: {{ .Chart.Name }}-api
+            port:
+              number: 80
+      - pathType: Prefix
+        path: /swagger
+        backend:
+          service:
+            name:  {{ .Chart.Name }}-swagger
+            port:
+              number:  80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-front
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+{{ if (ne .Values.werf.env "dev") }}
+    cert-manager.io/cluster-issuer: "letsencrypt"
+{{ end }}
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.org/websocket-svcs: {{ .Chart.Name }}-api
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_input_headers "HTTP_X_SCRIPT_NAME: /pgadmin";
+      more_set_input_headers "X_SCRIPT_NAME: /pgadmin";
+spec:
+{{ include "tls" . | indent 2 }}
+  rules:
+  - host: {{ .Values.ci_url  }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: {{ .Chart.Name }}-front
+            port:
+              number: 80
+  

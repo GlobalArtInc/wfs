@@ -1,0 +1,9 @@
+deployEnv: dev
+replicaCount: 1
+apiUrl: http://wfs-api.wfs-dev.svc.cluster.local/api
+translatorUrl: https://translator.globalart.dev/api
+apiHost: wfs.local
+remoteDictsBotUrl: https://translator.globalart.dev/api/public/translates?projectId=8
+remoteDictsAchievementsUrl: https://translator.globalart.dev/api/public/translates?projectId=9
+translatorBotProjectId: 8
+translatorAchievementProjectId: 9

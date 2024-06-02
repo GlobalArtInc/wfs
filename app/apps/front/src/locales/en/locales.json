@@ -1,0 +1,22 @@
+{
+  "home": {
+    "my_servers": "My servers",
+    "empty": "No servers found where you are the owner."
+  },
+  "username": "Nickname",
+  "button": {
+    "cancel": "Cancel",
+    "leave": "Leave"
+  },
+  "serversList": {
+    "management": "Management",
+    "to_configure": "To configure",
+    "server_settings": "Server settings",
+    "prefix": "Prefix",
+    "default_channel": "Default channels",
+    "bot_settings": "Bot settings",
+    "leave": "Leave from the server",
+    "leave_process": "Leaving the server...",
+    "leave_text": "The bot will leave the {name} server"
+  }
+}

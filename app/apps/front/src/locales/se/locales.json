@@ -1,0 +1,22 @@
+{
+  "home": {
+    "my_servers": "Mina servrar",
+    "empty": "Inga servrar funna där du är ägare."
+  },
+  "username": "Smeknamn",
+  "button": {
+    "cancel": "Avbryt",
+    "leave": "Lämna"
+  },
+  "serversList": {
+    "management": "Hantering",
+    "to_configure": "Konfigurera",
+    "server_settings": "Serverinställningar",
+    "prefix": "Prefix",
+    "default_channel": "Standardkanaler",
+    "bot_settings": "Botinställningar",
+    "leave": "Lämna servern",
+    "leave_process": "Lämnar servern...",
+    "leave_text": "En bot lämnar servern - {name}"
+  }
+}

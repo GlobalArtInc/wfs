@@ -1,0 +1,13 @@
+{{ if (eq .Values.werf.env "dev") }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-workspace-apps-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+  storageClassName: standard
+{{ end }}

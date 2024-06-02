@@ -1,0 +1,33 @@
+{{ if (ne .env "dev") }}
+---
+image: wfs-discord
+from: node:20-alpine
+git:
+- add: /app/
+  to: /workspace/wfs/app
+  stageDependencies:
+    setup:
+    - "*/**"
+    install:
+    - "package.json"
+    - "pnpm-lock.yaml"
+ansible:
+  install:
+  - name: "Install pnpm"
+    shell: npm install -g pnpm
+  - name: "Install libs"
+    shell: pnpm install
+    args:
+      chdir: /workspace/wfs/app
+  setup:
+  - name: "Compile"
+    shell: npm run build discord-bot
+    args:
+      chdir: /workspace/wfs/app
+docker:
+  WORKDIR: /workspace/wfs/app
+  USER: root
+  EXPOSE: ["80"]
+  CMD: "cd /workspace/wfs/app && npm run start:sharding"
+---
+{{ end }}

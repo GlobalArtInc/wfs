@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    container_name: discord_wf-stats-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: bridge
+    ports:
+      - "59856:59856"

@@ -1,0 +1,22 @@
+{
+  "home": {
+    "my_servers": "My servers",
+    "empty": "Не найдено серверов, где вы владелец."
+  },
+  "username": "Никнейм",
+  "button": {
+    "cancel": "Отмена",
+    "leave": "Выход"
+  },
+  "serversList": {
+    "management": "Управление",
+    "to_configure": "Настроить",
+    "server_settings": "Настройки сервера",
+    "prefix": "Префикс",
+    "default_channel": "Каналы по-умолчанию",
+    "bot_settings": "Bot-Einstellungen",
+    "leave": "Покинуть сервер",
+    "leave_process": "Выполняется выход с сервера...",
+    "leave_text": "Бот выйдет с сервера - {name}"
+  }
+}

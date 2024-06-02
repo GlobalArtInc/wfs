@@ -1,0 +1,1 @@
+export const REMOTE_DICTS_TIMEOUT = 3000;
