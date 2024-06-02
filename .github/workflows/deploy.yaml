@@ -12,6 +12,7 @@ jobs:
       NAMESPACE: wfs-prod
       ENVNAME: prod
       APPNAME: wfs
+      CI_URL: wfs.globalart.dev
       HARBOR_PROJECT: github
       HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
       HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
@@ -38,4 +39,4 @@ jobs:
               --repo=$HARBOR_HOST/${HARBOR_PROJECT}/wfs \
               --repo-harbor-username=$HARBOR_USERNAME \
               --repo-harbor-password=$HARBOR_PASSWORD \
-              --atomic=true --set ENVNAME=$ENVNAME --loose-giterminism=true --set ci_url=wfs.globalart.dev --set CI_URL=wfs.globalart.dev --set APPNAME=$APPNAME
+              --atomic=true --set ENVNAME=$ENVNAME --loose-giterminism=true --set ci_url=$CI_URL --set CI_URL=$CI_URL --set APPNAME=$APPNAME
