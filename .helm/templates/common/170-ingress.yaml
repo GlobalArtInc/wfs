@@ -3,7 +3,6 @@
 tls:
 - hosts:
     - {{ .Values.ci_url }}
-    - {{ .Values.ci_api_url }}
   secretName: tls-wfs
 {{ end }}
 {{ end }}
