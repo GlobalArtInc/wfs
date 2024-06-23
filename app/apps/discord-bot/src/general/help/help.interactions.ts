@@ -4,6 +4,7 @@ import {
   ComponentParam,
   Context,
   NestCordPaginationService,
+  PaginatorTypeEnum,
   SlashCommand,
   SlashCommandContext,
   localizationMapByKey,
@@ -20,7 +21,7 @@ export class GeneralHelpInteractions implements OnModuleInit {
   ) {}
 
   public onModuleInit(): void {
-    this.paginationService.register((builder) => builder.setCustomId('help'));
+    this.paginationService.register(PaginatorTypeEnum.BUTTONS, (builder) => builder.setCustomId('help'));
   }
 
   @SlashCommand({
@@ -30,7 +31,7 @@ export class GeneralHelpInteractions implements OnModuleInit {
     descriptionLocalizations: localizationMapByKey('app.chatCommands.help.desc'),
   })
   async execute(@Context() [interaction]: SlashCommandContext) {
-    const pagination = this.paginationService.get('help');
+    const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('help');
     pagination.setButtons(this.generalHelpService.setButtons(interaction));
     pagination.setPages(await this.generalHelpService.setPages(interaction));
     const pageData = await pagination.build();
@@ -40,7 +41,7 @@ export class GeneralHelpInteractions implements OnModuleInit {
 
   @Button('nestcord-pagination/help/:page')
   async onPageInteraction(@Context() [interaction]: ButtonContext, @ComponentParam('page') pageName: any) {
-    const pagination = this.paginationService.get('help');
+    const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('help');
     const pageIndex = PageEnum[pageName.toUpperCase()];
     pagination.setButtons(this.generalHelpService.setButtons(interaction));
     pagination.setPages(await this.generalHelpService.setPages(interaction));

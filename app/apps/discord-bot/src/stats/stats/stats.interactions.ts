@@ -10,6 +10,7 @@ import {
   DeferCommandInterceptor,
   NestCordPaginationService,
   Options,
+  PaginatorTypeEnum,
   SlashCommand,
   SlashCommandContext,
   TranslationFn,
@@ -29,7 +30,7 @@ export class StatsInteractions {
   ) {}
 
   public onModuleInit(): void {
-    this.paginationService.register((builder) => builder.setCustomId('stats'));
+    this.paginationService.register(PaginatorTypeEnum.BUTTONS, (builder) => builder.setCustomId('stats'));
   }
 
   @UseInterceptors(DeferCommandInterceptor)
@@ -45,11 +46,11 @@ export class StatsInteractions {
     @CurrentTranslate() trans: TranslationFn,
   ) {
     try {
-      const pagination = this.paginationService.get('stats');
+      const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('stats');
       const playerName = name || (await this.userService.getLinkedPlayer(interaction.user.id));
       pagination.setButtons(this.statsService.setButtons(interaction, playerName));
       pagination.setPages(await this.statsService.getStatsAndGetEmbed(name, trans));
-      const pageData = await pagination.build();
+      const pageData = await pagination.build(1);
 
       return interaction.followUp(pageData);
     } catch (err) {
@@ -74,15 +75,12 @@ export class StatsInteractions {
     @CurrentTranslate() trans: TranslationFn,
   ) {
     await interaction.deferReply();
-    const pagination = this.paginationService.get('stats');
+    const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('stats');
     const pageIndex = PageEnum[pageName.toUpperCase()];
     pagination.setButtons(this.statsService.setButtons(interaction as any, playerName));
     pagination.setPages(await this.statsService.getStatsAndGetEmbed(playerName, trans));
     const pageData = await pagination.build(pageIndex as any);
 
-    return Promise.all([
-      interaction.message.delete(),
-      interaction.editReply(pageData),
-    ]);
+    return Promise.all([interaction.message.delete(), interaction.editReply(pageData)]);
   }
 }
