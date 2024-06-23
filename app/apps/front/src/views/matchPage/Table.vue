@@ -19,7 +19,7 @@
     <template #item.rank="{ item }">
       <div
         class="rank"
-        :style="`background-image: url(https://cdn.globalart.dev/web/imgs/wfru/ranks_all.png);background-position: 0 -${
+        :style="`background-image: url(https://s3.globalart.dev/api/s3/wfs/ranks_all.png);background-position: 0 -${
           (item.rank - 1) * 32
         }px;`"
       ></div>
@@ -27,7 +27,7 @@
     <template #item.class="{ item }">
       <div
         class="gameClass"
-        :style="`background-image: url(https://cdn.globalart.dev/web/imgs/wfru/class${item.class}.png);`"
+        :style="`background-image: url(https://s3.globalart.dev/api/s3/wfs/class${item.class}.png);`"
       ></div>
     </template>
     <template #item.name="{ item }">

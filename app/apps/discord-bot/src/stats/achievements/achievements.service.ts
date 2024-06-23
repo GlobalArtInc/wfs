@@ -60,7 +60,7 @@ export class AchievementsService {
       .setAuthor({
         name: this.getPlayerAuthor(playerInfo.player.nickname, playerInfo.player.rank_id, playerInfo.server),
         url: `https://wfts.su/profile/${playerInfo.player.nickname}`,
-        iconURL: `https://cdn.globalart.dev/web/imgs/wfru/ranks/Rank${playerInfo.player.rank_id}.png`,
+        iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${playerInfo.player.rank_id}.png`,
       })
       .setTitle(trans('app.displayEmbeds.achievements.title', { mission: trans(`app.missions.${missionData.id}`) }))
       .setThumbnail(missionData.img);

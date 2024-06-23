@@ -57,7 +57,7 @@ table.ts-userbar .rank div {
   margin: 0 auto;
   width: 32px;
   height: 32px;
-  background-image: url(https://cdn.globalart.dev/web/imgs/wfru/ranks_all.png);
+  background-image: url(https://s3.globalart.dev/api/s3/wfs/ranks_all.png);
 }
 
 table.ts-userbar .nickname {

@@ -40,7 +40,7 @@ export class SpecService {
       .setAuthor({
         name: this.getPlayerAuthor(player.nickname, player.rank_id, server),
         url: `https://wfts.su/profile/${player.nickname}`,
-        iconURL: `https://cdn.globalart.dev/web/imgs/wfru/ranks/Rank${player.rank_id}.png`,
+        iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${player.rank_id}.png`,
       })
       .setDescription(state.isOnline ? trans('app.labels.userIsOnline') : trans('app.labels.userIsOffline'));
 
