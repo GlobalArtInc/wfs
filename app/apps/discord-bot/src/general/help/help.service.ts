@@ -1,19 +1,4 @@
-import {
-  SlashCommand,
-  localizationMapByKey,
-  Context,
-  SlashCommandContext,
-  CurrentTranslate,
-  TranslationFn,
-  NestCordPaginationService,
-  PageBuilder,
-  LOCALIZATION_ADAPTER,
-  DefaultLocalizationAdapter,
-  ButtonAppearance,
-  Button,
-  ComponentParam,
-  ButtonContext,
-} from '@globalart/nestcord';
+import { LOCALIZATION_ADAPTER, DefaultLocalizationAdapter, PageBuilder } from '@globalart/nestcord';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ButtonInteraction, ButtonStyle, CacheType, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
 import { PageEnum } from './help.enums';

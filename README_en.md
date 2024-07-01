@@ -5,6 +5,7 @@
 
 [![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-1f425f.svg)](https://nodejs.org)
 [![Typescript](https://img.shields.io/badge/Written%20on-TypeScript-blue)](https://typescriptlang.org/)
+[![NestCord](https://img.shields.io/badge/Powered%20by-NestCord-blue)](https://github.com/GlobalArtInc/nestcord)
 [![LICENSE !](https://img.shields.io/github/license/GlobalArtLimited/wfbot.png)](https://github.com/GlobalArtLimited/wfbot/blob/master/LICENSE)
 
 [Documentation](https://wfs.globalart.dev/swagger/)

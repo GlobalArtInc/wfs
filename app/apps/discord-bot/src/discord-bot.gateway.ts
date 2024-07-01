@@ -21,20 +21,20 @@ export class DiscordBotGateway {
     setInterval(() => this.setPresence(), 60000);
   }
 
-	@On('warn')
-	public onWarn(@Context() [info]: ContextOf<'warn'>) {
-		this.logger.warn(info);
-	}
+  @On('warn')
+  public onWarn(@Context() [info]: ContextOf<'warn'>) {
+    this.logger.warn(info);
+  }
 
-	@On('error')
-	public onError(@Context() [error]: ContextOf<'error'>) {
-		this.logger.error(error);
-	}
+  @On('error')
+  public onError(@Context() [error]: ContextOf<'error'>) {
+    this.logger.error(error);
+  }
 
-	@On('debug')
-	public onDebug(@Context() [info]: ContextOf<'debug'>) {
-		this.logger.debug(info);
-	}
+  @On('debug')
+  public onDebug(@Context() [info]: ContextOf<'debug'>) {
+    this.logger.debug(info);
+  }
 
   @On('interactionCreate')
   public async onInteraction(@Context() [interaction]: SlashCommandContext) {

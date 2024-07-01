@@ -14,7 +14,7 @@ ansible:
  install:
  - name: Setting up ssh
    shell: |
-     printf "Host git.globalart.dev\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
+     printf "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
      echo 'export SSH_AUTH_SOCK=/ssh-agent' >> ~/.bashrc
  - name: "Install additional packages"
    apt:
@@ -30,7 +30,7 @@ ansible:
     npm -g i @nestjs/cli
  - name: StrictHostKeyChecking no
    shell: |
-     printf "Host git.globalart.dev\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
+     printf "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
 ---
 image: wfs-api
 fromImage: wfs
