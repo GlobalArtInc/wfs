@@ -21,7 +21,7 @@ export class DiscordHelpersService {
     const embed = new EmbedBuilder();
 
     let footer = data?.footer;
-    let color = data?.color;
+    let color = data?.color || Colors.Green;
 
     if (userVip) {
       footer = {
@@ -33,7 +33,7 @@ export class DiscordHelpersService {
     if (footer) {
       embed.setFooter(footer);
     }
-    embed.setColor(color || Colors.Green);
+    embed.setColor(color);
 
     return embed;
   }
