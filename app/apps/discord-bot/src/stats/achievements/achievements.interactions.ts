@@ -37,6 +37,7 @@ export class AchievementsInteractions {
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {
+      console.log(err);
       const errorEmbed = this.discordHelpersService.buildErrorEmbed({
         message:
           err?.response?.discordMessage ||
