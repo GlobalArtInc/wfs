@@ -33,7 +33,7 @@ export class DiscordHelpersService {
     if (footer) {
       embed.setFooter(footer);
     }
-    embed.setColor(color);
+    embed.setColor(color || Colors.Green);
 
     return embed;
   }
