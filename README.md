@@ -32,6 +32,6 @@
 - :no_entry_sign: = Недостаточно прав
 
 ## Добавить на сервер
-Для добавления бота перейдите по [ссылке](https://discord.com/oauth2/authorize?client_id=800354757297438750&scope=bot+applications.commands&permissions=1374393078), затем выберите сервер, как на рисунке ниже.
+Для добавления бота перейдите по [ссылке](https://discord.com/oauth2/authorize?client_id=800354757297438750), затем выберите сервер, как на рисунке ниже.
 
 ![example](https://i.imgur.com/KCdUbpd.png)
