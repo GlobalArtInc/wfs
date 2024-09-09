@@ -57,7 +57,7 @@ export class SpecService {
       });
 
       return {
-        name: `${this.nestcordService.getEmojiPlain(`wfs_${item}`)} **${trans(`app.${mission.name}`)}**`,
+        name: `${this.nestcordService.getApplicationEmojiPlain(`wfs_${item}`)} **${trans(`app.${mission.name}`)}**`,
         value: stats.join('\n'),
         inline: true,
       };
