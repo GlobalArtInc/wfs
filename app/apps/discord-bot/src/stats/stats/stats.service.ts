@@ -28,21 +28,21 @@ export class StatsService {
         {
           customId: 'pve',
           label: 'PVE',
-          emoji: this.nestcordService.emojis.get('wfs_pve')?.toString(),
+          emoji: this.nestcordService.getEmojiPlain('wfs_pve'),
           style: ButtonStyle.Secondary,
           options: name,
         },
         {
           customId: 'pvp',
           label: 'PVP',
-          emoji: this.nestcordService.emojis.get('wfs_pvp')?.toString(),
+          emoji: this.nestcordService.getEmojiPlain('wfs_pvp'),
           style: ButtonStyle.Secondary,
           options: name,
         },
         {
           customId: 'other',
           label: 'Other',
-          emoji: this.nestcordService.emojis.get('wfs_award')?.toString(),
+          emoji: this.nestcordService.getEmojiPlain('wfs_award'),
           style: ButtonStyle.Secondary,
           options: name,
         },
@@ -106,7 +106,7 @@ export class StatsService {
     const totalGames = Number(playerInfo.player.pve_wins || 0) + Number(playerInfo.player.pve_lost || 0);
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
-      name: trans(`app.stats.pve.${className}.name`, { emoji: this.nestcordService.emojis.get(`wfs_${className}`)?.toString() }),
+      name: trans(`app.stats.pve.${className}.name`, { emoji: this.nestcordService.getEmojiPlain(`wfs_${className}`) }),
       value: trans(`app.stats.pve.${className}.value`, {
         total: trans('app.stats.hours', {
           hours: String(
@@ -130,7 +130,7 @@ export class StatsService {
 
     return [
       {
-        name: `${this.nestcordService.emojis.get('wfs_pve')?.toString()} PVE`,
+        name: `${this.nestcordService.getEmojiPlain('wfs_pve')} PVE`,
         value: `**${trans('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPVE}\n**${trans(
           'app.stats.kd',
         )}:** ${playerInfo.player.pve || 0}`,
@@ -196,7 +196,7 @@ export class StatsService {
       );
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
-      name: trans(`app.stats.pvp.${className}.name`, { emoji: this.nestcordService.emojis.get(`wfs_${className}`)?.toString()}),
+      name: trans(`app.stats.pvp.${className}.name`, { emoji: this.nestcordService.getEmojiPlain(`wfs_${className}`)}),
       value: trans(`app.stats.pvp.${className}.value`, {
         total: trans('app.stats.hours', {
           hours: String(
@@ -220,7 +220,7 @@ export class StatsService {
 
     return [
       {
-        name: `${this.nestcordService.emojis.get('wfs_pvp')?.toString()} PVP`,
+        name: `${this.nestcordService.getEmojiPlain('wfs_pvp')} PVP`,
         value: `**${trans('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPVP}\n**${trans(
           'app.stats.kd',
         )}:** ${playerInfo.player.pvp || 0}`,

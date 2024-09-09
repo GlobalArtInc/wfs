@@ -66,8 +66,8 @@ export class AchievementsService {
     const fields: APIEmbedField[] = [];
     achievements.forEach(({ item, data }) => {
       const value = item.completion_time
-        ? `${this.nestcordService.emojis.get('wfs_yes')?.toString()} ${item.completion_time}`
-        : `${this.nestcordService.emojis.get('wfs_no')?.toString()} ${item.progress} / ${data.goal}`;
+        ? `${this.nestcordService.getEmojiPlain('wfs_yes')} ${item.completion_time}`
+        : `${this.nestcordService.getEmojiPlain('wfs_no')} ${item.progress} / ${data.goal}`;
       fields.push({ name: trans(`achievement.${mission}.${data.id}`), value, inline: true });
     });
     embed.setFields(fields);

@@ -112,7 +112,7 @@ export class ClanService {
 
     members.forEach((member) => {
       roles[member.clan_role].push(
-        `${this.nestcordService.emojis.get(`wfs_rank_${member.rank_id}`)?.toString()} \`${member.nickname}\` - \`${HelpersService.numeral(
+        `${this.nestcordService.getEmojiPlain(`wfs_rank_${member.rank_id}`)} \`${member.nickname}\` - \`${HelpersService.numeral(
           member.clan_points,
         )}\``,
       );
