@@ -1,4 +1,4 @@
-import { TranslationFn } from '@globalart/nestcord';
+import { NestcordService, TranslationFn } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import { APIEmbedField, Colors, EmbedBuilder } from 'discord.js';
@@ -16,6 +16,7 @@ export class SpecService {
     private readonly internalBotApiService: InternalBotApiService,
     private readonly settingService: SettingService,
     private readonly discordHelpersService: DiscordHelpersService,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   public async embed({ discordUserId, name, trans }: { discordUserId: string; name: string; trans: TranslationFn }) {
@@ -24,10 +25,7 @@ export class SpecService {
       throw new DiscordErrorException('app.errors.player_name_not_specified');
     }
 
-    const [missionsData, emoji] = await Promise.all([
-      this.settingService.getValueByKey('missions_stats'),
-      this.settingService.getValueByKey('emojis'),
-    ]);
+    const missionsData = await this.settingService.getValueByKey('missions_stats');
 
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
     const { server, player, full_player, state } = playerInfo;
@@ -59,7 +57,7 @@ export class SpecService {
       });
 
       return {
-        name: `${emoji['missions'][item]} **${trans(`app.${mission.name}`)}**`,
+        name: `${this.nestcordService.emojis.get(`wfs_${item}`)?.toString()} **${trans(`app.${mission.name}`)}**`,
         value: stats.join('\n'),
         inline: true,
       };

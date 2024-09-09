@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { SettingService } from '../../setting/setting.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { Colors } from 'discord.js';
-import { TranslationFn } from '@globalart/nestcord';
+import { NestcordService, TranslationFn } from '@globalart/nestcord';
 import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { ClanInfo, PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
@@ -17,6 +17,7 @@ export class SetService {
     private readonly discordHelpersService: DiscordHelpersService,
     private readonly internalBotApiService: InternalBotApiService,
     private readonly serverRepository: ServerRepository,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   async getUserSettingsAndGetEmbed(userId: string, trans: TranslationFn) {
@@ -24,10 +25,9 @@ export class SetService {
       { id: userId, client: 'discord' },
       { relations: ['usersClans', 'usersPlayers', 'defaultServer'] },
     );
-    const emoji = await this.settingService.getValueByKey('emojis');
 
-    const clans = user.usersClans.map((userClan) => `${emoji.yes} ${userClan.name}`);
-    const players = user.usersPlayers.map((userPlayer) => `${emoji.yes} ${userPlayer.name}`);
+    const clans = user.usersClans.map((userClan) => `${this.nestcordService.emojis.get('wfs_yes')?.toString()} ${userClan.name}`);
+    const players = user.usersPlayers.map((userPlayer) => `${this.nestcordService.emojis.get('wfs_yes')?.toString()} ${userPlayer.name}`);
 
     const embed = await this.discordHelpersService.buildEmbed({ color: Colors.Blue });
 

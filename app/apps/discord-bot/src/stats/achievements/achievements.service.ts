@@ -1,4 +1,4 @@
-import { TranslationFn } from '@globalart/nestcord';
+import { NestcordService, TranslationFn } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
@@ -17,6 +17,7 @@ export class AchievementsService {
     private readonly requestClsService: RequestClsService,
     private readonly internalBotApiService: InternalBotApiService,
     private readonly userService: UserService,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   async embed(name: string, mission: string, trans: TranslationFn) {
@@ -27,10 +28,7 @@ export class AchievementsService {
       throw new DiscordErrorException('app.errors.player_name_not_specified');
     }
 
-    const [emoji, achievementsStat] = await Promise.all([
-      this.settingService.getValueByKey('emojis'),
-      this.settingService.getValueByKey('achievements'),
-    ]);
+    const achievementsStat = await this.settingService.getValueByKey('achievements');
 
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
     const missionData = achievementsStat[mission] as {
@@ -68,8 +66,8 @@ export class AchievementsService {
     const fields: APIEmbedField[] = [];
     achievements.forEach(({ item, data }) => {
       const value = item.completion_time
-        ? `${emoji.yes} ${item.completion_time}`
-        : `${emoji.no} ${item.progress} / ${data.goal}`;
+        ? `${this.nestcordService.emojis.get('wfs_yes')?.toString()} ${item.completion_time}`
+        : `${this.nestcordService.emojis.get('wfs_no')?.toString()} ${item.progress} / ${data.goal}`;
       fields.push({ name: trans(`achievement.${mission}.${data.id}`), value, inline: true });
     });
     embed.setFields(fields);

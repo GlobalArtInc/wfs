@@ -2,6 +2,7 @@ import {
   Context,
   CurrentTranslate,
   DeferCommandInterceptor,
+  NestcordService,
   Options,
   SlashCommand,
   SlashCommandContext,
@@ -26,6 +27,7 @@ export class ClanService {
     private readonly userService: UserService,
     private readonly settingService: SettingService,
     private readonly discordHelpersService: DiscordHelpersService,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   @UseInterceptors(DeferCommandInterceptor)
@@ -98,8 +100,6 @@ export class ClanService {
   }
 
   private async formatClan(clanInfo: ClanInfo, trans: TranslationFn) {
-    const setting = await this.settingService.getValueByKey('emoji_ranks');
-
     const description: string[] = [];
     description.push(`**ID клана:** \`${clanInfo.data.id}\`\r\n`);
 
@@ -112,7 +112,7 @@ export class ClanService {
 
     members.forEach((member) => {
       roles[member.clan_role].push(
-        `${setting['rank_' + member.rank_id]} \`${member.nickname}\` - \`${HelpersService.numeral(
+        `${this.nestcordService.emojis.get(`wfs_rank_${member.rank_id}`)?.toString()} \`${member.nickname}\` - \`${HelpersService.numeral(
           member.clan_points,
         )}\``,
       );

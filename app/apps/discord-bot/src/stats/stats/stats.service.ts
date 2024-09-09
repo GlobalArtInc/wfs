@@ -1,4 +1,4 @@
-import { DefaultLocalizationAdapter, LOCALIZATION_ADAPTER, PageBuilder, TranslationFn } from '@globalart/nestcord';
+import { DefaultLocalizationAdapter, LOCALIZATION_ADAPTER, NestcordService, PageBuilder, TranslationFn } from '@globalart/nestcord';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
@@ -19,6 +19,7 @@ export class StatsService {
     private readonly internalBotApiService: InternalBotApiService,
     private readonly requestClsService: RequestClsService,
     private readonly settingService: SettingService,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   public setButtons(interaction: ChatInputCommandInteraction<CacheType>, name: string) {
@@ -27,21 +28,21 @@ export class StatsService {
         {
           customId: 'pve',
           label: 'PVE',
-          emoji: '<:wfs_pve:809701046565470230>',
+          emoji: this.nestcordService.emojis.get('wfs_pve')?.toString(),
           style: ButtonStyle.Secondary,
           options: name,
         },
         {
           customId: 'pvp',
           label: 'PVP',
-          emoji: '<:wfs_pvp:809701047001153546>',
+          emoji: this.nestcordService.emojis.get('wfs_pvp')?.toString(),
           style: ButtonStyle.Secondary,
           options: name,
         },
         {
           customId: 'other',
           label: 'Other',
-          emoji: '<:wfs_award:870014699595518022>',
+          emoji: this.nestcordService.emojis.get('wfs_award')?.toString(),
           style: ButtonStyle.Secondary,
           options: name,
         },
@@ -52,7 +53,6 @@ export class StatsService {
   async getStatsAndGetEmbed(name: string, trans: TranslationFn) {
     const discordUser = this.requestClsService.getUser();
     const playerName = name || (await this.userService.getLinkedPlayer(discordUser.id));
-    const emoji = await this.settingService.getValueByKey('emojis');
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
 
     const [pveEmbed, pvpEmbed, otherEmbed] = await Promise.all([
@@ -68,8 +68,8 @@ export class StatsService {
       iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${playerInfo.player.rank_id}.png`,
     };
 
-    pveEmbed.setAuthor(author).setFields(...commonFields, ...this.createPveFields(playerInfo, trans, emoji));
-    pvpEmbed.setAuthor(author).setFields(...commonFields, ...this.createPvpFields(playerInfo, trans, emoji));
+    pveEmbed.setAuthor(author).setFields(...commonFields, ...this.createPveFields(playerInfo, trans));
+    pvpEmbed.setAuthor(author).setFields(...commonFields, ...this.createPvpFields(playerInfo, trans));
     otherEmbed.setAuthor(author).setFields(...commonFields, ...this.createOtherFields(playerInfo.achievements, trans));
 
     return [
@@ -102,11 +102,11 @@ export class StatsService {
     ];
   }
 
-  private createPveFields(playerInfo: PlayerInfo, trans: TranslationFn, emoji: any): APIEmbedField[] {
+  private createPveFields(playerInfo: PlayerInfo, trans: TranslationFn): APIEmbedField[] {
     const totalGames = Number(playerInfo.player.pve_wins || 0) + Number(playerInfo.player.pve_lost || 0);
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
-      name: trans(`app.stats.pve.${className}.name`, { emoji: emoji.classes[className] }),
+      name: trans(`app.stats.pve.${className}.name`, { emoji: this.nestcordService.emojis.get(`wfs_${className}`)?.toString() }),
       value: trans(`app.stats.pve.${className}.value`, {
         total: trans('app.stats.hours', {
           hours: String(
@@ -130,7 +130,7 @@ export class StatsService {
 
     return [
       {
-        name: `${emoji.pve} PVE`,
+        name: `${this.nestcordService.emojis.get('wfs_pve')?.toString()} PVE`,
         value: `**${trans('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPVE}\n**${trans(
           'app.stats.kd',
         )}:** ${playerInfo.player.pve || 0}`,
@@ -186,7 +186,7 @@ export class StatsService {
     ];
   }
 
-  private createPvpFields(playerInfo: PlayerInfo, trans: TranslationFn, emoji: any): APIEmbedField[] {
+  private createPvpFields(playerInfo: PlayerInfo, trans: TranslationFn): APIEmbedField[] {
     const totalGames =
       Number(
         playerInfo.full_player?.complexity?.normal?.mission_type?.mode?.pvp.season?.stat?.player_sessions_won || 0,
@@ -196,7 +196,7 @@ export class StatsService {
       );
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
-      name: trans(`app.stats.pvp.${className}.name`, { emoji: emoji.classes[className] }),
+      name: trans(`app.stats.pvp.${className}.name`, { emoji: this.nestcordService.emojis.get(`wfs_${className}`)?.toString()}),
       value: trans(`app.stats.pvp.${className}.value`, {
         total: trans('app.stats.hours', {
           hours: String(
@@ -220,7 +220,7 @@ export class StatsService {
 
     return [
       {
-        name: `${emoji.pvp} PVP`,
+        name: `${this.nestcordService.emojis.get('wfs_pvp')?.toString()} PVP`,
         value: `**${trans('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPVP}\n**${trans(
           'app.stats.kd',
         )}:** ${playerInfo.player.pvp || 0}`,
