@@ -2,6 +2,7 @@ import {
   ComponentParam,
   Context,
   CurrentTranslate,
+  NestcordService,
   SelectedStrings,
   StringSelect,
   StringSelectContext,
@@ -22,6 +23,7 @@ export class UtilityWeaponsService {
     private readonly internalBotApiService: InternalBotApiService,
     private readonly weaponRepository: WeaponRepository,
     private readonly discordHelpersService: DiscordHelpersService,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   @StringSelect('wfs/weapons/:userId')
@@ -192,7 +194,8 @@ export class UtilityWeaponsService {
 
   private getEmoji(id: string) {
     const category = id.replace(/\d.*/, '').toUpperCase() as keyof typeof WeaponCategoryToEmojiEnum;
+    const emojiPlain = WeaponCategoryToEmojiEnum[category] || WeaponCategoryToEmojiEnum.DEFAULT;
 
-    return WeaponCategoryToEmojiEnum[category] || WeaponCategoryToEmojiEnum.DEFAULT;
+    return this.nestcordService.getApplicationEmojiPlain(emojiPlain);
   }
 }

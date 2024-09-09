@@ -124,8 +124,8 @@ export class ClanService {
       }
     };
 
-    addRoleToDescription('MASTER', roles.MASTER, 'app.clan.roles.master', '<:wfs_master:802495512179245066>');
-    addRoleToDescription('OFFICER', roles.OFFICER, 'app.clan.roles.officers', '<:wfs_officer:802495502171504651>');
+    addRoleToDescription('MASTER', roles.MASTER, 'app.clan.roles.master', this.nestcordService.getApplicationEmojiPlain('wfs_master'));
+    addRoleToDescription('OFFICER', roles.OFFICER, 'app.clan.roles.officers', this.nestcordService.getApplicationEmojiPlain('wfs_officer'));
     addRoleToDescription('REGULAR', roles.REGULAR, 'app.clan.roles.regulars', '');
 
     return {
