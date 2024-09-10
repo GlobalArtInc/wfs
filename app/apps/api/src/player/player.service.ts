@@ -15,12 +15,13 @@ import { GetPlayerAchievementsDto } from './dtos';
 import * as moment from 'moment';
 import { REDIS_CLIENT } from '@app/shared/modules/redis-microservice/redis-cache.module';
 import { RedisClientType } from 'redis';
+import Redis from 'ioredis';
 
 @Injectable()
 export class PlayerService {
   constructor(
     @Inject(REDIS_CLIENT)
-    private readonly redisClient: RedisClientType,
+    private readonly redisClient: Redis,
     private readonly playerRepository: PlayerRepository,
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly warfaceApiService: WarfaceApiService,
@@ -39,7 +40,7 @@ export class PlayerService {
     const savedPlayer = await this.get(nickname);
     const cachedPlayer = savedPlayer ? await this.redisClient.get(savedPlayer.player.id) : null;
     const timestamp = moment().toDate();
-    
+
     if (savedPlayer && cachedPlayer) {
       const parsedPlayer = JSON.parse(cachedPlayer);
       const { server, state, player, fullPlayer, achievements } = parsedPlayer;
@@ -56,9 +57,7 @@ export class PlayerService {
         const fullPlayer = this.parseFullResponse(player.full_response);
         delete player.full_response;
         
-        await this.redisClient.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), {
-          EX: 120
-        });
+        await this.redisClient.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), 'EX', 120);
       
         this.saveData({ playerId, server, player, fullPlayer, achievements });
 
