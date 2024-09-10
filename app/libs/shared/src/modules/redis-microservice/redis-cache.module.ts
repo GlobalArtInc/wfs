@@ -12,14 +12,15 @@ const redisProvider: Provider = {
       database: +process.env.REDIS_CACHE_DATABASE || 0,
       socket: {
         reconnectStrategy: (retries) => {
-          return Math.min(retries * 100, 3000);
+          return Math.min(retries * 200, 5000);
         },
-        keepAlive: 5000,
+        keepAlive: 10000,
+        timeout: 20000,
       },
     });
 
     client.on('error', (err) => {
-      console.error('Redis Client Error', err);
+      console.error('Redis Client Error:', err);
     });
 
     client.on('connect', () => {
@@ -40,7 +41,7 @@ const redisProvider: Provider = {
       try {
         await client.ping();
       } catch (error) {
-        console.error('Redis ping failed', error);
+        console.error('Redis ping failed:', error);
       }
     }, 10000);
 
