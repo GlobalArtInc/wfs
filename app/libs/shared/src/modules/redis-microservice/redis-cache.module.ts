@@ -15,9 +15,10 @@ export const REDIS_CLIENT = 'REDIS_CLIENT';
         const redisClient = new Redis(configService.getOrThrow('redis'));
 
         let isReconnecting = false;
+        let pingInterval: NodeJS.Timeout;
 
         const reconnect = async () => {
-          if (isReconnecting) return;
+          if (isReconnecting) return; // Avoid multiple reconnect attempts
 
           isReconnecting = true;
           logger.warn('Attempting to reconnect to Redis...');
@@ -32,8 +33,20 @@ export const REDIS_CLIENT = 'REDIS_CLIENT';
           }
         };
 
+        const startPing = () => {
+          pingInterval = setInterval(async () => {
+            try {
+              await redisClient.ping();
+            } catch (error) {
+              logger.error('Redis ping error:', error.stack);
+              reconnect();
+            }
+          }, 10000);
+        };
+
         redisClient.on('connect', () => {
           logger.log('Redis connected');
+          startPing();
         });
 
         redisClient.on('error', (error) => {
@@ -43,6 +56,7 @@ export const REDIS_CLIENT = 'REDIS_CLIENT';
         redisClient.on('close', () => {
           if (!isReconnecting) {
             logger.warn('Redis connection closed. Reconnecting...');
+            clearInterval(pingInterval);
             reconnect();
           }
         });

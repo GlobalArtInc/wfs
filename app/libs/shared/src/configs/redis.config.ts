@@ -1,8 +1,9 @@
 import { registerAs } from '@nestjs/config';
+import { RedisOptions } from 'ioredis';
 
 export const redisConfig = registerAs(
   'redis',
-  (): Record<string, unknown> => ({
+  (): RedisOptions => ({
     db: +process.env.REDIS_CACHE_DATABASE,
     port: Number(process.env.REDIS_PORT),
     host: process.env.REDIS_HOST,
