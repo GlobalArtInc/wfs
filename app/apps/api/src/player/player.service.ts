@@ -52,7 +52,7 @@ export class PlayerService {
         const fullPlayer = this.parseFullResponse(player.full_response);
         delete player.full_response;
 
-        await this.saveData({ playerId, server, player, fullPlayer, achievements });
+        this.saveData({ playerId, server, player, fullPlayer, achievements });
 
         return this.formatPlayer({
           server,
@@ -177,7 +177,7 @@ export class PlayerService {
       return acc;
     }, {});
 
-    await this.playerRepository.upsert({
+    this.playerRepository.upsert({
       id: data.playerId,
       type: PlayerTypeEnum.Open,
       server: data.server,
