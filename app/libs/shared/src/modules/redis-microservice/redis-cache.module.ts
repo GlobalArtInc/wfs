@@ -42,7 +42,7 @@ const redisProvider: Provider = {
       } catch (error) {
         console.error('Redis ping failed', error);
       }
-    }, 3000);
+    }, 10000);
 
     return client as RedisClientType;
   },
