@@ -13,11 +13,18 @@ import {
 } from '@nestjs/common';
 import { GetPlayerAchievementsDto } from './dtos';
 import * as moment from 'moment';
-const yaml = require('require-yml');
+import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
+import { ClientProxy } from '@nestjs/microservices';
+import { CACHE_MANAGER, CacheModule } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { REDIS_CLIENT } from '@app/shared/modules/redis-microservice/redis-cache.module';
+import { RedisClientType } from 'redis';
 
 @Injectable()
 export class PlayerService {
   constructor(
+    @Inject(REDIS_CLIENT)
+    private readonly redisClient: Cache,
     private readonly playerRepository: PlayerRepository,
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly warfaceApiService: WarfaceApiService,
@@ -34,11 +41,12 @@ export class PlayerService {
     }
 
     const savedPlayer = await this.get(nickname);
+    const cachedPlayer = savedPlayer ? await this.redisClient.get<any>(savedPlayer.player.id) : false;
     const timestamp = moment().toDate();
-    const timestampPlus2Minutes = moment().add(2, 'm').toDate();
-    
-    if (savedPlayer && moment(timestampPlus2Minutes).isBefore(savedPlayer.player.updated_at)) {
-      const { server, state, player, fullPlayer, achievements } = savedPlayer;
+
+    if (savedPlayer && cachedPlayer) {
+      const parsedPlayer = JSON.parse(cachedPlayer);
+      const { server, state, player, fullPlayer, achievements } = parsedPlayer;
       const isOnline = await this.checkOnlineStatus(nickname, server);
       return this.formatPlayer({ server, state: { ...state, isOnline }, player, fullPlayer, achievements });
     }
@@ -51,7 +59,8 @@ export class PlayerService {
         const achievements = await this.warfaceApiService.getAchievements(server, nickname);
         const fullPlayer = this.parseFullResponse(player.full_response);
         delete player.full_response;
-
+        
+        await this.redisClient.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), 120000);
         this.saveData({ playerId, server, player, fullPlayer, achievements });
 
         return this.formatPlayer({

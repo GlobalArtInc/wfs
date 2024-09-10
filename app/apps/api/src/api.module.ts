@@ -12,6 +12,7 @@ import { PlayerModule } from './player/player.module';
 import { TopModule } from './top/top.module';
 import { WeaponsModule } from './weapons/weapons.module';
 import * as redisStore from 'cache-manager-redis-store';
+import { RedisCacheModule } from '@app/shared/modules/redis-microservice/redis-cache.module';
 
 @Module({
   imports: [
@@ -26,17 +27,7 @@ import * as redisStore from 'cache-manager-redis-store';
       }),
       dataSourceFactory: async (options) => addTransactionalDataSource(new DataSource(options)),
     }),
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      isGlobal: true,
-      useFactory: async (configService: ConfigService) => ({
-        store: redisStore as unknown as CacheStore,
-        host: configService.getOrThrow('redis.host'),
-        port: configService.getOrThrow('redis.port'),
-        db: +process.env.REDIS_CACHE_DATABASE,
-      }),
-      inject: [ConfigService],
-    }),
+    RedisCacheModule,
     ClanModule,
     OnlineModule,
     PlayerModule,
