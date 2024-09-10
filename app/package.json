@@ -76,6 +76,7 @@
     "pg": "^8.11.5",
     "pino-http": "^10.1.0",
     "postgres": "^3.4.4",
+    "redis": "^4.7.0",
     "reflect-metadata": "^0.2.2",
     "request-ip": "^3.3.0",
     "require-yml": "^2.0.0",
