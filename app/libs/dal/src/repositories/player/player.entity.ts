@@ -8,10 +8,12 @@ import {
   OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { PlayerTypeEnum } from './player.enums';
 
 @Entity('player')
+@Unique(['nickname', 'server'])
 export class PlayerEntity {
   @PrimaryColumn('character varying')
   id: string;
@@ -150,6 +152,7 @@ export class PlayerAchievementEntity {
 
   @ManyToOne(() => PlayerEntity, (player) => player.playerStats, {
     orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   player: PlayerEntity;
@@ -169,6 +172,7 @@ export class PlayerStatEntity {
 
   @ManyToOne(() => PlayerEntity, (player) => player.playerStats, {
     orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   player: PlayerEntity;

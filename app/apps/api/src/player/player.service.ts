@@ -52,7 +52,7 @@ export class PlayerService {
         const fullPlayer = this.parseFullResponse(player.full_response);
         delete player.full_response;
 
-        this.saveData({ playerId, server, player, fullPlayer, achievements });
+        await this.saveData({ playerId, server, player, fullPlayer, achievements });
 
         return this.formatPlayer({
           server,
@@ -176,8 +176,8 @@ export class PlayerService {
       if (!['full_response', 'is_transparent'].includes(key)) acc[key] = value ?? 0;
       return acc;
     }, {});
-    await this.playerRepository.upsert({
-      id: data.playerId,
+
+    await this.playerRepository.updateOneById(data.playerId as unknown as number, {
       type: PlayerTypeEnum.Open,
       server: data.server,
       ...params,
