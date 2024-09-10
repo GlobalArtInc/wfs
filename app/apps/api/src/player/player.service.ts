@@ -36,8 +36,8 @@ export class PlayerService {
     const savedPlayer = await this.get(nickname);
     const timestamp = moment().toDate();
     const timestampPlus2Minutes = moment().add(2, 'm').toDate();
-
-    if (savedPlayer && timestamp < timestampPlus2Minutes) {
+    
+    if (savedPlayer && moment(timestampPlus2Minutes).isBefore(savedPlayer.player.updated_at)) {
       const { server, state, player, fullPlayer, achievements } = savedPlayer;
       const isOnline = await this.checkOnlineStatus(nickname, server);
       return this.formatPlayer({ server, state: { ...state, isOnline }, player, fullPlayer, achievements });
