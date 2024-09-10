@@ -13,10 +13,6 @@ import {
 } from '@nestjs/common';
 import { GetPlayerAchievementsDto } from './dtos';
 import * as moment from 'moment';
-import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
-import { ClientProxy } from '@nestjs/microservices';
-import { CACHE_MANAGER, CacheModule } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
 import { REDIS_CLIENT } from '@app/shared/modules/redis-microservice/redis-cache.module';
 import { RedisClientType } from 'redis';
 
@@ -24,7 +20,7 @@ import { RedisClientType } from 'redis';
 export class PlayerService {
   constructor(
     @Inject(REDIS_CLIENT)
-    private readonly redisClient: Cache,
+    private readonly redisClient: RedisClientType,
     private readonly playerRepository: PlayerRepository,
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly warfaceApiService: WarfaceApiService,
@@ -41,9 +37,9 @@ export class PlayerService {
     }
 
     const savedPlayer = await this.get(nickname);
-    const cachedPlayer = savedPlayer ? await this.redisClient.get<any>(savedPlayer.player.id) : false;
+    const cachedPlayer = savedPlayer ? await this.redisClient.get(savedPlayer.player.id) : null;
     const timestamp = moment().toDate();
-
+    
     if (savedPlayer && cachedPlayer) {
       const parsedPlayer = JSON.parse(cachedPlayer);
       const { server, state, player, fullPlayer, achievements } = parsedPlayer;
@@ -60,7 +56,10 @@ export class PlayerService {
         const fullPlayer = this.parseFullResponse(player.full_response);
         delete player.full_response;
         
-        await this.redisClient.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), 120);
+        await this.redisClient.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), {
+          EX: 120
+        });
+      
         this.saveData({ playerId, server, player, fullPlayer, achievements });
 
         return this.formatPlayer({
@@ -89,7 +88,6 @@ export class PlayerService {
   private async checkOnlineStatus(nickname: string, server: string) {
     try {
       const onlineInfoRes = await this.wfStatsApiService.getPlayerInfo(nickname, server);
-
       return !!onlineInfoRes;
     } catch {
       return false;
