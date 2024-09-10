@@ -7,3 +7,15 @@ remoteDictsBotUrl: https://translator.globalart.dev/api/public/translates?projec
 remoteDictsAchievementsUrl: https://translator.globalart.dev/api/public/translates?projectId=9
 translatorBotProjectId: 8
 translatorAchievementProjectId: 9
+redisReplicaCount: 1
+redisHost: redis
+redisPort: 6379
+redisSentinelHost: sentinel
+redisSentinelPort: 26379
+redisSentinelMasterName: mymaster
+redisCacheDatabase: 1
+microserviceRedisDatabase: 2
+callsRedisDatabase: 3
+inMemoryQueueRedisDatabase: 4
+redisStorageClass: standard
+redisStorage: 1Gi

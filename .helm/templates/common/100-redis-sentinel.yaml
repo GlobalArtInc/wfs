@@ -1,0 +1,95 @@
+{{- $replicaCount := index .Values "redisReplicaCount" -}}
+{{- $redisSentinelHost := index .Values "redisSentinelHost" -}}
+{{- $redisSentinelPort := index .Values "redisSentinelPort" -}}
+{{- $redisStorageClass := index .Values "redisStorageClass" -}}
+{{- $redisStorage := index .Values "redisStorage" -}}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $redisSentinelHost }}
+  labels:
+    app:  {{ $redisSentinelHost }}
+    app.kubernetes.io/component: {{ $redisSentinelHost }}
+    app.kubernetes.io/instance: {{ $redisSentinelHost }}
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+  - port: {{ $redisSentinelPort }}
+    targetPort: {{ $redisSentinelPort }}
+    name: {{ $redisSentinelHost }}
+  selector:
+    app: {{ $redisSentinelHost }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $redisSentinelHost }}
+spec:
+  serviceName: {{ $redisSentinelHost }}
+  replicas: {{ $replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $redisSentinelHost }}
+  template:
+    metadata:
+      labels:
+        app: {{ $redisSentinelHost }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ $redisSentinelHost }}
+            topologyKey: "kubernetes.io/hostname"
+      initContainers:
+      - name: config
+        image: redis:latest
+        envFrom:
+        - configMapRef:
+            name: redis-config-values
+        command: [ "sh", "-c", "/scripts/sentinel_init.sh" ]
+        volumeMounts:
+        - name: redis-config
+          mountPath: /etc/redis/
+        - name: init-script
+          mountPath: /scripts/
+      containers:
+      - name: sentinel
+        image: redis:latest
+        command: ["redis-sentinel"]
+        args: ["/etc/redis/sentinel.conf"]
+        ports:
+        - containerPort: {{ $redisSentinelPort }}
+          name: sentinel
+        volumeMounts:
+        - name: redis-config
+          mountPath: /etc/redis/
+        - name: redis-sentinel-persist-data
+          mountPath: /data
+      volumes:
+      - name: init-script
+        configMap:
+          name: redis-scripts-config-map
+          defaultMode: 0777
+          items:
+          - key: sentinel_init.sh
+            path: sentinel_init.sh
+      - name: redis-config
+        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-sentinel-persist-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ $redisStorage }}
+      storageClassName: {{ $redisStorageClass }}
+---

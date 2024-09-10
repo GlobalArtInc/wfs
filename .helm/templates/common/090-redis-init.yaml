@@ -1,0 +1,151 @@
+{{- $replicaCount := (index .Values "redisReplicaCount" | int) -}}
+{{- $redisHost := index .Values "redisHost" -}}
+{{- $redisPort := index .Values "redisPort" -}}
+{{- $redisSentinelHost := index .Values "redisSentinelHost" -}}
+{{- $redisSentinelPort := index .Values "redisSentinelPort" -}}
+{{- $redisSentinelMasterName := index .Values "redisSentinelMasterName" -}}
+
+{{- $redisNodes := list -}}
+{{- range $i, $e := until $replicaCount }}
+  {{- $redisNodes = append $redisNodes (printf "%s-%d.%s" $redisHost $i $redisHost) }}
+{{- end }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config-values
+data:
+  REDIS_NODES: {{ quote (join "," $redisNodes) }}
+  REDIS_HOST: {{ quote $redisHost }}
+  REDIS_PORT: {{ quote $redisPort }}
+  REDIS_SENTINEL_HOST: {{ quote $redisSentinelHost }}
+  REDIS_SENTINEL_PORT: {{ quote $redisSentinelPort }}
+  REDIS_SENTINEL_MASTER_NAME: {{ quote $redisSentinelMasterName }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config-map
+data:
+  redis.conf: |
+    bind 0.0.0.0
+    protected-mode no
+    port {{ $redisPort }}
+    tcp-backlog 511
+    timeout 10
+    tcp-keepalive 30
+    daemonize no
+    supervised no
+    pidfile "/var/run/redis_6379.pid"
+    loglevel notice
+    logfile ""
+    databases 16
+    always-show-logo yes
+    save ""
+    stop-writes-on-bgsave-error yes
+    rdbcompression yes
+    rdbchecksum yes
+    rdb-del-sync-files no
+    dir "/data"
+    replica-serve-stale-data yes
+    replica-read-only yes
+    repl-diskless-sync no
+    repl-diskless-sync-delay 5
+    repl-diskless-load disabled
+    appendonly no
+    repl-disable-tcp-nodelay no
+    replica-priority 100
+    acllog-max-len 128
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-scripts-config-map
+data:
+  sentinel_init.sh: |
+    #!/bin/bash
+
+    IFS=', ' read -r -a ARRAY_REDIS_NODES <<< "$REDIS_NODES"
+
+    if [[ ${#ARRAY_REDIS_NODES[@]} == 1 ]]; then
+      MASTER=${ARRAY_REDIS_NODES[0]}
+    else
+      while true
+      do
+        for i in "${ARRAY_REDIS_NODES[@]}"
+        do
+          echo "finding master at $i"
+          MASTER=$(redis-cli --raw -h $i info replication | awk '{print $1}' | grep master_host: | cut -d ":" -f2)
+
+          if [ "${MASTER}" == "" ]; then
+              echo "no master found"
+              MASTER=
+          else
+              echo "found ${MASTER}"
+              break
+          fi
+        done
+
+        if [ "${MASTER}" == "" ]; then
+          echo "no master found"
+          MASTER=
+          sleep 10
+        else
+          echo "found ${MASTER}"
+          break
+        fi
+      done
+    fi
+
+    echo "" >> /tmp/master
+    echo "sentinel monitor ${REDIS_SENTINEL_MASTER_NAME} ${MASTER} ${REDIS_PORT} 2" >> /tmp/master
+    echo "port ${REDIS_SENTINEL_PORT}
+    sentinel resolve-hostnames yes
+    sentinel announce-hostnames yes
+    $(cat /tmp/master)
+    sentinel down-after-milliseconds ${REDIS_SENTINEL_MASTER_NAME} 4000
+    sentinel failover-timeout ${REDIS_SENTINEL_MASTER_NAME} 2000
+    sentinel parallel-syncs ${REDIS_SENTINEL_MASTER_NAME} 1
+    sentinel announce-ip ${HOSTNAME}.${REDIS_SENTINEL_HOST}
+    sentinel announce-port ${REDIS_SENTINEL_PORT}
+    " > /etc/redis/sentinel.conf
+    cat /etc/redis/sentinel.conf
+  redis_init.sh: |
+    #!/bin/bash
+    cp /tmp/redis/redis.conf /etc/redis/redis.conf
+    echo "" >>  /etc/redis/redis.conf
+    echo "replica-announce-ip ${HOSTNAME}.${REDIS_HOST}" >> /etc/redis/redis.conf
+    echo "replica-announce-port ${REDIS_PORT}" >> /etc/redis/redis.conf
+
+    IFS=', ' read -r -a ARRAY_REDIS_NODES <<< "$REDIS_NODES"
+
+    if [[ ${#ARRAY_REDIS_NODES[@]} == 1 ]]; then
+      echo "redis nodes count = 1. not need to update any config"
+      exit 0
+    fi
+
+    echo "finding master..."
+    if [ "$(timeout 5 redis-cli -h sentinel -p ${REDIS_SENTINEL_PORT} ping)" != "PONG" ]; then
+      echo "sentinel not found, defaulting to redis-0"
+      if [ ${HOSTNAME} == "${REDIS_HOST}-0" ]; then
+        echo "this is ${REDIS_HOST}-0, not updating config..."
+      else
+        echo "updating redis.conf..."
+        echo "repl-ping-replica-period 3" >> /etc/redis/redis.conf
+        echo "slave-read-only no" >> /etc/redis/redis.conf
+        echo "slaveof ${REDIS_HOST}-0.${REDIS_HOST} ${REDIS_PORT}" >> /etc/redis/redis.conf
+      fi
+    else
+      echo "sentinel found, finding master"
+      echo $(redis-cli -h ${REDIS_SENTINEL_HOST} -p ${REDIS_SENTINEL_PORT} sentinel get-master-addr-by-name ${REDIS_SENTINEL_MASTER_NAME})
+      MASTER="$(redis-cli -h ${REDIS_SENTINEL_HOST} -p ${REDIS_SENTINEL_PORT} sentinel get-master-addr-by-name ${REDIS_SENTINEL_MASTER_NAME} | grep -E "(^${REDIS_HOST}-*)|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})")"
+      if [ "${HOSTNAME}.${REDIS_HOST}" == "${MASTER}" ]; then
+        echo "this is master, not updating config..."
+      else
+        echo "master found : ${MASTER}, updating redis.conf"
+        echo "slave-read-only no" >> /etc/redis/redis.conf
+        echo "slaveof ${MASTER} ${REDIS_PORT}" >> /etc/redis/redis.conf
+        echo "repl-ping-replica-period 3" >> /etc/redis/redis.conf
+      fi
+    fi
