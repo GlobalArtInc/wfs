@@ -167,7 +167,7 @@ export class PlayerStatEntity {
   @Index()
   param: string;
 
-  @Column('int')
+  @Column('bigint')
   value: number;
 
   @ManyToOne(() => PlayerEntity, (player) => player.playerStats, {

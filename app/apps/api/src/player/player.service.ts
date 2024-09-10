@@ -42,7 +42,7 @@ export class PlayerService {
       const isOnline = await this.checkOnlineStatus(nickname, server);
       return this.formatPlayer({ server, state: { ...state, isOnline }, player, fullPlayer, achievements });
     }
-
+    
     const servers = this.determineServers(savedPlayer);
     for (const server of servers) {
       const player = await this.warfaceApiService.getStats(server, nickname);
@@ -177,7 +177,8 @@ export class PlayerService {
       return acc;
     }, {});
 
-    await this.playerRepository.updateOneById(data.playerId as unknown as number, {
+    await this.playerRepository.upsert({
+      id: data.playerId,
       type: PlayerTypeEnum.Open,
       server: data.server,
       ...params,
