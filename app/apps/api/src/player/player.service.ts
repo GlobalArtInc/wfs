@@ -60,7 +60,7 @@ export class PlayerService {
         const fullPlayer = this.parseFullResponse(player.full_response);
         delete player.full_response;
         
-        await this.redisClient.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), 120000);
+        await this.redisClient.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), 120);
         this.saveData({ playerId, server, player, fullPlayer, achievements });
 
         return this.formatPlayer({
