@@ -3,70 +3,70 @@ import { MissionEnum } from '../enums/mission.enums';
 export const MISSIONS = [
   {
     name: 'missions.sunrise',
-    value: MissionEnum.Sunrise,
+    value: MissionEnum.SUNRISE,
   },
   {
     name: 'missions.pripyat',
-    value: MissionEnum.Pripyat,
+    value: MissionEnum.PRIPYAT,
   },
   {
     name: 'missions.coldPeak',
-    value: MissionEnum.Coldpeak,
+    value: MissionEnum.COLDPEAK,
   },
   {
     name: 'missions.mars',
-    value: MissionEnum.Mars,
+    value: MissionEnum.MARS,
   },
   {
     name: 'missions.blackout',
-    value: MissionEnum.Blackout,
+    value: MissionEnum.BLACKOUT,
   },
   {
     name: 'missions.anubis',
-    value: MissionEnum.Anubis,
+    value: MissionEnum.ANUBIS,
   },
   {
     name: 'missions.earthShaker',
-    value: MissionEnum.EarthShaker,
+    value: MissionEnum.EARTH_SHAKER,
   },
   {
     name: 'missions.midgard',
-    value: MissionEnum.Midgard,
+    value: MissionEnum.MIDGARD,
   },
   {
     name: 'missions.cyberHorde',
-    value: MissionEnum.CyberHorde,
+    value: MissionEnum.CYBER_HORDE,
   },
   {
     name: 'missions.icebreaker',
-    value: MissionEnum.Icebreaker,
+    value: MissionEnum.ICEBREAKER,
   },
   {
     name: 'missions.theHQ',
-    value: MissionEnum.TheHQ,
+    value: MissionEnum.THE_HQ,
   },
   {
     name: 'missions.blackShark',
-    value: MissionEnum.BlackShark,
+    value: MissionEnum.BLACK_SHARK,
   },
   {
     name: 'missions.swarm',
-    value: MissionEnum.Swarm,
+    value: MissionEnum.SWARM,
   },
   {
     name: 'missions.hydra',
-    value: MissionEnum.Hydra,
+    value: MissionEnum.HYDRA,
   },
   {
     name: 'missions.blackwood',
-    value: MissionEnum.Blackwood,
+    value: MissionEnum.BLACKWOOD,
   },
   {
     name: 'missions.heist',
-    value: MissionEnum.Heist,
+    value: MissionEnum.HEIST,
   },
   {
     name: 'missions.endorsurvival',
-    value: MissionEnum.Endor,
+    value: MissionEnum.ENDOR,
   },
 ];
