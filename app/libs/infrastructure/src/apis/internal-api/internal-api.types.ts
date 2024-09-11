@@ -4,7 +4,11 @@ export type OnlineInfo = Record<
     pvp: number;
     pve: number;
     all: number;
-    max24: number;
+    max24: {
+      all: number;
+      time: number;
+    };
+    updatedAt: number;
   }
 >;
 

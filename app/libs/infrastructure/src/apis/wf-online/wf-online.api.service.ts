@@ -26,7 +26,7 @@ export class WfOnlineApiService extends InternalApi {
   }
 
   async getOnlineStats(server: string) {
-    const result = await this.send<{ all: number; pvp: number; pve: number; max24: { all: number; time: number } }>(
+    const result = await this.send<{ all: number; pvp: number; time: number; pve: number; max24: { all: number; time: number } }>(
       'get',
       `summary/${server}.json`,
     );
@@ -35,7 +35,8 @@ export class WfOnlineApiService extends InternalApi {
       pvp: result.pvp,
       pve: result.pve,
       all: result.all,
-      max24: result.max24.all,
+      max24: result.max24,
+      updatedAt: result.time,
     };
   }
 }

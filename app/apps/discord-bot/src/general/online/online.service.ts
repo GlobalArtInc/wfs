@@ -36,11 +36,13 @@ export class GeneralOnlineService {
         ruPvp: onlineInfo.ru.pvp,
         ruPve: onlineInfo.ru.pve,
         ruTotal: onlineInfo.ru.all,
-        ru24Max: onlineInfo.ru.max24,
+        ru24Max: onlineInfo.ru.max24.all,
+        ruUpdatedAt: onlineInfo.ru.updatedAt,
         euPvp: onlineInfo.int.pvp,
         euPve: onlineInfo.int.pve,
         euTotal: onlineInfo.int.all,
-        eu24Max: onlineInfo.int.max24,
+        eu24Max: onlineInfo.int.max24.all,
+        euUpdatedAt: onlineInfo.int.updatedAt,
       }),
     );
 
