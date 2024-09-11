@@ -70,6 +70,7 @@ export class PlayerService {
 
       const fallbackResponse = await this.handlePlayerError(player, nickname, server, servers);
       if (fallbackResponse) {
+        await this.redisService.set(savedPlayer.player.id, JSON.stringify(fallbackResponse), 120);
         return fallbackResponse;
       }
     }

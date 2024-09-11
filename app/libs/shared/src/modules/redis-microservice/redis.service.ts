@@ -8,8 +8,12 @@ export class RedisService {
     @Inject(REDIS_CLIENT) private readonly redisClient: RedisClient,
   ) {}
 
-  async set(key: string, value: string, ttl = 0): Promise<void> {
-    await this.redisClient.set(key, value, 'EX', ttl);
+  async set(key: string, value: string, ttl?: number): Promise<void> {
+    if (ttl) {
+      await this.redisClient.set(key, value, 'EX', ttl);
+    } else {
+      await this.redisClient.set(key, value);
+    }
   }
 
   async get(key: string): Promise<string> {
