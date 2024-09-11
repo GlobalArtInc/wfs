@@ -3,11 +3,15 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ApiModule } from './api.module';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 import 'reflect-metadata';
+import { ConfigService } from '@nestjs/config';
+import { MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
   initializeTransactionalContext();
   const app = await NestFactory.create(ApiModule);
+  const configService = app.get(ConfigService);
   app.setGlobalPrefix('/api');
+  app.connectMicroservice<MicroserviceOptions>(configService.getOrThrow('redis-microservice'));
 
   const config = new DocumentBuilder().setTitle('WFS API').setDescription('wfs methods').setVersion('2.0').build();
 
@@ -16,5 +20,6 @@ async function bootstrap() {
   SwaggerModule.setup(`/docs`, app, document);
 
   await app.listen(80);
+  await app.startAllMicroservices().catch((err) => console.error(err));
 }
 bootstrap();

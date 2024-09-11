@@ -158,13 +158,13 @@ export class PlayerAchievementEntity {
   player: PlayerEntity;
 }
 
+@Index(['playerId', 'param'])
 @Entity('player_stat')
 export class PlayerStatEntity {
   @PrimaryColumn('character varying')
   playerId: string;
 
   @PrimaryColumn('character varying')
-  @Index()
   param: string;
 
   @Column('bigint')

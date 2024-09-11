@@ -15,16 +15,22 @@ import { GetPlayerAchievementsDto } from './dtos';
 import * as moment from 'moment';
 import { RedisService } from '@app/shared/modules/redis-microservice/redis.service';
 import { omit } from 'lodash';
+import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
+import { ClientProxy } from '@nestjs/microservices';
+import { PLAYER_SAVE_REDIS_COMMAND } from './player.consts';
 
 @Injectable()
 export class PlayerService {
   constructor(
+    @Inject(REDIS_PROVIDER)
+    private readonly redisProxy: ClientProxy,
     private readonly playerRepository: PlayerRepository,
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly warfaceApiService: WarfaceApiService,
     private readonly helpersService: HelpersService,
     private readonly redisService: RedisService,
   ) {}
+  private readonly defaultCacheTime = 120;
 
   async getByName(nickname: string) {
     if (!nickname) {
@@ -63,7 +69,7 @@ export class PlayerService {
 
       const fallbackResponse = await this.handlePlayerError(playerData, nickname, server, servers);
       if (fallbackResponse) {
-        await this.redisService.set(savedPlayer.player.id, JSON.stringify(fallbackResponse), 120);
+        await this.redisService.set(savedPlayer.player.id, JSON.stringify(fallbackResponse), this.defaultCacheTime);
         return fallbackResponse;
       }
     }
@@ -84,8 +90,8 @@ export class PlayerService {
     const state = { type: 'open', updatedAt: timestamp };
     const cachedData = { playerId, state, server, player: playerData, fullPlayer, achievements };
 
-    await this.redisService.set(playerId, JSON.stringify(cachedData), 120);
-    this.saveData(cachedData);
+    this.redisProxy.emit(PLAYER_SAVE_REDIS_COMMAND, cachedData);
+    await this.redisService.set(playerId, JSON.stringify(cachedData), this.defaultCacheTime);
 
     return this.formatPlayer({
       server,
@@ -179,13 +185,14 @@ export class PlayerService {
     return null;
   }
 
-  private async saveData(data: WarfaceApiSavePlayerData) {
+  
+  public async saveData(data: WarfaceApiSavePlayerData) {
     const params = Object.entries(data.player).reduce((acc: any, [key, value]) => {
       if (!['full_response', 'is_transparent'].includes(key)) acc[key] = value ?? 0;
       return acc;
     }, {});
-
-    this.playerRepository.upsert({
+    
+    await this.playerRepository.upsert({
       id: data.playerId,
       type: PlayerTypeEnum.Open,
       server: data.server,
