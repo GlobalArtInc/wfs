@@ -4,9 +4,7 @@ import { REDIS_CLIENT } from './redis.providers';
 
 @Injectable()
 export class RedisService {
-  constructor(
-    @Inject(REDIS_CLIENT) private readonly redisClient: RedisClient,
-  ) {}
+  constructor(@Inject(REDIS_CLIENT) private readonly redisClient: RedisClient) {}
 
   async set(key: string, value: string, ttl?: number): Promise<void> {
     if (ttl) {

@@ -1,4 +1,10 @@
-import { DefaultLocalizationAdapter, LOCALIZATION_ADAPTER, NestcordService, PageBuilder, TranslationFn } from '@globalart/nestcord';
+import {
+  DefaultLocalizationAdapter,
+  LOCALIZATION_ADAPTER,
+  NestcordService,
+  PageBuilder,
+  TranslationFn,
+} from '@globalart/nestcord';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
@@ -106,7 +112,9 @@ export class StatsService {
     const totalGames = Number(playerInfo.player.pve_wins || 0) + Number(playerInfo.player.pve_lost || 0);
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
-      name: trans(`app.stats.pve.${className}.name`, { emoji: this.nestcordService.getApplicationEmojiPlain(`wfs_${className}`) }),
+      name: trans(`app.stats.pve.${className}.name`, {
+        emoji: this.nestcordService.getApplicationEmojiPlain(`wfs_${className}`),
+      }),
       value: trans(`app.stats.pve.${className}.value`, {
         total: trans('app.stats.hours', {
           hours: String(
@@ -196,7 +204,9 @@ export class StatsService {
       );
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
-      name: trans(`app.stats.pvp.${className}.name`, { emoji: this.nestcordService.getApplicationEmojiPlain(`wfs_${className}`)}),
+      name: trans(`app.stats.pvp.${className}.name`, {
+        emoji: this.nestcordService.getApplicationEmojiPlain(`wfs_${className}`),
+      }),
       value: trans(`app.stats.pvp.${className}.value`, {
         total: trans('app.stats.hours', {
           hours: String(

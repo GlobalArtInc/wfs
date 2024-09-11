@@ -26,8 +26,12 @@ export class SetService {
       { relations: ['usersClans', 'usersPlayers', 'defaultServer'] },
     );
 
-    const clans = user.usersClans.map((userClan) => `${this.nestcordService.getApplicationEmojiPlain('wfs_yes')} ${userClan.name}`);
-    const players = user.usersPlayers.map((userPlayer) => `${this.nestcordService.getApplicationEmojiPlain('wfs_yes')} ${userPlayer.name}`);
+    const clans = user.usersClans.map(
+      (userClan) => `${this.nestcordService.getApplicationEmojiPlain('wfs_yes')} ${userClan.name}`,
+    );
+    const players = user.usersPlayers.map(
+      (userPlayer) => `${this.nestcordService.getApplicationEmojiPlain('wfs_yes')} ${userPlayer.name}`,
+    );
 
     const embed = await this.discordHelpersService.buildEmbed({ color: Colors.Blue });
 

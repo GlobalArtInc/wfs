@@ -1,7 +1,7 @@
-import { REDIS_PROVIDER } from "@app/shared/configs/redis-microservice.config";
-import { Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { ClientsModule } from "@nestjs/microservices";
+import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
+import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ClientsModule } from '@nestjs/microservices';
 
 const redisClientModule = ClientsModule.registerAsync([
   {

@@ -33,13 +33,11 @@ export class SpecService {
       color: Colors.Green,
     });
 
-    embed
-      .setThumbnail('https://wf.cdn.gmru.net/wiki/images/4/4f/Homepage7.jpg')
-      .setAuthor({
-        name: this.getPlayerAuthor(player.nickname, player.rank_id, server),
-        url: `https://wfts.su/profile/${player.nickname}`,
-        iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${player.rank_id}.png`,
-      });
+    embed.setThumbnail('https://wf.cdn.gmru.net/wiki/images/4/4f/Homepage7.jpg').setAuthor({
+      name: this.getPlayerAuthor(player.nickname, player.rank_id, server),
+      url: `https://wfts.su/profile/${player.nickname}`,
+      iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${player.rank_id}.png`,
+    });
 
     const fields: APIEmbedField[] = Object.keys(missionsData).map((item) => {
       const mission = missionsData[item];

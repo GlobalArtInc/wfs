@@ -36,43 +36,64 @@ export class PlayerService {
 
     const savedPlayer = await this.get(nickname);
     const cachedPlayer = savedPlayer ? await this.redisService.get(savedPlayer.player.id) : null;
-    const timestamp = moment().toDate();
-    
     if (savedPlayer && cachedPlayer) {
-      const parsedPlayer = JSON.parse(cachedPlayer);
-      const { server, state, player, fullPlayer, achievements } = parsedPlayer;
-
-      return this.formatPlayer({ server, state: { ...state }, player, fullPlayer, achievements });
+      return this.formatCachedPlayer(cachedPlayer);
     }
-    
-    const servers = this.determineServers(savedPlayer);
-    for (const server of servers) {
-      const player = await this.warfaceApiService.getStats(server, nickname);
-      if (player?.user_id) {
-        const playerId = savedPlayer?.player?.id || this.helpersService.generateUUID();
-        const achievements = await this.warfaceApiService.getAchievements(server, nickname);
-        const fullPlayer = this.parseFullResponse(player.full_response);
-        delete player.full_response;
-        
-        await this.redisService.set(playerId, JSON.stringify({ playerId, server, player, fullPlayer, achievements }), 120);
-      
-        this.saveData({ playerId, server, player, fullPlayer, achievements });
 
-        return this.formatPlayer({
-          server,
-          state: { type: 'open', updatedAt: timestamp },
-          player,
-          fullPlayer,
-          achievements,
-        });
+    return this.fetchAndCachePlayer(savedPlayer, nickname);
+  }
+
+  private async formatCachedPlayer(cachedPlayer: string) {
+    const parsedPlayer = JSON.parse(cachedPlayer);
+    const { server, state, player, fullPlayer, achievements } = parsedPlayer;
+
+    return this.formatPlayer({ server, state: { ...state }, player, fullPlayer, achievements });
+  }
+
+  private async fetchAndCachePlayer(savedPlayer: any, nickname: string) {
+    const servers = this.determineServers(savedPlayer);
+    const timestamp = moment().toDate();
+
+    for (const server of servers) {
+      const playerData = await this.warfaceApiService.getStats(server, nickname);
+
+      if (playerData?.user_id) {
+        return this.handlePlayerFound(savedPlayer, playerData, server, nickname, timestamp);
       }
 
-      const fallbackResponse = await this.handlePlayerError(player, nickname, server, servers);
+      const fallbackResponse = await this.handlePlayerError(playerData, nickname, server, servers);
       if (fallbackResponse) {
         await this.redisService.set(savedPlayer.player.id, JSON.stringify(fallbackResponse), 120);
         return fallbackResponse;
       }
     }
+  }
+
+  private async handlePlayerFound(
+    savedPlayer: any,
+    playerData: any,
+    server: string,
+    nickname: string,
+    timestamp: Date,
+  ) {
+    const playerId = savedPlayer?.player?.id || this.helpersService.generateUUID();
+    const achievements = await this.warfaceApiService.getAchievements(server, nickname);
+    const fullPlayer = this.parseFullResponse(playerData.full_response);
+    delete playerData.full_response;
+
+    const state = { type: 'open', updatedAt: timestamp };
+    const cachedData = { playerId, state, server, player: playerData, fullPlayer, achievements };
+
+    await this.redisService.set(playerId, JSON.stringify(cachedData), 120);
+    this.saveData(cachedData);
+
+    return this.formatPlayer({
+      server,
+      state,
+      player: playerData,
+      fullPlayer,
+      achievements,
+    });
   }
 
   private determineServers(savedPlayer: any) {

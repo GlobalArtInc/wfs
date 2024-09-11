@@ -124,8 +124,18 @@ export class ClanService {
       }
     };
 
-    addRoleToDescription('MASTER', roles.MASTER, 'app.clan.roles.master', this.nestcordService.getApplicationEmojiPlain('wfs_master'));
-    addRoleToDescription('OFFICER', roles.OFFICER, 'app.clan.roles.officers', this.nestcordService.getApplicationEmojiPlain('wfs_officer'));
+    addRoleToDescription(
+      'MASTER',
+      roles.MASTER,
+      'app.clan.roles.master',
+      this.nestcordService.getApplicationEmojiPlain('wfs_master'),
+    );
+    addRoleToDescription(
+      'OFFICER',
+      roles.OFFICER,
+      'app.clan.roles.officers',
+      this.nestcordService.getApplicationEmojiPlain('wfs_officer'),
+    );
     addRoleToDescription('REGULAR', roles.REGULAR, 'app.clan.roles.regulars', '');
 
     return {
