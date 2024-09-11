@@ -13,7 +13,9 @@ export class TopService {
   ) {}
 
   async embed(mission: string) {
-    const missions = await this.internalBotApiService.send<TopInfo>('get', `top/missions/${mission}`);
+    const missions = await this.internalBotApiService.send<TopInfo>('get', `top/mission`, {
+      name: mission,
+    });
     let i = 0;
 
     const players = missions.items.map((item) => {
