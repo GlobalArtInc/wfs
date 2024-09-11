@@ -203,7 +203,7 @@ export class PlayerService {
       state: { type: state.type, updatedAt: state.updatedAt, isOnline: state?.isOnline || false },
       player: omit(player, ['playerAchievements']),
       fullPlayer: this.responseToObject(fullPlayer),
-      achievements,
+      achievements: achievements.map((achievement) => omit(achievement, ['playerId'])),
     };
   }
 
