@@ -22,7 +22,6 @@ export class PlayerService {
     private readonly playerRepository: PlayerRepository,
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly warfaceApiService: WarfaceApiService,
-    private readonly wfStatsApiService: WfStatsCfApiService,
     private readonly helpersService: HelpersService,
     private readonly redisService: RedisService,
   ) {}
@@ -42,8 +41,8 @@ export class PlayerService {
     if (savedPlayer && cachedPlayer) {
       const parsedPlayer = JSON.parse(cachedPlayer);
       const { server, state, player, fullPlayer, achievements } = parsedPlayer;
-      const isOnline = await this.checkOnlineStatus(nickname, server);
-      return this.formatPlayer({ server, state: { ...state, isOnline }, player, fullPlayer, achievements });
+
+      return this.formatPlayer({ server, state: { ...state }, player, fullPlayer, achievements });
     }
     
     const servers = this.determineServers(savedPlayer);
@@ -61,7 +60,7 @@ export class PlayerService {
 
         return this.formatPlayer({
           server,
-          state: { type: 'open', updatedAt: timestamp, isOnline: false },
+          state: { type: 'open', updatedAt: timestamp },
           player,
           fullPlayer,
           achievements,
@@ -81,15 +80,6 @@ export class PlayerService {
       return [savedPlayer.server, ...(savedPlayer.server === 'ru' ? ['int'] : ['ru'])];
     }
     return ['ru', 'int'];
-  }
-
-  private async checkOnlineStatus(nickname: string, server: string) {
-    try {
-      const onlineInfoRes = await this.wfStatsApiService.getPlayerInfo(nickname, server);
-      return !!onlineInfoRes;
-    } catch {
-      return false;
-    }
   }
 
   private async handlePlayerError(player: any, nickname: string, server: string, servers: string[]) {
@@ -124,20 +114,12 @@ export class PlayerService {
       const { server: savedServer, state, player: savedPlayer, fullPlayer, achievements } = user;
       return this.formatPlayer({
         server: savedServer,
-        state: { type: player.message, updatedAt: state.updatedAt, isOnline: false },
+        state: { type: player.message, updatedAt: state.updatedAt },
         player: savedPlayer,
         fullPlayer,
         achievements,
       });
     }
-  }
-
-  async getInfoFromOnlinePlayer(nickname: string) {
-    const playerInfo = await this.get(nickname);
-    const { server, state, player } = playerInfo;
-    const onlineInfo = await this.wfStatsApiService.getPlayerInfo(nickname, server);
-
-    return { server, state, player, onlineInfo };
   }
 
   async getPlayerAchievements(nickname: string, dto: GetPlayerAchievementsDto) {
@@ -201,7 +183,7 @@ export class PlayerService {
     const { server, state, player, fullPlayer, achievements } = playerData;
     return {
       server,
-      state: { type: state.type, updatedAt: state.updatedAt, isOnline: state?.isOnline || false },
+      state: { type: state.type, updatedAt: state.updatedAt },
       player: omit(player, ['playerAchievements']),
       fullPlayer: this.responseToObject(fullPlayer),
       achievements: achievements.map((achievement) => omit(achievement, ['playerId'])),

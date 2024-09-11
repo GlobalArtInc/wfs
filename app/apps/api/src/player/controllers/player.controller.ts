@@ -14,12 +14,6 @@ export class PlayerController {
     return this.playerService.getByName(nickname);
   }
 
-  @ApiOperation({ summary: 'Get data from online player' })
-  @Get(':name/onlineInfo')
-  getInfoFromOnlinePlayer(@Param('name') nickname: string) {
-    return this.playerService.getInfoFromOnlinePlayer(nickname);
-  }
-
   @ApiOperation({ summary: 'List of player missions' })
   @Get(':name/pve')
   getPlayerMissions(@Param('name') nickname: string) {

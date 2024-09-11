@@ -52,7 +52,6 @@ export type PlayerInfo = {
   state: {
     type: string;
     updatedAt: string;
-    isOnline: boolean;
   };
   player: Record<string, any>;
   fullPlayer: any;
