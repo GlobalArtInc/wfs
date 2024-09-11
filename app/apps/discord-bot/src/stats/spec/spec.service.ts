@@ -28,7 +28,7 @@ export class SpecService {
     const missionsData = await this.settingService.getValueByKey('missions_stats');
 
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
-    const { server, player, full_player, state } = playerInfo;
+    const { server, player, fullPlayer, state } = playerInfo;
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
     });
@@ -39,14 +39,13 @@ export class SpecService {
         name: this.getPlayerAuthor(player.nickname, player.rank_id, server),
         url: `https://wfts.su/profile/${player.nickname}`,
         iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${player.rank_id}.png`,
-      })
-      .setDescription(state.isOnline ? trans('app.labels.userIsOnline') : trans('app.labels.userIsOffline'));
+      });
 
     const fields: APIEmbedField[] = Object.keys(missionsData).map((item) => {
       const mission = missionsData[item];
       const stats = Object.keys(mission.mode).map((itemKey) => {
         const stat = mission.mode[itemKey];
-        const complexity = full_player?.complexity?.[stat.category]?.mission_type?.[stat.code];
+        const complexity = fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
         const won = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_won || 0);
         const lost = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0);
 

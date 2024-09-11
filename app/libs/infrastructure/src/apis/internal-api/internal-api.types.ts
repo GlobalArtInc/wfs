@@ -55,7 +55,7 @@ export type PlayerInfo = {
     isOnline: boolean;
   };
   player: Record<string, any>;
-  full_player: any;
+  fullPlayer: any;
   achievements: {
     achievement_id: string;
     progress: string;

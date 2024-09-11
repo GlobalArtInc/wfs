@@ -111,18 +111,18 @@ export class StatsService {
         total: trans('app.stats.hours', {
           hours: String(
             HelpersService.secToHours(
-              playerInfo.full_player?.class?.[className]?.mode?.pve?.season?.stat?.player_playtime,
+              playerInfo.fullPlayer?.class?.[className]?.mode?.pve?.season?.stat?.player_playtime,
             ) || 0,
           ),
         }),
         shots: HelpersService.numeral(
-          playerInfo.full_player?.class?.[className]?.mode?.pve?.season?.stat?.player_shots || 0,
+          playerInfo.fullPlayer?.class?.[className]?.mode?.pve?.season?.stat?.player_shots || 0,
         ),
         hits: HelpersService.numeral(
-          playerInfo.full_player?.class?.[className]?.mode?.pve?.season?.stat?.player_hits || 0,
+          playerInfo.fullPlayer?.class?.[className]?.mode?.pve?.season?.stat?.player_hits || 0,
         ),
         heads: HelpersService.numeral(
-          playerInfo.full_player?.class?.[className]?.mode?.pve?.season?.stat?.player_headshots || 0,
+          playerInfo.fullPlayer?.class?.[className]?.mode?.pve?.season?.stat?.player_headshots || 0,
         ),
       }),
       inline: true,
@@ -137,19 +137,19 @@ export class StatsService {
       },
       {
         name: trans('app.stats.kills'),
-        value: HelpersService.numeral(playerInfo.full_player?.class?.mode?.pve?.season?.stat?.player_kills_ai || 0),
+        value: HelpersService.numeral(playerInfo.fullPlayer?.class?.mode?.pve?.season?.stat?.player_kills_ai || 0),
         inline: true,
       },
       {
         name: trans('app.stats.friendly_kills'),
         value: HelpersService.numeral(
-          playerInfo.full_player?.class?.mode?.pve?.season?.stat?.player_kills_player_friendly || 0,
+          playerInfo.fullPlayer?.class?.mode?.pve?.season?.stat?.player_kills_player_friendly || 0,
         ),
         inline: true,
       },
       {
         name: trans('app.stats.deaths'),
-        value: HelpersService.numeral(playerInfo.full_player?.class?.mode?.pve?.season?.stat?.player_deaths || 0),
+        value: HelpersService.numeral(playerInfo.fullPlayer?.class?.mode?.pve?.season?.stat?.player_deaths || 0),
         inline: true,
       },
       {
@@ -164,7 +164,7 @@ export class StatsService {
       },
       {
         name: trans('app.stats.left'),
-        value: HelpersService.numeral(playerInfo.full_player?.mode?.pve?.season?.stat?.player_sessions_left || 0),
+        value: HelpersService.numeral(playerInfo.fullPlayer?.mode?.pve?.season?.stat?.player_sessions_left || 0),
         inline: true,
       },
       {
@@ -174,7 +174,7 @@ export class StatsService {
       },
       {
         name: trans('app.stats.kicked'),
-        value: HelpersService.numeral(playerInfo.full_player?.mode?.pve?.season?.stat?.player_sessions_kicked || 0),
+        value: HelpersService.numeral(playerInfo.fullPlayer?.mode?.pve?.season?.stat?.player_sessions_kicked || 0),
         inline: true,
       },
       ...classFields,
@@ -189,10 +189,10 @@ export class StatsService {
   private createPvpFields(playerInfo: PlayerInfo, trans: TranslationFn): APIEmbedField[] {
     const totalGames =
       Number(
-        playerInfo.full_player?.complexity?.normal?.mission_type?.mode?.pvp.season?.stat?.player_sessions_won || 0,
+        playerInfo.fullPlayer?.complexity?.normal?.mission_type?.mode?.pvp.season?.stat?.player_sessions_won || 0,
       ) +
       Number(
-        playerInfo.full_player?.complexity?.normal?.mission_type?.mode?.pvp?.season?.stat?.player_sessions_lost || 0,
+        playerInfo.fullPlayer?.complexity?.normal?.mission_type?.mode?.pvp?.season?.stat?.player_sessions_lost || 0,
       );
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
@@ -201,18 +201,18 @@ export class StatsService {
         total: trans('app.stats.hours', {
           hours: String(
             HelpersService.secToHours(
-              playerInfo?.full_player?.class?.[className]?.mode?.pvp?.season?.stat?.player_playtime,
+              playerInfo?.fullPlayer?.class?.[className]?.mode?.pvp?.season?.stat?.player_playtime,
             ) || 0,
           ),
         }),
         shots: HelpersService.numeral(
-          playerInfo.full_player?.class?.[className]?.mode?.pvp?.season?.stat?.player_shots || 0,
+          playerInfo.fullPlayer?.class?.[className]?.mode?.pvp?.season?.stat?.player_shots || 0,
         ),
         hits: HelpersService.numeral(
-          playerInfo.full_player?.class?.[className]?.mode?.pvp?.season?.stat?.player_hits || 0,
+          playerInfo.fullPlayer?.class?.[className]?.mode?.pvp?.season?.stat?.player_hits || 0,
         ),
         heads: HelpersService.numeral(
-          playerInfo.full_player?.class?.[className]?.mode?.pvp?.season?.stat?.player_headshots || 0,
+          playerInfo.fullPlayer?.class?.[className]?.mode?.pvp?.season?.stat?.player_headshots || 0,
         ),
       }),
       inline: true,
@@ -227,12 +227,12 @@ export class StatsService {
       },
       {
         name: trans('app.stats.kills'),
-        value: HelpersService.numeral(playerInfo.full_player?.class?.mode?.pvp?.season?.stat?.player_kills_player || 0),
+        value: HelpersService.numeral(playerInfo.fullPlayer?.class?.mode?.pvp?.season?.stat?.player_kills_player || 0),
         inline: true,
       },
       {
         name: trans('app.stats.deaths'),
-        value: HelpersService.numeral(playerInfo.full_player?.class?.mode?.pvp?.season?.stat?.player_deaths || 0),
+        value: HelpersService.numeral(playerInfo.fullPlayer?.class?.mode?.pvp?.season?.stat?.player_deaths || 0),
         inline: true,
       },
       {
@@ -247,7 +247,7 @@ export class StatsService {
       },
       {
         name: trans('app.stats.left'),
-        value: HelpersService.numeral(playerInfo.full_player?.mode?.pvp?.season?.stat?.player_sessions_left || 0),
+        value: HelpersService.numeral(playerInfo.fullPlayer?.mode?.pvp?.season?.stat?.player_sessions_left || 0),
         inline: true,
       },
       {

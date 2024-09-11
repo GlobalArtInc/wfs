@@ -35,17 +35,17 @@ export default {
   mounted() {
  //  const player = this.data
 
- //  const pvpPlayTime = number(player.full_player['[class]Rifleman [mode]PVP [stat]player_playtime']) +
- //      number(player.full_player['[class]Recon [mode]PVP [stat]player_playtime']) +
- //      number(player.full_player['[class]Medic [mode]PVP [stat]player_playtime']) +
- //      number(player.full_player['[class]Engineer [mode]PVP [stat]player_playtime']) +
- //      number(player.full_player['[class]Heavy [mode]PVP [stat]player_playtime'])
+ //  const pvpPlayTime = number(player.fullPlayer['[class]Rifleman [mode]PVP [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Recon [mode]PVP [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Medic [mode]PVP [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Engineer [mode]PVP [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Heavy [mode]PVP [stat]player_playtime'])
 
- //  const pvePlayTime = number(player.full_player['[class]Rifleman [mode]PVE [stat]player_playtime']) +
- //      number(player.full_player['[class]Recon [mode]PVE [stat]player_playtime']) +
- //      number(player.full_player['[class]Medic [mode]PVE [stat]player_playtime']) +
- //      number(player.full_player['[class]Engineer [mode]PVE [stat]player_playtime']) +
- //      number(player.full_player['[class]Heavy [mode]PVE [stat]player_playtime'])
+ //  const pvePlayTime = number(player.fullPlayer['[class]Rifleman [mode]PVE [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Recon [mode]PVE [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Medic [mode]PVE [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Engineer [mode]PVE [stat]player_playtime']) +
+ //      number(player.fullPlayer['[class]Heavy [mode]PVE [stat]player_playtime'])
 
  //  const totalTime = pvePlayTime+pvpPlayTime
  //  const x1 = totalTime/100

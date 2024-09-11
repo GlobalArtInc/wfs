@@ -37,7 +37,7 @@ export class PlayerService {
     const savedPlayer = await this.get(nickname);
     const cachedPlayer = savedPlayer ? await this.redisService.get(savedPlayer.player.id) : null;
     const timestamp = moment().toDate();
-
+    
     if (savedPlayer && cachedPlayer) {
       const parsedPlayer = JSON.parse(cachedPlayer);
       const { server, state, player, fullPlayer, achievements } = parsedPlayer;
@@ -201,7 +201,7 @@ export class PlayerService {
       server,
       state: { type: state.type, updatedAt: state.updatedAt, isOnline: state?.isOnline || false },
       player,
-      full_player: this.responseToObject(fullPlayer),
+      fullPlayer: this.responseToObject(fullPlayer),
       achievements,
     };
   }
