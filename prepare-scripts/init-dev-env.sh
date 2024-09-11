@@ -6,7 +6,7 @@ mkdir -p /workspace
 
 if ! [ -d $DIR/wfs ]; then
     echo "Clone repository"
-    git clone git@github.com:GlobalArtInc/warface.git
+    git clone git@github.com:GlobalArtInc/wfs.git
     cd $DIR/wfs
 fi
 

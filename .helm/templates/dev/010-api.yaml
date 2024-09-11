@@ -17,6 +17,22 @@ spec:
       labels:
         app: {{ .Chart.Name }}-api
     spec:
+      initContainers:
+      - name: prepare-dev-env
+        image: '{{ index .Values.werf.image "wfs-api" }}'
+        envFrom:
+        - configMapRef:
+            name: {{ .Chart.Name }}-common-config
+        command: [ "/bin/bash", '-c' ]
+        args:
+          -
+            source /install/prepare-scripts/init-dev-env.sh;
+        volumeMounts:
+        - mountPath: /workspace
+          name: workspace
+        - name: id-rsa-vcs
+          mountPath: "/root/.ssh/id_rsa"
+          subPath: "id_rsa" 
       containers:
       - name: {{ .Chart.Name }}-api
         image: '{{ index .Values.werf.image "wfs-api" }}'

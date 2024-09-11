@@ -1,7 +1,7 @@
 {{ if (eq .env "dev") }}
 ---
 image: wfs
-from: node:19
+from: node:22
 git:
 - add: /prepare-scripts
   to: /install/prepare-scripts
@@ -11,26 +11,33 @@ docker:
   EXPOSE: "80"
 
 ansible:
- install:
- - name: Setting up ssh
-   shell: |
-     printf "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
-     echo 'export SSH_AUTH_SOCK=/ssh-agent' >> ~/.bashrc
- - name: "Install additional packages"
-   apt:
-     state: present
-     update_cache: yes
-     pkg:
-       - locales
-       - mc
-       - vim
-       - neovim
- - name:
-   shell: | 
-    npm -g i @nestjs/cli
- - name: StrictHostKeyChecking no
-   shell: |
-     printf "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
+  install:
+  - name: "Install additional packages"
+    apt:
+      state: present
+      update_cache: yes
+      pkg:
+      - locales
+      - mc
+      - vim
+      - neovim
+      - telnet
+  - name: "Install packages"
+    block:
+    - name: "Install @nestjs/cli"
+      npm:
+        name: "@nestjs/cli"
+        global: yes
+        state: present
+    - name: "Install pnpm"
+      npm:
+        name: "pnpm"
+        global: yes
+        state: present
+  - name: "Configure SSH"
+    lineinfile:
+      path: /etc/ssh/ssh_config
+      line: "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null"
 ---
 image: wfs-api
 fromImage: wfs
