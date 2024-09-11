@@ -77,7 +77,9 @@ export class ClanService {
     if (!clanName) {
       throw new DiscordErrorException('app.errors.clan_name_not_specified');
     }
-    const clanInfos = await this.internalBotApiService.send<ClanInfo[]>('get', `clan/${clanName}`);
+    const clanInfos = await this.internalBotApiService.send<ClanInfo[]>('get', `clan`, {
+      name: clanName,
+    });
     if (!clanInfos.length) {
       throw new DiscordErrorException('errors.clan_not_found');
     }
