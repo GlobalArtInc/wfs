@@ -27,7 +27,9 @@ export class SpecService {
 
     const missionsData = await this.settingService.getValueByKey('missions_stats');
 
-    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
+    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
+      name: playerName,
+    });
     const { server, player, fullPlayer, state } = playerInfo;
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,

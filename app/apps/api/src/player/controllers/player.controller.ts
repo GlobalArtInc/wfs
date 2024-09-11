@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PlayerService } from '../player.service';
 import { GetPlayerAchievementsDto } from '../dtos';
@@ -9,37 +9,20 @@ export class PlayerController {
   constructor(private playerService: PlayerService) {}
 
   @ApiOperation({ summary: 'Retrieve detailed player stats' })
-  @Get(':name')
-  getByName(@Param('name') nickname: string) {
+  @Get()
+  getByName(@Query('name') nickname: string) {
     return this.playerService.getByName(nickname);
   }
 
   @ApiOperation({ summary: 'List of player missions' })
-  @Get(':name/pve')
-  getPlayerMissions(@Param('name') nickname: string) {
+  @Get('pve')
+  getPlayerMissions(@Query('name') nickname: string) {
     return this.playerService.getMissions(nickname);
   }
 
-  // @ApiOperation({
-  //   summary: 'List all achievements on PVE for the specific player',
-  // })
-  // @Get(':name/pve/achievements')
-  // getPlayerAchievementsOnPVE(@Param('name') nickname: string) {
-  //   return this.playerService.getPlayerAchievementsOnPVE(nickname);
-  // }
-
-  // @ApiOperation({ summary: 'List of player achievements' })
-  // @Post(':name/achievements')
-  // getPlayerAchievements(
-  //   @Param('name') nickname: string,
-  //   @Body() dto: GetPlayerAchievementsDto,
-  // ) {
-  //   return this.playerService.getPlayerAchievements(nickname, dto);
-  // }
-
   @ApiOperation({ summary: 'List of player achievements' })
-  @Post(':name/achievements')
-  getPlayerAchievements(@Param('name') nickname: string, @Body() dto: GetPlayerAchievementsDto) {
+  @Post('achievements')
+  getPlayerAchievements(@Query('name') nickname: string, @Body() dto: GetPlayerAchievementsDto) {
     return this.playerService.getPlayerAchievements(nickname, dto);
   }
 }

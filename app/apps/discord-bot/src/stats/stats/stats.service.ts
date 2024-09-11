@@ -59,7 +59,9 @@ export class StatsService {
   async getStatsAndGetEmbed(name: string, trans: TranslationFn) {
     const discordUser = this.requestClsService.getUser();
     const playerName = name || (await this.userService.getLinkedPlayer(discordUser.id));
-    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
+    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
+      name: playerName,
+    });
 
     const [pveEmbed, pvpEmbed, otherEmbed] = await Promise.all([
       this.discordHelpersService.buildEmbed({ color: Colors.Blue }),

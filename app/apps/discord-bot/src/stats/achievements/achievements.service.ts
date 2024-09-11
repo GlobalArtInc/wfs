@@ -30,7 +30,9 @@ export class AchievementsService {
 
     const achievementsStat = await this.settingService.getValueByKey('achievements');
 
-    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
+    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
+      name: playerName
+    });
     const missionData = achievementsStat[mission] as {
       id: string;
       img: string;

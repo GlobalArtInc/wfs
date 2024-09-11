@@ -75,7 +75,9 @@ export class SetService {
       color: Colors.Green,
     });
     const user = await this.userRepository.getOne(userId, 'discord');
-    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player/${playerName}`);
+    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
+      name: playerName,
+    });
 
     if (playerInfo.state.type === 'open') {
       user.usersPlayers = [
