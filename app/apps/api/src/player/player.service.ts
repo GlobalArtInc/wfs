@@ -14,6 +14,7 @@ import {
 import { GetPlayerAchievementsDto } from './dtos';
 import * as moment from 'moment';
 import { RedisService } from '@app/shared/modules/redis-microservice/redis.service';
+import { omit } from 'lodash';
 
 @Injectable()
 export class PlayerService {
@@ -120,13 +121,13 @@ export class PlayerService {
 
     if (user) {
       const { server: savedServer, state, player: savedPlayer, fullPlayer, achievements } = user;
-      return {
+      return this.formatPlayer({
         server: savedServer,
         state: { type: player.message, updatedAt: state.updatedAt, isOnline: false },
         player: savedPlayer,
         fullPlayer,
         achievements,
-      };
+      });
     }
   }
 
@@ -200,7 +201,7 @@ export class PlayerService {
     return {
       server,
       state: { type: state.type, updatedAt: state.updatedAt, isOnline: state?.isOnline || false },
-      player,
+      player: omit(player, ['playerAchievements']),
       fullPlayer: this.responseToObject(fullPlayer),
       achievements,
     };
