@@ -192,7 +192,7 @@ export class PlayerService {
       return acc;
     }, {});
     
-    await this.playerRepository.upsert({
+    this.playerRepository.upsert({
       id: data.playerId,
       type: PlayerTypeEnum.Open,
       server: data.server,

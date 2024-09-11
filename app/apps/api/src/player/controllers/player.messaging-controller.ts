@@ -11,7 +11,7 @@ export class PlayerMessagingController {
   constructor(private playerService: PlayerService) {}
 
   @EventPattern(PLAYER_SAVE_REDIS_COMMAND, Transport.REDIS)
-  async savePlayerData(message: WarfaceApiSavePlayerData) {
-    await this.playerService.saveData(message);
+  savePlayerData(message: WarfaceApiSavePlayerData) {
+    this.playerService.saveData(message);
   }
 }
