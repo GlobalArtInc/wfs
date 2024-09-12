@@ -33,7 +33,7 @@ export class AchievementsInteractions {
     @CurrentTranslate() trans: TranslationFn,
   ) {
     try {
-      const embed = await this.achievementsService.embed(name, mission, trans);
+      const embed = await this.achievementsService.createEmbed(name, mission, trans);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {
