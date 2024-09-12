@@ -1,4 +1,4 @@
-{{- $replicaCount := index .Values "replicaCount" -}}
+{{- $replicaCount := index .Values "redisReplicaCount" -}}
 {{- $redisHost := index .Values "redisHost" -}}
 {{- $redisPort := index .Values "redisPort" -}}
 {{- $redisStorageClass := index .Values "redisStorageClass" -}}
