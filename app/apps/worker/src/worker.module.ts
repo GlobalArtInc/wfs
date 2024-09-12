@@ -7,6 +7,7 @@ import { SharedModule } from '@app/shared/modules/shared.module';
 import configs from '@app/shared/configs';
 import { RedisCacheModule } from '@app/shared/modules/redis-microservice/redis-cache.module';
 import { PlayerModule } from './player/player.module';
+import { ClanModule } from './clan/clan.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { PlayerModule } from './player/player.module';
     RedisCacheModule,
     SharedModule,
     PlayerModule,
+    ClanModule,
   ],
 })
 export class WorkerModule {}

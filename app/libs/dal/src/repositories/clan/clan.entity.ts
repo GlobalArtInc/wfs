@@ -2,16 +2,20 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
+  Unique,
+  UpdateDateColumn,
 } from 'typeorm';
 import { v4 } from 'uuid';
 
 @Entity('clan')
+@Unique(['id', 'server'])
 export class ClanEntity {
   @PrimaryColumn('character varying', { name: 'clan_id' })
   clanId: string;
@@ -25,10 +29,16 @@ export class ClanEntity {
   @Column('character varying')
   name: string;
 
-  @Column('timestamp with time zone', { default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    type: "timestamp with time zone",
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @Column('timestamp with time zone', { default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   @OneToMany(() => ClanMemberEntity, (clanMember) => clanMember.clan, {
@@ -66,6 +76,7 @@ export class ClanMemberEntity {
 
   @ManyToOne(() => ClanEntity, (clan) => clan.members, {
     orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'clan_id' })
   clan: ClanEntity;

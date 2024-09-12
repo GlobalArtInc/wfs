@@ -1,7 +1,8 @@
-import { PlayerRepository } from "@app/dal/repositories/player";
-import { PlayerTypeEnum } from "@app/dal/repositories/player/player.enums";
-import { WarfaceApiSavePlayerData } from "@app/infrastructure/apis/warface/warface-api.types";
-import { Injectable } from "@nestjs/common";
+import { PlayerRepository } from '@app/dal/repositories/player';
+import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
+import { WarfaceApiSavePlayerData } from '@app/infrastructure/apis/warface/warface-api.types';
+import { Injectable } from '@nestjs/common';
+import * as moment from 'moment';
 
 @Injectable()
 export class PlayerService {
@@ -18,9 +19,9 @@ export class PlayerService {
       type: PlayerTypeEnum.Open,
       server: data.server,
       ...params,
-      playerStats: Object.entries(data.fullPlayer).map(([param, value]) => ({ playerId: data.playerId, param, value })),
+      updated_at: moment().toDate(),
+      playerStats: Object.entries(data.fullPlayer).map(([param, value]) => ({ param, value })),
       playerAchievements: data.achievements.map(({ achievement_id, progress, completion_time }) => ({
-        playerId: data.playerId,
         achievement_id,
         progress,
         completion_time,

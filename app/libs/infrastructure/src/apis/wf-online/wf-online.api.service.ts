@@ -26,10 +26,13 @@ export class WfOnlineApiService extends InternalApi {
   }
 
   async getOnlineStats(server: string) {
-    const result = await this.send<{ all: number; pvp: number; time: number; pve: number; max24: { all: number; time: number } }>(
-      'get',
-      `summary/${server}.json`,
-    );
+    const result = await this.send<{
+      all: number;
+      pvp: number;
+      time: number;
+      pve: number;
+      max24: { all: number; time: number };
+    }>('get', `summary/${server}.json`);
 
     return {
       pvp: result.pvp,

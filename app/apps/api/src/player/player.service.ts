@@ -183,13 +183,12 @@ export class PlayerService {
     return null;
   }
 
-  
   public async saveData(data: WarfaceApiSavePlayerData) {
     const params = Object.entries(data.player).reduce((acc: any, [key, value]) => {
       if (!['full_response', 'is_transparent'].includes(key)) acc[key] = value ?? 0;
       return acc;
     }, {});
-    
+
     this.playerRepository.upsert({
       id: data.playerId,
       type: PlayerTypeEnum.Open,
@@ -208,7 +207,7 @@ export class PlayerService {
 
   private formatPlayer(playerData: WarfaceApiPlayerData) {
     const { server, state, player, fullPlayer, achievements } = playerData;
-    
+
     return {
       server,
       state: { type: state.type, updatedAt: state.updatedAt },
@@ -238,7 +237,9 @@ export class PlayerService {
     if (!fullResponse) return [];
     return fullResponse.split(/<Sum>|<Max>/).reduce((acc: any, el) => {
       if (!el) return acc;
-      const key = this.extractFullResponseMatch(el, /.*(?=\=)/).replace(/\([^()]*\)/g, '').trim();
+      const key = this.extractFullResponseMatch(el, /.*(?=\=)/)
+        .replace(/\([^()]*\)/g, '')
+        .trim();
       acc[key] = +this.extractFullResponseMatch(el, /(?<=\=).*/);
       return acc;
     }, {});

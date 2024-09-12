@@ -72,8 +72,8 @@ export class TopService {
 
     const stats = missionStats[mission];
     if (!stats) {
-      throw new NotFoundException('mission_not_found')
-    };
+      throw new NotFoundException('mission_not_found');
+    }
     return stats;
   }
 
