@@ -5,11 +5,16 @@ import { initializeTransactionalContext } from 'typeorm-transactional';
 import 'reflect-metadata';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions } from '@nestjs/microservices';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { ErrorLoggingInterceptor } from './interceptors/error-logging.interceptor';
 
 async function bootstrap() {
   initializeTransactionalContext();
   const app = await NestFactory.create(ApiModule);
   const configService = app.get(ConfigService);
+  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new ErrorLoggingInterceptor());
+  
   app.setGlobalPrefix('/api');
   app.connectMicroservice<MicroserviceOptions>(configService.getOrThrow('redis-microservice'));
 
