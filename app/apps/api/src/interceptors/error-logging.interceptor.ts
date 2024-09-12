@@ -19,8 +19,8 @@ export class ErrorLoggingInterceptor implements NestInterceptor {
 
         this.logger.error(
           `Error: ${method} ${url} - Params: ${JSON.stringify(params)} - Query: ${JSON.stringify(query)} - ` +
-          `Body: ${JSON.stringify(body)} - Headers: ${JSON.stringify(headers)} - IP: ${ip} - UA: ${userAgent} - ` +
-          `Status: ${statusCode} - Message: ${message}`,
+            `Body: ${JSON.stringify(body)} - Headers: ${JSON.stringify(headers)} - IP: ${ip} - UA: ${userAgent} - ` +
+            `Status: ${statusCode} - Message: ${message}`,
         );
 
         return throwError(() => err);

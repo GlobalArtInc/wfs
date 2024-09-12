@@ -30,7 +30,7 @@ export class ClanEntity {
   name: string;
 
   @CreateDateColumn({
-    type: "timestamp with time zone",
+    type: 'timestamp with time zone',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;

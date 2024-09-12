@@ -10,7 +10,7 @@ export class ClanMessagingController {
   constructor(private clanService: ClanService) {}
 
   @EventPattern(CLAN_SAVE_REDIS_COMMAND, Transport.REDIS)
-  async emitSaveClanData(message: { apiClan: WarfaceApiClan, clanEntity: ClanEntity, server: string }) {
+  async emitSaveClanData(message: { apiClan: WarfaceApiClan; clanEntity: ClanEntity; server: string }) {
     await this.clanService.emitSaveClanData(message);
   }
 }

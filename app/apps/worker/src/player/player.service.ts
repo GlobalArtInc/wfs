@@ -13,7 +13,7 @@ export class PlayerService {
       if (!['full_response', 'is_transparent'].includes(key)) acc[key] = value ?? 0;
       return acc;
     }, {});
-    
+
     await this.playerRepository.upsert({
       id: data.playerId,
       type: PlayerTypeEnum.Open,

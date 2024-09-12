@@ -14,7 +14,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalInterceptors(new ErrorLoggingInterceptor());
-  
+
   app.setGlobalPrefix('/api');
   app.connectMicroservice<MicroserviceOptions>(configService.getOrThrow('redis-microservice'));
 

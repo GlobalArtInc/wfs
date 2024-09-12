@@ -23,12 +23,12 @@ export class LoggingInterceptor implements NestInterceptor {
 
         this.logger.log(
           `Request: ${method} ${url} - Params: ${JSON.stringify(params)} - Query: ${JSON.stringify(query)} - ` +
-          `Body: ${JSON.stringify(body)} - Headers: ${JSON.stringify(headers)} - IP: ${ip} - UA: ${userAgent}`
+            `Body: ${JSON.stringify(body)} - Headers: ${JSON.stringify(headers)} - IP: ${ip} - UA: ${userAgent}`,
         );
 
         this.logger.log(
           `Response: ${statusCode} ${contentLength ? `${contentLength}b` : ''} - Time: ${responseTime}ms - ` +
-          `Data: ${JSON.stringify(responseData).slice(0, 1024)}`
+            `Data: ${JSON.stringify(responseData).slice(0, 1024)}`,
         );
       }),
     );

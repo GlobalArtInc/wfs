@@ -53,7 +53,7 @@ export class ClanService {
   private async updateClanFromApi(name: string) {
     for (const server of this.servers) {
       const apiClan = await this.warfaceApiService.getClan(server, name);
-      
+
       if (apiClan.id) {
         return this.saveAndCacheClan(apiClan, server, name);
       }
@@ -72,14 +72,18 @@ export class ClanService {
       members: apiClan.members,
       name: apiClan.name,
     });
-    
+
     this.redisProxy.emit(CLAN_SAVE_REDIS_COMMAND, { apiClan, clanEntity: { clanId, ...clanEntity }, server });
-    await this.redisService.set(clanId, {
-      server,
-      createdAt: clanEntity?.createdAt || moment().toDate(),
-      updatedAt: moment().toDate(),
-      ...apiClan,
-    }, 120);
+    await this.redisService.set(
+      clanId,
+      {
+        server,
+        createdAt: clanEntity?.createdAt || moment().toDate(),
+        updatedAt: moment().toDate(),
+        ...apiClan,
+      },
+      120,
+    );
 
     return formattedClan;
   }
