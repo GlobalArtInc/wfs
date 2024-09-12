@@ -45,7 +45,7 @@ docker:
   CMD: ["/bin/sleep", "infinity"]
   WORKDIR: /workspace
 ---
-image: wfs-cron
+image: wfs-worker
 fromImage: wfs
 docker:
   CMD: ["/bin/sleep", "infinity"]

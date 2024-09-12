@@ -1,0 +1,25 @@
+{{ $replicaCount := index .Values "replicaCount" }}
+{{ if  (ne .Values.werf.env "dev") }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-worker
+  labels:
+    app: {{ .Chart.Name }}-worker
+spec:
+  replicas: {{ $replicaCount }}
+  selector:
+      matchLabels:
+        app: {{ .Chart.Name }}-worker
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-worker
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}-worker
+        image: '{{ index .Values.werf.image "wfs-worker" }}'
+        envFrom:
+        - configMapRef:
+            name: {{ .Chart.Name }}-common-config
+{{ end }}
