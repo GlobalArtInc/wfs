@@ -65,8 +65,8 @@ export class TopService {
         lost: '[complexity]survival [mission_type]blackwood [mode]PVE [season] [stat]player_sessions_lost',
       },
       [MissionEnum.MIDGARD]: {
-        won: '[complexity]hard [mission_type]midgardhard [mode]PVE [season] [stat]player_sessions_won ',
-        lost: '[complexity]hard [mission_type]midgardhard [mode]PVE [season] [stat]player_sessions_lost ',
+        won: '[complexity]hard [mission_type]midgardhard [mode]PVE [season] [stat]player_sessions_won',
+        lost: '[complexity]hard [mission_type]midgardhard [mode]PVE [season] [stat]player_sessions_lost',
       },
     };
 

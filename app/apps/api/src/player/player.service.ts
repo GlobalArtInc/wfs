@@ -85,7 +85,6 @@ export class PlayerService {
     const achievements = await this.warfaceApiService.getAchievements(server, nickname);
     const fullPlayer = this.parseFullResponse(playerData.full_response);
     delete playerData.full_response;
-
     const state = { type: 'open', updatedAt: timestamp };
     const cachedData = { playerId, state, server, player: playerData, fullPlayer, achievements };
 
@@ -208,6 +207,7 @@ export class PlayerService {
 
   private formatPlayer(playerData: WarfaceApiPlayerData) {
     const { server, state, player, fullPlayer, achievements } = playerData;
+    
     return {
       server,
       state: { type: state.type, updatedAt: state.updatedAt },
@@ -237,7 +237,7 @@ export class PlayerService {
     if (!fullResponse) return [];
     return fullResponse.split(/<Sum>|<Max>/).reduce((acc: any, el) => {
       if (!el) return acc;
-      const key = this.extractFullResponseMatch(el, /.*(?=\=)/).replace(/\([^()]*\)/g, '');
+      const key = this.extractFullResponseMatch(el, /.*(?=\=)/).replace(/\([^()]*\)/g, '').trim();
       acc[key] = +this.extractFullResponseMatch(el, /(?<=\=).*/);
       return acc;
     }, {});
