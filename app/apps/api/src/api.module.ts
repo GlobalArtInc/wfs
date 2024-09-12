@@ -11,7 +11,6 @@ import { OnlineModule } from './online/online.module';
 import { PlayerModule } from './player/player.module';
 import { TopModule } from './top/top.module';
 import { WeaponsModule } from './weapons/weapons.module';
-import * as redisStore from 'cache-manager-redis-store';
 import { RedisCacheModule } from '@app/shared/modules/redis-microservice/redis-cache.module';
 
 @Module({

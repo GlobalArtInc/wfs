@@ -13,11 +13,11 @@ import {
 } from '@nestjs/common';
 import { GetPlayerAchievementsDto } from './dtos';
 import * as moment from 'moment';
-import { RedisService } from '@app/shared/modules/redis-microservice/redis.service';
 import { omit } from 'lodash';
 import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
 import { ClientProxy } from '@nestjs/microservices';
 import { PLAYER_SAVE_REDIS_COMMAND } from './player.consts';
+import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
 
 @Injectable()
 export class PlayerService {
@@ -28,7 +28,7 @@ export class PlayerService {
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly warfaceApiService: WarfaceApiService,
     private readonly helpersService: HelpersService,
-    private readonly redisService: RedisService,
+    private readonly redisService: RedisCacheService,
   ) {}
   private readonly defaultCacheTime = 120;
 
@@ -41,7 +41,7 @@ export class PlayerService {
     }
 
     const savedPlayer = await this.get(nickname);
-    const cachedPlayer = savedPlayer ? await this.redisService.get(savedPlayer.player.id) : null;
+    const cachedPlayer = savedPlayer ? await this.redisService.get<any>(savedPlayer.player.id) : null;
     if (savedPlayer && cachedPlayer) {
       return this.formatCachedPlayer(cachedPlayer);
     }
