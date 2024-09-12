@@ -16,8 +16,8 @@ import * as moment from 'moment';
 import { omit } from 'lodash';
 import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
 import { ClientProxy } from '@nestjs/microservices';
-import { PLAYER_SAVE_REDIS_COMMAND } from './player.consts';
 import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
+import { PLAYER_SAVE_REDIS_COMMAND } from '@app/shared/constants/redis.constants';
 
 @Injectable()
 export class PlayerService {

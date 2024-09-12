@@ -6,9 +6,9 @@ import * as moment from 'moment';
 import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
 import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
 import { ClientProxy } from '@nestjs/microservices';
-import { CLAN_SAVE_REDIS_COMMAND } from './clan.consts';
 import { HelpersService } from '@app/shared/modules/helpers/helpers.service';
 import { ILike } from 'typeorm';
+import { CLAN_SAVE_REDIS_COMMAND } from '@app/shared/constants/redis.constants';
 
 @Injectable()
 export class ClanService {
