@@ -99,12 +99,14 @@ export class SetService {
     }
   }
 
-  async setClanAndGetEmbed(userId: string, playerName: string, trans: TranslationFn) {
+  async setClanAndGetEmbed(userId: string, clanName: string, trans: TranslationFn) {
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
     });
     const user = await this.userRepository.getOne(userId, 'discord');
-    const clanInfos = await this.internalBotApiService.send<ClanInfo[]>('get', `clan/${playerName}`);
+    const clanInfos = await this.internalBotApiService.send<ClanInfo[]>('get', `clan`, {
+      name: clanName,
+    });
     if (clanInfos.length) {
       const clanInfo = clanInfos[0];
       user.usersClans = [
