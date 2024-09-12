@@ -8,6 +8,9 @@ remoteDictsAchievementsUrl: https://translator.globalart.dev/api/public/translat
 translatorBotProjectId: 8
 translatorAchievementProjectId: 9
 redisReplicaCount: 1
+apiReplicaCount: 1
+workerReplicaCount: 1
+discordBotReplicaCount: 1
 redisHost: redis
 redisPort: 6379
 redisSentinelHost: sentinel

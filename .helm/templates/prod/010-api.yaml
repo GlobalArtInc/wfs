@@ -1,4 +1,4 @@
-{{ $replicaCount := index .Values "replicaCount" }}
+{{ $replicaCount := index .Values "apiReplicaCount" }}
 {{ if  (ne .Values.werf.env "dev") }}
 apiVersion: apps/v1
 kind: Deployment

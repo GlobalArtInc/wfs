@@ -1,4 +1,4 @@
-{{ $replicaCount := index .Values "replicaCount" }}
+{{ $replicaCount := index .Values "apiReplicaCount" }}
 {{ if (eq .Values.werf.env "dev") }}
 apiVersion: apps/v1
 kind: StatefulSet
