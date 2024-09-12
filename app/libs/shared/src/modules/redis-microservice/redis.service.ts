@@ -14,7 +14,7 @@ export class RedisCacheService {
   }
 
   public async set<T>(key: string, value: T, ttl?: number): Promise<void> {
-    await this.cacheManager.set(key, value, ttl);
+    await this.cacheManager.set(key, value, ttl ? ttl*1000 : 0);
   }
 
   public async delete(key: string): Promise<void> {
