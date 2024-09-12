@@ -13,11 +13,11 @@ import {
 } from '@nestjs/common';
 import { GetPlayerAchievementsDto } from './dtos';
 import * as moment from 'moment';
-import { RedisService } from '@app/shared/modules/redis-microservice/redis.service';
 import { omit } from 'lodash';
 import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
 import { ClientProxy } from '@nestjs/microservices';
 import { PLAYER_SAVE_REDIS_COMMAND } from './player.consts';
+import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
 
 @Injectable()
 export class PlayerService {
@@ -28,7 +28,7 @@ export class PlayerService {
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly warfaceApiService: WarfaceApiService,
     private readonly helpersService: HelpersService,
-    private readonly redisService: RedisService,
+    private readonly redisService: RedisCacheService,
   ) {}
   private readonly defaultCacheTime = 120;
 
@@ -39,9 +39,9 @@ export class PlayerService {
         message: `Игрок «${nickname}» не найден`,
       });
     }
-
     const savedPlayer = await this.get(nickname);
-    const cachedPlayer = savedPlayer ? await this.redisService.get(savedPlayer.player.id) : null;
+    const cachedPlayer = savedPlayer ? await this.redisService.get<WarfaceApiPlayerData>(savedPlayer.player.id) : null;
+
     if (savedPlayer && cachedPlayer) {
       return this.formatCachedPlayer(cachedPlayer);
     }
@@ -49,9 +49,8 @@ export class PlayerService {
     return this.fetchAndCachePlayer(savedPlayer, nickname);
   }
 
-  private async formatCachedPlayer(cachedPlayer: string) {
-    const parsedPlayer = JSON.parse(cachedPlayer);
-    const { server, state, player, fullPlayer, achievements } = parsedPlayer;
+  private async formatCachedPlayer(cachedPlayer: WarfaceApiPlayerData) {
+    const { server, state, player, fullPlayer, achievements } = cachedPlayer;
 
     return this.formatPlayer({ server, state: { ...state }, player, fullPlayer, achievements });
   }
@@ -69,7 +68,7 @@ export class PlayerService {
 
       const fallbackResponse = await this.handlePlayerError(playerData, nickname, server, servers);
       if (fallbackResponse) {
-        await this.redisService.set(savedPlayer.player.id, JSON.stringify(fallbackResponse), this.defaultCacheTime);
+        await this.redisService.set(savedPlayer.player.id, fallbackResponse, this.defaultCacheTime);
         return fallbackResponse;
       }
     }
@@ -91,7 +90,7 @@ export class PlayerService {
     const cachedData = { playerId, state, server, player: playerData, fullPlayer, achievements };
 
     this.redisProxy.emit(PLAYER_SAVE_REDIS_COMMAND, cachedData);
-    await this.redisService.set(playerId, JSON.stringify(cachedData), this.defaultCacheTime);
+    await this.redisService.set(playerId, cachedData, this.defaultCacheTime);
 
     return this.formatPlayer({
       server,

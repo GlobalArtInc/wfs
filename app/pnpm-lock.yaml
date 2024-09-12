@@ -77,6 +77,9 @@ importers:
       cache-manager:
         specifier: ^5.5.3
         version: 5.5.3
+      cache-manager-ioredis-yet:
+        specifier: ^2.1.1
+        version: 2.1.1
       cache-manager-redis-store:
         specifier: ^3.0.1
         version: 3.0.1
@@ -1842,6 +1845,10 @@ packages:
   bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
+
+  cache-manager-ioredis-yet@2.1.1:
+    resolution: {integrity: sha512-i4taQCesUa66Op2v3DQiF2oXHIeGyGAbOrwyVklN1TECyvKFgxd3JDP1MwkxvdpeKkPZh8dH4USFL9/wbmQp/Q==}
+    engines: {node: '>= 18'}
 
   cache-manager-redis-store@3.0.1:
     resolution: {integrity: sha512-o560kw+dFqusC9lQJhcm6L2F2fMKobJ5af+FoR2PdnMVdpQ3f3Bz6qzvObTGyvoazQJxjQNWgMQeChP4vRTuXQ==}
@@ -3619,6 +3626,9 @@ packages:
   makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
 
+  map-or-similar@1.5.0:
+    resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
+
   media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
@@ -3626,6 +3636,9 @@ packages:
   memfs@3.5.3:
     resolution: {integrity: sha512-UERzLsxzllchadvbPs5aolHh65ISpKpM+ccLbOJ8/vvpBKmAWf+la7dXFy7Mr0ySHbdHrFv5kGFCUHHe6GFEmw==}
     engines: {node: '>= 4.0.0'}
+
+  memoizerific@1.11.3:
+    resolution: {integrity: sha512-/EuHYwAPdLtXwAwSZkh/Gutery6pD2KYd44oQLhAvQp/50mpyduZh8Q7PYHXTCJ+wuXxt7oij2LXyIJOOYFPog==}
 
   mensch@0.3.4:
     resolution: {integrity: sha512-IAeFvcOnV9V0Yk+bFhYR07O3yNina9ANIN5MoXBKYJ/RLYPurd2d0yw14MDhpr9/momp0WofT1bPUh3hkzdi/g==}
@@ -4790,6 +4803,9 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+
+  telejson@7.2.0:
+    resolution: {integrity: sha512-1QTEcJkJEhc8OnStBx/ILRu5J2p0GjvWsBx56bmZRqnrkdBMUe+nX92jxV+p3dB4CP6PZCdJMQJwCggkNBMzkQ==}
 
   terser-webpack-plugin@5.3.10:
     resolution: {integrity: sha512-BKFPWlPDndPs+NGGCr1U59t0XScL5317Y0UReNrHaw9/FwhPENlq6bfgs+4yPfyP51vqC1bQ4rp1EfXW5ZSH9w==}
@@ -7109,6 +7125,14 @@ snapshots:
 
   bytes@3.1.2: {}
 
+  cache-manager-ioredis-yet@2.1.1:
+    dependencies:
+      cache-manager: 5.7.6
+      ioredis: 5.4.1
+      telejson: 7.2.0
+    transitivePeerDependencies:
+      - supports-color
+
   cache-manager-redis-store@3.0.1:
     dependencies:
       redis: 4.7.0
@@ -9296,11 +9320,17 @@ snapshots:
     dependencies:
       tmpl: 1.0.5
 
+  map-or-similar@1.5.0: {}
+
   media-typer@0.3.0: {}
 
   memfs@3.5.3:
     dependencies:
       fs-monkey: 1.0.6
+
+  memoizerific@1.11.3:
+    dependencies:
+      map-or-similar: 1.5.0
 
   mensch@0.3.4:
     optional: true
@@ -10731,6 +10761,10 @@ snapshots:
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
+
+  telejson@7.2.0:
+    dependencies:
+      memoizerific: 1.11.3
 
   terser-webpack-plugin@5.3.10(webpack@5.90.1):
     dependencies:
