@@ -18,16 +18,16 @@ ansible:
   - name: "Install libs"
     shell: pnpm install
     args:
-      chdir: /workspace/wfs/app
+      chdir: /workspace/wfs/app/apps/backend
   setup:
   - name: "Compile"
     shell: npm run build api
     args:
-      chdir: /workspace/wfs/app
+      chdir: /workspace/wfs/app/apps/backend
 docker:
-  WORKDIR: /workspace/wfs/app
+  WORKDIR: /workspace/wfs/app/apps/backend
   USER: root
   EXPOSE: ["80"]
-  CMD: "cd /workspace/wfs/app && npm start api"
+  CMD: "cd /workspace/wfs/app/apps/backend && pnpm start api"
 ---
 {{ end }}
