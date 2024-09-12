@@ -23,11 +23,11 @@ ansible:
   - name: "Compile"
     shell: npm run build worker
     args:
-      chdir: /workspace/wfs/app
+      chdir: /workspace/wfs/app/apps/backend
 docker:
-  WORKDIR: /workspace/wfs/app
+  WORKDIR: /workspace/wfs/app/apps/backend
   USER: root
   EXPOSE: ["80"]
-  CMD: "cd /workspace/wfs/app && npm start worker"
+  CMD: "cd /workspace/wfs/app/apps/backend && npm start worker"
 ---
 {{ end }}

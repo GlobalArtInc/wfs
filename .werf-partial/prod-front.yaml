@@ -4,7 +4,7 @@
 artifact: wfs-front-builder
 from: node:16
 git:
-- add: /app/apps/front
+- add: /app/apps/frontend
   to: /workspace/wfs
   stageDependencies:
     setup:
