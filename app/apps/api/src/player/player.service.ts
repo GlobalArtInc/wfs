@@ -194,6 +194,7 @@ export class PlayerService {
       id: data.playerId,
       type: PlayerTypeEnum.Open,
       server: data.server,
+      updated_at: moment().toDate(),
       ...params,
       playerStats: Object.entries(data.fullPlayer).map(([param, value]) => ({ playerId: data.playerId, param, value })),
       playerAchievements: data.achievements.map(({ achievement_id, progress, completion_time }) => ({
