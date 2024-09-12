@@ -1,5 +1,4 @@
-import { BeforeInsert, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
-import * as moment from 'moment';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('weapon')
 export class WeaponEntity {
@@ -17,11 +16,6 @@ export class WeaponEntity {
 
   @Column('timestamp with time zone', { nullable: true })
   updatedAt: Date;
-
-  @BeforeInsert()
-  onInsert() {
-    this.updatedAt = moment().toDate();
-  }
 }
 
 @Entity('weapon_category')

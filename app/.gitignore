@@ -2,8 +2,3 @@ node_modules
 .env
 .vscode
 dist
-v1.json
-v2.json
-private.json
-protected.json
-public.json

@@ -1,15 +1,4 @@
-import {
-  BeforeUpdate,
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, Unique } from 'typeorm';
 import { PlayerTypeEnum } from './player.enums';
 
 @Entity('player')
@@ -129,11 +118,6 @@ export class PlayerEntity {
     cascade: true,
   })
   playerAchievements: PlayerAchievementEntity[];
-
-  @BeforeUpdate()
-  onUpdateActions() {
-    this.updated_at = new Date();
-  }
 }
 
 @Entity('player_achievement')

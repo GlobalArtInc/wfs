@@ -8,7 +8,7 @@ import * as moment from 'moment';
 export class PlayerService {
   constructor(private readonly playerRepository: PlayerRepository) {}
 
-  public async saveData(data: WarfaceApiSavePlayerData) {
+  public async emitSavePlayerData(data: WarfaceApiSavePlayerData) {
     const params = Object.entries(data.player).reduce((acc: any, [key, value]) => {
       if (!['full_response', 'is_transparent'].includes(key)) acc[key] = value ?? 0;
       return acc;

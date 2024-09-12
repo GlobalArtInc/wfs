@@ -1,6 +1,4 @@
 import {
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -45,16 +43,6 @@ export class ClanEntity {
     cascade: true,
   })
   members: ClanMemberEntity[];
-
-  @BeforeInsert()
-  onInsertActions() {
-    this.clanId = v4();
-  }
-
-  @BeforeUpdate()
-  onUpdateActions() {
-    this.updatedAt = new Date();
-  }
 }
 
 @Entity('clan_member')
