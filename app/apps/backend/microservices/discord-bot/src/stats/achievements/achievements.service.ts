@@ -36,13 +36,20 @@ export class AchievementsService {
     const achievementsStat = await this.settingService.getValueByKey(this.achievementsKey);
     const missionData: AchievementData = achievementsStat[mission];
     const playerInfo = await this.fetchPlayerInfo(playerName);
+
+    if (!missionData) {
+      throw new DiscordErrorException('app.errors.mission_not_found');
+    }
+
     const buildedAchievements = this.mapAchievements(missionData.achievements, playerInfo.achievements);
 
     embed
       .setAuthor(this.createAuthorObject(playerInfo))
       .setTitle(this.createTitle(missionData.id))
-      .setThumbnail(missionData.img)
       .setFields(this.createFields(missionData, buildedAchievements));
+    if (this.nestcordService.getApplicationAsset(missionData.id)) {
+      embed.setThumbnail(this.nestcordService.getApplicationAsset(missionData.id).url)
+    }
 
     return embed;
   }
