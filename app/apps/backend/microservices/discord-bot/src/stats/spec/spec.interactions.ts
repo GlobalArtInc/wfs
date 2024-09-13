@@ -3,8 +3,6 @@ import {
   localizationMapByKey,
   Context,
   SlashCommandContext,
-  CurrentTranslate,
-  TranslationFn,
   Options,
   DeferCommandInterceptor,
 } from '@globalart/nestcord';
@@ -27,16 +25,11 @@ export class SpecInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.spec.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.spec.desc'),
   })
-  async execute(
-    @Options() { name }: SpecSearchDto,
-    @Context() [interaction]: SlashCommandContext,
-    @CurrentTranslate() trans: TranslationFn,
-  ) {
+  async execute(@Options() { name }: SpecSearchDto, @Context() [interaction]: SlashCommandContext) {
     try {
       const embed = await this.statsSpecService.createEmbed({
         discordUserId: interaction.user.id,
         name,
-        trans,
       });
 
       return interaction.followUp({ embeds: [embed] });

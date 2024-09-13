@@ -5,9 +5,10 @@ import { HelpersModule } from '../../helpers/helpers.module';
 import { UserModule } from '../../user/user.module';
 import { SettingModule } from '../../setting/setting.module';
 import { SharedModule } from '@app/shared/modules/shared.module';
+import { TranslationModule as DiscordTranslationModule } from '../../translation/translation.module';
 
 @Module({
-  imports: [HelpersModule, SharedModule, UserModule, SettingModule],
+  imports: [HelpersModule, SharedModule, DiscordTranslationModule, UserModule, SettingModule],
   providers: [AchievementsInteractions, AchievementsService],
 })
 export class AchievementsModule {}

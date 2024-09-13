@@ -2,8 +2,6 @@ import {
   Button,
   Context,
   ButtonContext,
-  CurrentTranslate,
-  TranslationFn,
   SlashCommand,
   localizationMapByKey,
   SlashCommandContext,
@@ -21,8 +19,8 @@ export class GeneralOnlineInteractions {
   ) {}
 
   @Button('wfs/reload')
-  async reloadInteraction(@Context() [interaction]: ButtonContext, @CurrentTranslate() trans: TranslationFn) {
-    const embedData = await this.generalOnlineService.fetchOnlineAndRenderEmbed(trans);
+  async reloadInteraction(@Context() [interaction]: ButtonContext) {
+    const embedData = await this.generalOnlineService.createEmbed();
 
     return interaction.update({ embeds: [embedData] });
   }
@@ -34,10 +32,10 @@ export class GeneralOnlineInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.online.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.online.desc'),
   })
-  async execute(@Context() [interaction]: SlashCommandContext, @CurrentTranslate() trans: TranslationFn) {
+  async execute(@Context() [interaction]: SlashCommandContext) {
     try {
-      const embedData = await this.generalOnlineService.fetchOnlineAndRenderEmbed(trans);
-      const components = this.generalOnlineService.buttons(trans);
+      const embedData = await this.generalOnlineService.createEmbed();
+      const components = this.generalOnlineService.createButtons();
 
       return interaction.followUp({ embeds: [embedData], components: [components] });
     } catch (err) {

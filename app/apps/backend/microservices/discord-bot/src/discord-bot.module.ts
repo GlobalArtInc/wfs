@@ -22,6 +22,7 @@ import { TranslatorService } from '@app/shared/modules/class-translator/translat
 import { RequestClsModule } from '@app/shared/modules/request-cls';
 import { SharedModule } from '@app/shared/modules/shared.module';
 import { TranslationModule } from '@app/shared/translation/translation.module';
+import { TranslationModule as DiscordTranslationModule } from './translation/translation.module';
 
 const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
 
@@ -111,6 +112,7 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
       inject: [ConfigService],
     }),
     TranslationModule,
+    DiscordTranslationModule,
     SharedModule,
     UserModule,
     RequestClsModule,

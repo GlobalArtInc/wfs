@@ -1,14 +1,13 @@
-import { LOCALIZATION_ADAPTER, DefaultLocalizationAdapter, PageBuilder } from '@globalart/nestcord';
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { PageBuilder } from '@globalart/nestcord';
+import { Injectable } from '@nestjs/common';
 import { ButtonInteraction, ButtonStyle, CacheType, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { PageEnum } from './help.enums';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class GeneralHelpService {
   public constructor(
-    @Inject(LOCALIZATION_ADAPTER)
-    private readonly localizationAdapter: DefaultLocalizationAdapter,
+    private readonly translationService: TranslationService,
     private readonly discordHelpersService: DiscordHelpersService,
   ) {}
 
@@ -17,38 +16,38 @@ export class GeneralHelpService {
       [
         {
           customId: 'player',
-          label: this.localizationAdapter.getTranslation('app.displayEmbeds.help.player.title', interaction.locale),
+          label: this.translationService.get('app.displayEmbeds.help.player.title'),
           style: ButtonStyle.Secondary,
         },
         {
           customId: 'clan',
-          label: this.localizationAdapter.getTranslation('app.displayEmbeds.help.clan.title', interaction.locale),
+          label: this.translationService.get('app.displayEmbeds.help.clan.title'),
           style: ButtonStyle.Secondary,
         },
         {
           customId: 'other',
-          label: this.localizationAdapter.getTranslation('app.displayEmbeds.help.other.title', interaction.locale),
+          label: this.translationService.get('app.displayEmbeds.help.other.title'),
           style: ButtonStyle.Secondary,
         },
       ],
       [
         {
-          label: this.localizationAdapter.getTranslation('app.displayEmbeds.help.openWebsite', interaction.locale),
+          label: this.translationService.get('app.displayEmbeds.help.openWebsite'),
           style: ButtonStyle.Link,
-          link: 'http://wfs.globalart.dev',
+          link: 'https://top.gg/bot/800354757297438750',
         },
         {
-          label: this.localizationAdapter.getTranslation('app.displayEmbeds.help.leaveReview', interaction.locale),
+          label: this.translationService.get('app.displayEmbeds.help.leaveReview'),
           style: ButtonStyle.Link,
           link: 'https://bots.server-discord.com/800354757297438750',
         },
         {
-          label: this.localizationAdapter.getTranslation('app.displayEmbeds.help.donate', interaction.locale),
+          label: this.translationService.get('app.displayEmbeds.help.donate'),
           style: ButtonStyle.Link,
           link: 'https://www.donationalerts.com/r/rozmarinus',
         },
         {
-          label: this.localizationAdapter.getTranslation('app.displayEmbeds.help.supportServer', interaction.locale),
+          label: this.translationService.get('app.displayEmbeds.help.supportServer'),
           style: ButtonStyle.Link,
           link: 'https://discord.gg/BBFhU8g',
         },
@@ -66,24 +65,18 @@ export class GeneralHelpService {
     return [
       new PageBuilder().setEmbeds([
         playerEmbed
-          .setTitle(this.localizationAdapter.getTranslation('app.displayEmbeds.help.player.title', interaction.locale))
-          .setDescription(
-            this.localizationAdapter.getTranslation('app.displayEmbeds.help.player.description', interaction.locale),
-          ),
+          .setTitle(this.translationService.get('app.displayEmbeds.help.player.title'))
+          .setDescription(this.translationService.get('app.displayEmbeds.help.player.description')),
       ]),
       new PageBuilder().setEmbeds([
         clanEmbed
-          .setTitle(this.localizationAdapter.getTranslation('app.displayEmbeds.help.clan.title', interaction.locale))
-          .setDescription(
-            this.localizationAdapter.getTranslation('app.displayEmbeds.help.clan.description', interaction.locale),
-          ),
+          .setTitle(this.translationService.get('app.displayEmbeds.help.clan.title'))
+          .setDescription(this.translationService.get('app.displayEmbeds.help.clan.description')),
       ]),
       new PageBuilder().setEmbeds([
         otherEmbed
-          .setTitle(this.localizationAdapter.getTranslation('app.displayEmbeds.help.other.title', interaction.locale))
-          .setDescription(
-            this.localizationAdapter.getTranslation('app.displayEmbeds.help.other.description', interaction.locale),
-          ),
+          .setTitle(this.translationService.get('app.displayEmbeds.help.other.title'))
+          .setDescription(this.translationService.get('app.displayEmbeds.help.other.description')),
       ]),
     ];
   }

@@ -1,4 +1,4 @@
-import { NestcordService, TranslationFn } from '@globalart/nestcord';
+import { NestcordService } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { UserService } from '../../user/user.service';
@@ -9,6 +9,7 @@ import { AchievementData, MissionAchievement, PlayerAchievement } from './achiev
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class AchievementsService {
@@ -19,10 +20,11 @@ export class AchievementsService {
     private readonly internalBotApiService: InternalBotApiService,
     private readonly userService: UserService,
     private readonly nestcordService: NestcordService,
+    private translationService: TranslationService,
   ) {}
   private readonly achievementsKey = 'achievements';
 
-  async createEmbed(name: string, mission: string, trans: TranslationFn) {
+  async createEmbed(name: string, mission: string) {
     const embed = await this.discordHelpersService.buildEmbed();
     const discordUserId = this.requestClsService.getUser().id;
     const playerName = name || (await this.userService.getLinkedPlayer(discordUserId));
@@ -38,9 +40,9 @@ export class AchievementsService {
 
     embed
       .setAuthor(this.createAuthorObject(playerInfo))
-      .setTitle(this.createTitle(trans, missionData.id))
+      .setTitle(this.createTitle(missionData.id))
       .setThumbnail(missionData.img)
-      .setFields(this.createFields(trans, missionData, buildedAchievements));
+      .setFields(this.createFields(missionData, buildedAchievements));
 
     return embed;
   }
@@ -72,17 +74,18 @@ export class AchievementsService {
     };
   }
 
-  private createTitle(trans: TranslationFn, missionId: string): string {
-    return trans('app.displayEmbeds.achievements.title', { mission: trans(`app.missions.${missionId}`) });
+  private createTitle(missionId: string): string {
+    return this.translationService.get('app.displayEmbeds.achievements.title', {
+      mission: this.translationService.get(`app.missions.${missionId}`),
+    });
   }
 
   private createFields(
-    trans: TranslationFn,
     missionData: AchievementData,
     achievementsMap: Map<string, { missionAchievement: MissionAchievement; playerAchievement: PlayerAchievement }>,
   ): APIEmbedField[] {
     const fields = Array.from(achievementsMap.values()).map(({ missionAchievement, playerAchievement }) => {
-      const achievementName = trans(`achievement.${missionData.id}.${missionAchievement.id}`);
+      const achievementName = this.translationService.get(`achievement.${missionData.id}.${missionAchievement.id}`);
       const isCompleted = !!playerAchievement.completion_time;
       const emoji = this.nestcordService.getApplicationEmojiPlain(isCompleted ? 'wfs_yes' : 'wfs_no');
       const value = isCompleted

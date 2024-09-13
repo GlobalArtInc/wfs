@@ -3,8 +3,6 @@ import {
   localizationMapByKey,
   Context,
   SlashCommandContext,
-  CurrentTranslate,
-  TranslationFn,
   Options,
 } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
@@ -28,10 +26,9 @@ export class UtilityWeaponsInteractions {
   async execute(
     @Context() [interaction]: SlashCommandContext,
     @Options() { name }: WeaponsInteractionDto,
-    @CurrentTranslate() trans: TranslationFn,
   ) {
     try {
-      const data = await this.utilityWeaponsService.renderSelectionMenu(interaction.user.id, name, trans);
+      const data = await this.utilityWeaponsService.renderSelectionMenu(interaction.user.id, name);
 
       return interaction.reply(data);
     } catch (err) {

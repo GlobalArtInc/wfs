@@ -1,11 +1,9 @@
 import {
   Context,
-  CurrentTranslate,
   DeferCommandInterceptor,
   Options,
   SlashCommand,
   SlashCommandContext,
-  TranslationFn,
   localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
@@ -30,7 +28,6 @@ export class TopInteractions {
   async execute(
     @Context() [interaction]: SlashCommandContext,
     @Options() { mission }: TopCommandOptions,
-    @CurrentTranslate() trans: TranslationFn,
   ) {
     try {
       const embed = await this.topService.createEmbed(mission);

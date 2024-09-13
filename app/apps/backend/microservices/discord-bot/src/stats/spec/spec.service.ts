@@ -1,13 +1,14 @@
-import { NestcordService, TranslationFn } from '@globalart/nestcord';
+import { NestcordService } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
-import { APIEmbedField, Colors, EmbedBuilder } from 'discord.js';
+import { APIEmbedField, Colors } from 'discord.js';
 import { HelpersService } from '../../helpers/helpers.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { SettingService } from '../../setting/setting.service';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class SpecService {
@@ -17,17 +18,10 @@ export class SpecService {
     private readonly settingService: SettingService,
     private readonly discordHelpersService: DiscordHelpersService,
     private readonly nestcordService: NestcordService,
+    private translationService: TranslationService,
   ) {}
 
-  public async createEmbed({
-    discordUserId,
-    name,
-    trans,
-  }: {
-    discordUserId: string;
-    name: string;
-    trans: TranslationFn;
-  }) {
+  public async createEmbed({ discordUserId, name }: { discordUserId: string; name: string }) {
     const playerName = name || (await this.userService.getLinkedPlayer(discordUserId));
     if (!playerName) {
       throw new DiscordErrorException('app.errors.player_name_not_specified');
@@ -55,13 +49,13 @@ export class SpecService {
         const lost = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0);
 
         if (stat.category === 'survival') {
-          return `${trans('app.labels.done', { count: won })}\r\n${trans('app.labels.failed', { count: lost })}`;
+          return `${this.translationService.get('app.labels.done', { count: won })}\r\n${this.translationService.get('app.labels.failed', { count: lost })}`;
         }
-        return `${trans(`app.${stat.name}`)}: ${won} / ${lost}`;
+        return `${this.translationService.get(`app.${stat.name}`)}: ${won} / ${lost}`;
       });
 
       return {
-        name: `${this.nestcordService.getApplicationEmojiPlain(`wfs_${item}`)} **${trans(`app.${mission.name}`)}**`,
+        name: `${this.nestcordService.getApplicationEmojiPlain(`wfs_${item}`)} **${this.translationService.get(`app.${mission.name}`)}**`,
         value: stats.join('\n'),
         inline: true,
       };

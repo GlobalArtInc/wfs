@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { SettingService } from '../../setting/setting.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { Colors } from 'discord.js';
-import { NestcordService, TranslationFn } from '@globalart/nestcord';
+import { NestcordService } from '@globalart/nestcord';
 import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { ServerRepository } from '@app/dal/repositories/server';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { PlayerInfo, ClanInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { UserRepository } from '@app/dal/repositories/user';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class SetService {
@@ -17,9 +18,10 @@ export class SetService {
     private readonly internalBotApiService: InternalBotApiService,
     private readonly serverRepository: ServerRepository,
     private readonly nestcordService: NestcordService,
+    private translationService: TranslationService,
   ) {}
 
-  async getUserSettingsAndGetEmbed(userId: string, trans: TranslationFn) {
+  async getUserSettingsAndGetEmbed(userId: string) {
     const user = await this.userRepository.getOneBy(
       { id: userId, client: 'discord' },
       { relations: ['usersClans', 'usersPlayers', 'defaultServer'] },
@@ -35,8 +37,8 @@ export class SetService {
     const embed = await this.discordHelpersService.buildEmbed({ color: Colors.Blue });
 
     embed.setDescription(
-      trans('app.displayEmbeds.set.list.description', {
-        defaultServer: trans(`app.server.${user.defaultServer.id}`) || 'no',
+      this.translationService.get('app.displayEmbeds.set.list.description', {
+        defaultServer: this.translationService.get(`app.server.${user.defaultServer.id}`) || 'no',
         clans: clans.length ? clans.join('\r\n') : 'none',
         players: players.length ? players.join('\r\n') : 'none',
       }),
@@ -45,7 +47,7 @@ export class SetService {
     return embed;
   }
 
-  async setServerAndGetEmbed(userId: string, server: string, trans: TranslationFn) {
+  async setServerAndGetEmbed(userId: string, server: string) {
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
     });
@@ -56,8 +58,8 @@ export class SetService {
     if (user.defaultServer.id === server) {
       throw new DiscordErrorException('app.errors.server_is_same');
     }
-    embed.setTitle(trans('app.labels.success')).setDescription(
-      trans('app.displayEmbeds.set.server.success', {
+    embed.setTitle(this.translationService.get('app.labels.success')).setDescription(
+      this.translationService.get('app.displayEmbeds.set.server.success', {
         defaultServer: server,
       }),
     );
@@ -69,7 +71,7 @@ export class SetService {
     return embed;
   }
 
-  async setPlayerAndGetEmbed(userId: string, playerName: string, trans: TranslationFn) {
+  async setPlayerAndGetEmbed(userId: string, playerName: string) {
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
     });
@@ -88,7 +90,7 @@ export class SetService {
       await this.userRepository.updateOneById(user.id as any, { usersPlayers: user.usersPlayers });
 
       return embed.setDescription(
-        trans('app.displayEmbeds.set.player.new_text', {
+        this.translationService.get('app.displayEmbeds.set.player.new_text', {
           server: playerInfo.server,
           nickname: playerInfo.player.nickname,
         }),
@@ -98,7 +100,7 @@ export class SetService {
     }
   }
 
-  async setClanAndGetEmbed(userId: string, clanName: string, trans: TranslationFn) {
+  async setClanAndGetEmbed(userId: string, clanName: string) {
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
     });
@@ -116,7 +118,7 @@ export class SetService {
       ];
       await this.userRepository.updateOneById(user.id as any, { usersClans: user.usersClans });
       embed.setDescription(
-        trans('app.displayEmbeds.set.clan.new_text', {
+        this.translationService.get('app.displayEmbeds.set.clan.new_text', {
           server: clanInfo.server,
           name: clanInfo.data.name,
         }),

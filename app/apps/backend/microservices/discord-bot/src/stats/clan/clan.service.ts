@@ -1,12 +1,10 @@
 import {
   Context,
-  CurrentTranslate,
   DeferCommandInterceptor,
   NestcordService,
   Options,
   SlashCommand,
   SlashCommandContext,
-  TranslationFn,
   localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
@@ -19,6 +17,7 @@ import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { ClanInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class ClanService {
@@ -27,6 +26,7 @@ export class ClanService {
     private readonly userService: UserService,
     private readonly discordHelpersService: DiscordHelpersService,
     private readonly nestcordService: NestcordService,
+    private readonly translationService: TranslationService,
   ) {}
 
   @UseInterceptors(DeferCommandInterceptor)
@@ -36,16 +36,11 @@ export class ClanService {
     nameLocalizations: localizationMapByKey('app.chatCommands.clan.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.clan.desc'),
   })
-  async execute(
-    @Context() [interaction]: SlashCommandContext,
-    @Options() { name }: ClanSearchDto,
-    @CurrentTranslate() trans: TranslationFn,
-  ) {
+  async execute(@Context() [interaction]: SlashCommandContext, @Options() { name }: ClanSearchDto) {
     try {
       const embed = await this.createEmbed({
         discordUserId: interaction.user.id,
         name,
-        trans,
       });
 
       return interaction.followUp({ embeds: [embed] });
@@ -61,15 +56,7 @@ export class ClanService {
     }
   }
 
-  private async createEmbed({
-    discordUserId,
-    name,
-    trans,
-  }: {
-    discordUserId: string;
-    name: string;
-    trans: TranslationFn;
-  }) {
+  private async createEmbed({ discordUserId, name }: { discordUserId: string; name: string }) {
     const components = new ActionRowBuilder<ButtonBuilder>();
     const clanName = name || (await this.userService.getLinkedClan(discordUserId));
 
@@ -92,7 +79,7 @@ export class ClanService {
       );
     });
 
-    const formattedClan = await this.formatClan(clanInfos[0], trans);
+    const formattedClan = await this.formatClan(clanInfos[0]);
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
     });
@@ -100,7 +87,7 @@ export class ClanService {
     return embed.setTitle(formattedClan.title).setDescription(formattedClan.desc);
   }
 
-  private async formatClan(clanInfo: ClanInfo, trans: TranslationFn) {
+  private async formatClan(clanInfo: ClanInfo) {
     const description: string[] = [];
     description.push(`**ID клана:** \`${clanInfo.data.id}\`\r\n`);
 
@@ -121,7 +108,7 @@ export class ClanService {
 
     const addRoleToDescription = (role: string, roleMembers: string[], transKey: string, emoji: string) => {
       if (roleMembers.length > 0) {
-        description.push(`\r\n**${trans(transKey)}** ${emoji}\r\n${roleMembers.join('\r\n')}`);
+        description.push(`\r\n**${this.translationService.get(transKey)}** ${emoji}\r\n${roleMembers.join('\r\n')}`);
       }
     };
 
@@ -140,7 +127,7 @@ export class ClanService {
     addRoleToDescription('REGULAR', roles.REGULAR, 'app.clan.roles.regulars', '');
 
     return {
-      title: trans('app.clan.title', {
+      title: this.translationService.get('app.clan.title', {
         name: clanInfo.data.name,
         server: clanInfo.server.toUpperCase(),
       }),

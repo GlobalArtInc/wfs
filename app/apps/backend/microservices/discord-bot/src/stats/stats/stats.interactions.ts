@@ -6,14 +6,12 @@ import {
   ButtonContext,
   ComponentParam,
   Context,
-  CurrentTranslate,
   DeferCommandInterceptor,
   NestCordPaginationService,
   Options,
   PaginatorTypeEnum,
   SlashCommand,
   SlashCommandContext,
-  TranslationFn,
   localizationMapByKey,
 } from '@globalart/nestcord';
 import { StatsCommandOptions } from './stats.dtos';
@@ -40,16 +38,12 @@ export class StatsInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.stats.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.stats.desc'),
   })
-  async execute(
-    @Options() { name }: StatsCommandOptions,
-    @Context() [interaction]: SlashCommandContext,
-    @CurrentTranslate() trans: TranslationFn,
-  ) {
+  async execute(@Options() { name }: StatsCommandOptions, @Context() [interaction]: SlashCommandContext) {
     try {
       const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('stats');
       const playerName = name || (await this.userService.getLinkedPlayer(interaction.user.id));
       pagination.setButtons(this.statsService.setButtons(interaction, playerName));
-      pagination.setPages(await this.statsService.createEmbed(name, trans));
+      pagination.setPages(await this.statsService.createEmbed(name));
       const pageData = await pagination.build(1);
 
       return interaction.followUp(pageData);
@@ -72,13 +66,12 @@ export class StatsInteractions {
     @Context() [interaction]: ButtonContext,
     @ComponentParam('page') pageName: any,
     @ComponentParam('playerName') playerName: string,
-    @CurrentTranslate() trans: TranslationFn,
   ) {
     await interaction.deferReply();
     const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('stats');
     const pageIndex = PageEnum[pageName.toUpperCase()];
     pagination.setButtons(this.statsService.setButtons(interaction as any, playerName));
-    pagination.setPages(await this.statsService.createEmbed(playerName, trans));
+    pagination.setPages(await this.statsService.createEmbed(playerName));
     const pageData = await pagination.build(pageIndex as any);
 
     return Promise.all([interaction.message.delete(), interaction.editReply(pageData)]);

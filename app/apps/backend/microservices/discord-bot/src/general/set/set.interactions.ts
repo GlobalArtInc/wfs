@@ -1,11 +1,9 @@
 import {
   Context,
-  CurrentTranslate,
   DeferCommandInterceptor,
   Options,
   SlashCommandContext,
   Subcommand,
-  TranslationFn,
   createCommandGroupDecorator,
   localizationMapByKey,
 } from '@globalart/nestcord';
@@ -34,9 +32,9 @@ export class SetInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.options.set.list.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.options.set.list.desc'),
   })
-  async executeList(@Context() [interaction]: SlashCommandContext, @CurrentTranslate() trans: TranslationFn) {
+  async executeList(@Context() [interaction]: SlashCommandContext) {
     try {
-      const embed = await this.setService.getUserSettingsAndGetEmbed(interaction.user.id, trans);
+      const embed = await this.setService.getUserSettingsAndGetEmbed(interaction.user.id);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {
@@ -58,13 +56,9 @@ export class SetInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.options.set.server.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.options.set.server.desc'),
   })
-  async executeSetServer(
-    @Options() { server }: SetServerOptions,
-    @Context() [interaction]: SlashCommandContext,
-    @CurrentTranslate() trans: TranslationFn,
-  ) {
+  async executeSetServer(@Options() { server }: SetServerOptions, @Context() [interaction]: SlashCommandContext) {
     try {
-      const embed = await this.setService.setServerAndGetEmbed(interaction.user.id, server, trans);
+      const embed = await this.setService.setServerAndGetEmbed(interaction.user.id, server);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {
@@ -85,13 +79,9 @@ export class SetInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.options.set.player.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.options.set.player.desc'),
   })
-  async executeSetPlayer(
-    @Options() { name }: SetPlayerOptions,
-    @Context() [interaction]: SlashCommandContext,
-    @CurrentTranslate() trans: TranslationFn,
-  ) {
+  async executeSetPlayer(@Options() { name }: SetPlayerOptions, @Context() [interaction]: SlashCommandContext) {
     try {
-      const embed = await this.setService.setPlayerAndGetEmbed(interaction.user.id, name, trans);
+      const embed = await this.setService.setPlayerAndGetEmbed(interaction.user.id, name);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {
@@ -113,13 +103,9 @@ export class SetInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.options.set.clan.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.options.set.clan.desc'),
   })
-  async executeSetClan(
-    @Options() { name }: SetClanOptions,
-    @Context() [interaction]: SlashCommandContext,
-    @CurrentTranslate() trans: TranslationFn,
-  ) {
+  async executeSetClan(@Options() { name }: SetClanOptions, @Context() [interaction]: SlashCommandContext) {
     try {
-      const embed = await this.setService.setClanAndGetEmbed(interaction.user.id, name, trans);
+      const embed = await this.setService.setClanAndGetEmbed(interaction.user.id, name);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {

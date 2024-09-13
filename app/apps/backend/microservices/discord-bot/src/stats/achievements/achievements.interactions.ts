@@ -1,11 +1,9 @@
 import {
   Context,
-  CurrentTranslate,
   DeferCommandInterceptor,
   Options,
   SlashCommand,
   SlashCommandContext,
-  TranslationFn,
   localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
@@ -27,13 +25,9 @@ export class AchievementsInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.achievements.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.achievements.desc'),
   })
-  async execute(
-    @Options() { name, mission }: AchievementsDto,
-    @Context() [interaction]: SlashCommandContext,
-    @CurrentTranslate() trans: TranslationFn,
-  ) {
+  async execute(@Options() { name, mission }: AchievementsDto, @Context() [interaction]: SlashCommandContext) {
     try {
-      const embed = await this.achievementsService.createEmbed(name, mission, trans);
+      const embed = await this.achievementsService.createEmbed(name, mission);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {
