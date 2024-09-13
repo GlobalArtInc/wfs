@@ -25,10 +25,7 @@ export class TopInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.top.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.top.desc'),
   })
-  async execute(
-    @Context() [interaction]: SlashCommandContext,
-    @Options() { mission }: TopCommandOptions,
-  ) {
+  async execute(@Context() [interaction]: SlashCommandContext, @Options() { mission }: TopCommandOptions) {
     try {
       const embed = await this.topService.createEmbed(mission);
 

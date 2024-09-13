@@ -158,10 +158,7 @@ export class UtilityWeaponsService {
     });
   }
 
-  public async renderSelectionMenu(
-    userId: string,
-    weaponName: string,
-  ): Promise<InteractionReplyOptions> {
+  public async renderSelectionMenu(userId: string, weaponName: string): Promise<InteractionReplyOptions> {
     const weapons = await this.internalBotApiService.send<WeaponList[]>('post', 'weapons', {
       search: weaponName,
       limit: 25,

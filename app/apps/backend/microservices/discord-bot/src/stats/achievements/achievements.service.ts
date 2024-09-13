@@ -47,7 +47,7 @@ export class AchievementsService {
       .setTitle(this.createTitle(missionData.id))
       .setFields(this.createFields(missionData, buildedAchievements));
     if (this.nestcordService.getApplicationAsset(missionData.id)) {
-      embed.setThumbnail(this.nestcordService.getApplicationAsset(missionData.id).url)
+      embed.setThumbnail(this.nestcordService.getApplicationAsset(missionData.id).url);
     }
 
     return embed;
@@ -63,7 +63,10 @@ export class AchievementsService {
         const playerAchievement = playerAchievementMap.get(missionAchievement.id);
         concreteAchievementMap.set(missionAchievement.id, { playerAchievement, missionAchievement });
       } else {
-        concreteAchievementMap.set(missionAchievement.id, { playerAchievement: { progress: 0, completion_time: null }, missionAchievement })
+        concreteAchievementMap.set(missionAchievement.id, {
+          playerAchievement: { progress: 0, completion_time: null },
+          missionAchievement,
+        });
       }
     });
 

@@ -1,7 +1,4 @@
-import {
-  NestcordService,
-  PageBuilder,
-} from '@globalart/nestcord';
+import { NestcordService, PageBuilder } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';

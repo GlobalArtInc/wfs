@@ -1,10 +1,4 @@
-import {
-  SlashCommand,
-  localizationMapByKey,
-  Context,
-  SlashCommandContext,
-  Options,
-} from '@globalart/nestcord';
+import { SlashCommand, localizationMapByKey, Context, SlashCommandContext, Options } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { WeaponsInteractionDto } from './weapons.dtos';
 import { UtilityWeaponsService } from './weapons.service';
@@ -23,10 +17,7 @@ export class UtilityWeaponsInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.weapons.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.weapons.desc'),
   })
-  async execute(
-    @Context() [interaction]: SlashCommandContext,
-    @Options() { name }: WeaponsInteractionDto,
-  ) {
+  async execute(@Context() [interaction]: SlashCommandContext, @Options() { name }: WeaponsInteractionDto) {
     try {
       const data = await this.utilityWeaponsService.renderSelectionMenu(interaction.user.id, name);
 
