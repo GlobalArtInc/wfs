@@ -12,7 +12,7 @@ export class TopService {
     private readonly discordHelpersService: DiscordHelpersService,
   ) {}
 
-  async embed(mission: string) {
+  async createEmbed(mission: string) {
     const missions = await this.internalBotApiService.send<TopInfo>('get', `top/mission`, {
       name: mission,
     });

@@ -49,7 +49,7 @@ export class StatsInteractions {
       const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('stats');
       const playerName = name || (await this.userService.getLinkedPlayer(interaction.user.id));
       pagination.setButtons(this.statsService.setButtons(interaction, playerName));
-      pagination.setPages(await this.statsService.getStatsAndGetEmbed(name, trans));
+      pagination.setPages(await this.statsService.createEmbed(name, trans));
       const pageData = await pagination.build(1);
 
       return interaction.followUp(pageData);
@@ -78,7 +78,7 @@ export class StatsInteractions {
     const pagination = this.paginationService.get<PaginatorTypeEnum.BUTTONS>('stats');
     const pageIndex = PageEnum[pageName.toUpperCase()];
     pagination.setButtons(this.statsService.setButtons(interaction as any, playerName));
-    pagination.setPages(await this.statsService.getStatsAndGetEmbed(playerName, trans));
+    pagination.setPages(await this.statsService.createEmbed(playerName, trans));
     const pageData = await pagination.build(pageIndex as any);
 
     return Promise.all([interaction.message.delete(), interaction.editReply(pageData)]);

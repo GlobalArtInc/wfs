@@ -19,7 +19,15 @@ export class SpecService {
     private readonly nestcordService: NestcordService,
   ) {}
 
-  public async embed({ discordUserId, name, trans }: { discordUserId: string; name: string; trans: TranslationFn }) {
+  public async createEmbed({
+    discordUserId,
+    name,
+    trans,
+  }: {
+    discordUserId: string;
+    name: string;
+    trans: TranslationFn;
+  }) {
     const playerName = name || (await this.userService.getLinkedPlayer(discordUserId));
     if (!playerName) {
       throw new DiscordErrorException('app.errors.player_name_not_specified');
@@ -30,22 +38,19 @@ export class SpecService {
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
       name: playerName,
     });
-    const { server, player, fullPlayer, state } = playerInfo;
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
     });
 
-    embed.setThumbnail('https://wf.cdn.gmru.net/wiki/images/4/4f/Homepage7.jpg').setAuthor({
-      name: this.getPlayerAuthor(player.nickname, player.rank_id, server),
-      url: `https://wfts.su/profile/${player.nickname}`,
-      iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${player.rank_id}.png`,
-    });
+    embed
+      .setThumbnail('https://wf.cdn.gmru.net/wiki/images/4/4f/Homepage7.jpg')
+      .setAuthor(this.createAuthorObject(playerInfo));
 
     const fields: APIEmbedField[] = Object.keys(missionsData).map((item) => {
       const mission = missionsData[item];
       const stats = Object.keys(mission.mode).map((itemKey) => {
         const stat = mission.mode[itemKey];
-        const complexity = fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
+        const complexity = playerInfo.fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
         const won = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_won || 0);
         const lost = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0);
 
@@ -67,7 +72,11 @@ export class SpecService {
     return embed;
   }
 
-  private getPlayerAuthor(nickname: string, rankId: number, server: string): string {
-    return `[${server.toUpperCase()}] ${nickname} (${rankId})`;
+  private createAuthorObject(playerInfo: PlayerInfo): { name: string; url: string; iconURL: string } {
+    return {
+      name: `[${playerInfo.server.toUpperCase()}] ${playerInfo.player.nickname} (${playerInfo.player.rank_id})`,
+      url: `https://wfts.su/profile/${playerInfo.player.nickname}`,
+      iconURL: this.nestcordService.getApplicationEmoji(`wfs_rank_${playerInfo.player.rank_id}`)?.imageURL() || '',
+    };
   }
 }

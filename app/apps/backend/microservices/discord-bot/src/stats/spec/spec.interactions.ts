@@ -33,7 +33,7 @@ export class SpecInteractions {
     @CurrentTranslate() trans: TranslationFn,
   ) {
     try {
-      const embed = await this.statsSpecService.embed({
+      const embed = await this.statsSpecService.createEmbed({
         discordUserId: interaction.user.id,
         name,
         trans,

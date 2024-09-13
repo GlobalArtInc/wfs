@@ -28,6 +28,37 @@ export class StatsService {
     private readonly nestcordService: NestcordService,
   ) {}
 
+  async createEmbed(name: string, trans: TranslationFn) {
+    const discordUser = this.requestClsService.getUser();
+    const playerName = name || (await this.userService.getLinkedPlayer(discordUser.id));
+    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
+      name: playerName,
+    });
+
+    const [pveEmbed, pvpEmbed, otherEmbed] = await Promise.all([
+      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
+      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
+      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
+    ]);
+    const commonFields: APIEmbedField[] = this.createCommonFields(playerInfo, trans);
+
+    pveEmbed
+      .setAuthor(this.createAuthorObject(playerInfo))
+      .setFields(...commonFields, ...this.createPveFields(playerInfo, trans));
+    pvpEmbed
+      .setAuthor(this.createAuthorObject(playerInfo))
+      .setFields(...commonFields, ...this.createPvpFields(playerInfo, trans));
+    otherEmbed
+      .setAuthor(this.createAuthorObject(playerInfo))
+      .setFields(...commonFields, ...this.createOtherFields(playerInfo.achievements, trans));
+
+    return [
+      new PageBuilder().setEmbeds([pveEmbed]),
+      new PageBuilder().setEmbeds([pvpEmbed]),
+      new PageBuilder().setEmbeds([otherEmbed]),
+    ];
+  }
+
   public setButtons(interaction: ChatInputCommandInteraction<CacheType>, name: string) {
     return [
       [
@@ -53,37 +84,6 @@ export class StatsService {
           options: name,
         },
       ],
-    ];
-  }
-
-  async getStatsAndGetEmbed(name: string, trans: TranslationFn) {
-    const discordUser = this.requestClsService.getUser();
-    const playerName = name || (await this.userService.getLinkedPlayer(discordUser.id));
-    const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
-      name: playerName,
-    });
-
-    const [pveEmbed, pvpEmbed, otherEmbed] = await Promise.all([
-      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
-      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
-      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
-    ]);
-    const commonFields: APIEmbedField[] = this.createCommonFields(playerInfo, trans);
-
-    const author = {
-      name: this.getPlayerAuthor(playerInfo.player.nickname, playerInfo.player.rank_id, playerInfo.server),
-      url: `https://wfts.su/profile/${playerInfo.player.nickname}`,
-      iconURL: `https://s3.globalart.dev/api/s3/wfs/ranks/Rank${playerInfo.player.rank_id}.png`,
-    };
-
-    pveEmbed.setAuthor(author).setFields(...commonFields, ...this.createPveFields(playerInfo, trans));
-    pvpEmbed.setAuthor(author).setFields(...commonFields, ...this.createPvpFields(playerInfo, trans));
-    otherEmbed.setAuthor(author).setFields(...commonFields, ...this.createOtherFields(playerInfo.achievements, trans));
-
-    return [
-      new PageBuilder().setEmbeds([pveEmbed]),
-      new PageBuilder().setEmbeds([pvpEmbed]),
-      new PageBuilder().setEmbeds([otherEmbed]),
     ];
   }
 
@@ -289,12 +289,15 @@ export class StatsService {
       {
         name: trans('app.stats.page3.reg_date'),
         value: 'no',
-        // value: HelpersService.formatDate(achievements[0].start_time),
       },
     ];
   }
 
-  private getPlayerAuthor(nickname: string, rankId: number, server: string): string {
-    return `[${server.toUpperCase()}] ${nickname} (${rankId})`;
+  private createAuthorObject(playerInfo: PlayerInfo): { name: string; url: string; iconURL: string } {
+    return {
+      name: `[${playerInfo.server.toUpperCase()}] ${playerInfo.player.nickname} (${playerInfo.player.rank_id})`,
+      url: `https://wfts.su/profile/${playerInfo.player.nickname}`,
+      iconURL: this.nestcordService.getApplicationEmoji(`wfs_rank_${playerInfo.player.rank_id}`)?.imageURL() || '',
+    };
   }
 }

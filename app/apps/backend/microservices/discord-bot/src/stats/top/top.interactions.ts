@@ -33,7 +33,7 @@ export class TopInteractions {
     @CurrentTranslate() trans: TranslationFn,
   ) {
     try {
-      const embed = await this.topService.embed(mission);
+      const embed = await this.topService.createEmbed(mission);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {

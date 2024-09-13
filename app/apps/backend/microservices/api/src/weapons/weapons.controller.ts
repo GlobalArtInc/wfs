@@ -8,10 +8,6 @@ import { WeaponsService } from './weapons.service';
 export class WeaponsController {
   constructor(private readonly service: WeaponsService) {}
 
-  // @SwaggerDocumentation({
-  //   endpointDescription: 'Get weapons',
-  //   endpointSummary: 'Get weapons',
-  // })
   @Post()
   getWeapons(@Body() dto: getWeaponsDto) {
     return this.service.getWeapons(dto);
