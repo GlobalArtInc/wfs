@@ -94,7 +94,7 @@ export class AchievementsService {
     const fields = Array.from(achievementsMap.values()).map(({ missionAchievement, playerAchievement }) => {
       const achievementName = this.translationService.get(`achievement.${missionData.id}.${missionAchievement.id}`);
       const isCompleted = !!playerAchievement.completion_time;
-      const emoji = this.nestcordService.getApplicationEmojiPlain(isCompleted ? 'wfs_yes' : 'wfs_no');
+      const emoji = this.nestcordService.getApplicationEmojiPlain(isCompleted ? 'wfs_yes_round' : 'wfs_no_round');
       const value = isCompleted
         ? `${emoji} ${playerAchievement.completion_time}`
         : `${emoji} ${playerAchievement.progress} / ${missionAchievement.goal}`;
