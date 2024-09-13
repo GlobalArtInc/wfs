@@ -81,7 +81,7 @@ export class AchievementsService {
     missionData: AchievementData,
     achievementsMap: Map<string, { missionAchievement: MissionAchievement; playerAchievement: PlayerAchievement }>,
   ): APIEmbedField[] {
-    return Array.from(achievementsMap.values()).map(({ missionAchievement, playerAchievement }) => {
+    const fields = Array.from(achievementsMap.values()).map(({ missionAchievement, playerAchievement }) => {
       const achievementName = trans(`achievement.${missionData.id}.${missionAchievement.id}`);
       const isCompleted = !!playerAchievement.completion_time;
       const emoji = this.nestcordService.getApplicationEmojiPlain(isCompleted ? 'wfs_yes' : 'wfs_no');
@@ -95,5 +95,11 @@ export class AchievementsService {
         inline: true,
       };
     });
+
+    if (fields.length % 2 === 0) {
+      fields.push({ name: '\u200b', value: '\u200b', inline: true });
+    }
+
+    return fields;
   }
 }
