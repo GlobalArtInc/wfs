@@ -4,12 +4,14 @@ import { Colors } from 'discord.js';
 import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { TopInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
+import { NestcordService } from '@globalart/nestcord';
 
 @Injectable()
 export class TopService {
   constructor(
     private readonly internalBotApiService: InternalBotApiService,
     private readonly discordHelpersService: DiscordHelpersService,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   async createEmbed(mission: string) {
@@ -29,7 +31,7 @@ export class TopService {
 
     const embed = await this.discordHelpersService.buildEmbed({ color: Colors.Green });
     embed
-      .setThumbnail('https://wf.cdn.gmru.net/wiki/images/4/4f/Homepage7.jpg')
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url)
       .setTitle(`top - ${mission}`)
       .setDescription(players.join('\r\n'));
 

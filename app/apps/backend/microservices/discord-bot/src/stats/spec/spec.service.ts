@@ -37,7 +37,7 @@ export class SpecService {
     });
 
     embed
-      .setThumbnail('https://wf.cdn.gmru.net/wiki/images/4/4f/Homepage7.jpg')
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url)
       .setAuthor(this.createAuthorObject(playerInfo));
 
     const fields: APIEmbedField[] = Object.keys(missionsData).map((item) => {
