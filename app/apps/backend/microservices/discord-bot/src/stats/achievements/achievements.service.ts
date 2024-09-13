@@ -40,7 +40,6 @@ export class AchievementsService {
     if (!missionData) {
       throw new DiscordErrorException('app.errors.mission_not_found');
     }
-
     const buildedAchievements = this.mapAchievements(missionData.achievements, playerInfo.achievements);
 
     embed
@@ -63,6 +62,8 @@ export class AchievementsService {
       if (playerAchievementMap.has(missionAchievement.id)) {
         const playerAchievement = playerAchievementMap.get(missionAchievement.id);
         concreteAchievementMap.set(missionAchievement.id, { playerAchievement, missionAchievement });
+      } else {
+        concreteAchievementMap.set(missionAchievement.id, { playerAchievement: { progress: 0, completion_time: null }, missionAchievement })
       }
     });
 
