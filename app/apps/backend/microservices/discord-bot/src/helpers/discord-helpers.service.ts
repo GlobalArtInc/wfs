@@ -26,11 +26,16 @@ export class DiscordHelpersService {
 
     if (userVip) {
       footer = {
-        text: [this.translationService.get('app.footer.vip'), data?.footer?.text].join('\r\n'),
+        text: [this.translationService.get('app.footer.vip'), data?.footer?.text ?? ''].filter(Boolean).join('\r\n'),
         iconURL: this.nestcordService.getApplicationEmoji('wfs_vip')?.imageURL(),
       };
       color = userVip.type.id === 'developer' ? Colors.Red : Colors.Gold;
-    }
+    } else {
+      footer = {
+        text: data?.footer?.text ?? null,
+      };
+    }    
+
     if (footer) {
       embed.setFooter(footer);
     }
