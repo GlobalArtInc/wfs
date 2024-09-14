@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   PlayerAchievementEntity,
   PlayerEntity,
@@ -17,13 +17,16 @@ export class PlayerService {
     private readonly playerStatRepository: PlayerStatRepository,
     private readonly playerAchievementRepository: PlayerAchievementRepository,
   ) {}
+  private readonly logger = new Logger(PlayerService.name);
 
   public async handlePlayerDataUpdate(data: WarfaceApiSavePlayerData) {
+    this.logger.log(`start to update player ${data.player.nickname}`);
     const playerData = this.extractPlayerData(data.player);
-    
+
     await this.playerRepository.upsert({
       id: data.playerId,
       type: PlayerTypeEnum.Open,
+      server: data.server,
       ...playerData,
     });
 
@@ -31,6 +34,7 @@ export class PlayerService {
       this.updatePlayerStats(data.playerId, data.fullPlayer),
       this.updatePlayerAchievements(data.playerId, data.achievements),
     ]);
+    this.logger.log(`end to update player ${data.player.nickname}`);
   }
 
   private extractPlayerData(player: Record<string, any>): Record<keyof PlayerEntity, any> {
@@ -43,7 +47,7 @@ export class PlayerService {
   private async updatePlayerStats(playerId: string, fullPlayerStats: Record<string, number>) {
     const existingPlayerStats = await this.playerStatRepository.getManyBy({ playerId });
     const newPlayerStatsArray = this.convertPlayerStatsToArray(fullPlayerStats);
-    
+
     const statsToUpdate = this.getChangedStats(existingPlayerStats, newPlayerStatsArray).map((stat) =>
       this.playerStatRepository.upsert({
         playerId,
@@ -58,7 +62,7 @@ export class PlayerService {
 
   private async updatePlayerAchievements(playerId: string, playerAchievements: WarfaceApiAchievement[]) {
     const existingPlayerAchievements = await this.playerAchievementRepository.getManyBy({ playerId });
-    
+
     const achievementsToUpdate = this.getChangedAchievements(playerAchievements, existingPlayerAchievements).map(
       (achievement) =>
         this.playerAchievementRepository.upsert({
@@ -79,19 +83,20 @@ export class PlayerService {
   ) {
     return newStats.filter((newStat) => {
       const existingStat = existingStats.find((stat) => stat.param === newStat.param);
-      return existingStat && +existingStat.value !== +newStat.value;
+      return existingStat ? +existingStat.value !== +newStat.value : true;
     });
   }
 
   private getChangedAchievements(
-    newAchievements: WarfaceApiAchievement[],
-    existingAchievements: PlayerAchievementEntity[],
+    existingAchievements: WarfaceApiAchievement[],
+    newAchievements: PlayerAchievementEntity[],
   ) {
     return existingAchievements.filter((existingAchievement) => {
       const newAchievement = newAchievements.find(
         (achievement) => achievement.achievement_id === existingAchievement.achievement_id,
       );
-      return newAchievement && +newAchievement.progress !== +existingAchievement.progress;
+
+      return newAchievement ? +newAchievement.progress !== +existingAchievement.progress : true;
     });
   }
 
