@@ -1,3 +1,5 @@
+import { MISSIONS } from '@app/shared/constants';
+import { MissionEnum } from '@app/shared/enums';
 import { Injectable } from '@nestjs/common';
 import * as nf from 'number-format.js';
 
@@ -24,5 +26,9 @@ export class HelpersService {
   public static secToHours(sec: number): number {
     sec = sec / 10;
     return Math.floor((sec / 3600) ^ 0);
+  }
+
+  public static filterMissions(values: MissionEnum[]) {
+    return MISSIONS.filter(mission => !values.includes(mission.value));
   }
 }

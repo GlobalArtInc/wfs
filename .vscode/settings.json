@@ -3,5 +3,11 @@
     "endorsurvival",
     "Pripyat",
     "хелп"
-  ]
+  ],
+  "search.exclude": {
+    "**/dist": true
+  },
+  "files.watcherExclude": {
+    "**/dist/**": true
+  }
 }

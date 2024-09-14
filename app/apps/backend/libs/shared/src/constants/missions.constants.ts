@@ -65,8 +65,4 @@ export const MISSIONS = [
     name: 'missions.heist',
     value: MissionEnum.HEIST,
   },
-  {
-    name: 'missions.endorsurvival',
-    value: MissionEnum.ENDOR,
-  },
 ];
