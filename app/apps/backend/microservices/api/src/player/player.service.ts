@@ -17,6 +17,7 @@ import { PLAYER_SAVE_REDIS_COMMAND } from '@app/shared/constants';
 import { HelpersService } from '@app/shared/modules/helpers/helpers.service';
 import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
 import * as moment from 'moment';
+import { ILike } from 'typeorm';
 
 @Injectable()
 export class PlayerService {
@@ -166,7 +167,8 @@ export class PlayerService {
   }
 
   async get(nickname: string) {
-    const player = await this.playerRepository.getOneBy({ nickname }, { relations: { playerAchievements: true } });
+    const player = await this.playerRepository.getOneBy({ nickname: ILike(nickname) }, { relations: { playerAchievements: true } });
+    
     if (player) {
       const { server, type, updated_at } = player;
       const state = { type, updatedAt: updated_at };
