@@ -7,8 +7,8 @@ import {
 } from '@app/dal/repositories/player';
 import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
 import { WarfaceApiAchievement, WarfaceApiSavePlayerData } from '@app/infrastructure/apis/warface/warface-api.types';
-import * as moment from 'moment';
 import { PlayerAchievementRepository } from '@app/dal/repositories/player/player-achievement.repository';
+import * as moment from 'moment';
 
 @Injectable()
 export class PlayerService {
@@ -27,6 +27,7 @@ export class PlayerService {
       id: data.playerId,
       type: PlayerTypeEnum.Open,
       server: data.server,
+      updated_at: moment().toDate(),
       ...playerData,
     });
 

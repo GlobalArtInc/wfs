@@ -9,7 +9,7 @@ translatorBotProjectId: 8
 translatorAchievementProjectId: 9
 redisReplicaCount: 3
 apiReplicaCount: 3
-workerReplicaCount: 3
+workerReplicaCount: 1
 discordBotReplicaCount: 1
 redisHost: redis
 redisPort: 6379
