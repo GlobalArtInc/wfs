@@ -111,35 +111,48 @@ export class PlayerService {
     const user = await this.get(nickname);
     const isLastServer = server === servers[servers.length - 1];
 
-    if (!user) {
-      if (player.message === 'Ошибка: invalid response status') {
-        throw new InternalServerErrorException({ code: 'maintenance', message: `Сервер WF API недоступен.` });
-      }
-      if (player.message === 'Персонаж неактивен') {
-        throw new ForbiddenException({
-          code: 'inactive',
-          message: `Игрок «${nickname}» неактивен. Мы не сможем вывести его статистику.`,
-        });
-      }
-      if (player.message === 'Игрок скрыл свою статистику') {
-        throw new ForbiddenException({
-          code: 'hidden',
-          message: `Игрок «${nickname}» скрыл свою статистику. Мы не сможем вывести его статистику.`,
-        });
-      }
-      if (player.message === 'Пользователь не найден' && isLastServer) {
-        throw new NotFoundException({ code: 'player_not_found', message: `Игрок «${nickname}» не найден` });
-      }
+    let errorCode: string | undefined;
+    let errorMessage: any;
+
+    if (player?.message === 'Ошибка: invalid response status') {
+      errorCode = 'maintenance';
+      errorMessage = new InternalServerErrorException({ code: errorCode, message: `Сервер WF API недоступен.` });
+    }
+    if (player?.message === 'Персонаж неактивен') {
+      errorCode = 'inactive';
+      errorMessage = new ForbiddenException({
+        code: errorCode,
+        message: `Игрок «${nickname}» неактивен. Мы не сможем вывести его статистику.`,
+      });
+    }
+    if (player?.message === 'Игрок скрыл свою статистику') {
+      errorCode = 'hidden';
+      errorMessage = new ForbiddenException({
+        code: errorCode,
+        message: `Игрок «${nickname}» скрыл свою статистику. Мы не сможем вывести его статистику.`,
+      });
+    }
+    if (player?.message === 'Пользователь не найден' && isLastServer) {
+      errorCode = 'player_not_found';
+      errorMessage = new NotFoundException({ code: errorCode, message: `Игрок «${nickname}» не найден` });
     }
     if (!player && isLastServer) {
-      throw new NotFoundException({ code: 'player_not_found', message: `Игрок «${nickname}» не найден` });
+      errorCode = 'player_not_found';
+      errorMessage = new NotFoundException({ code: errorCode, message: `Игрок «${nickname}» не найден` });
     }
 
+    if (user && player?.message === 'Пользователь не найден') {
+      errorCode = 'nickname_changed';
+    }
+
+    if (!user && errorMessage) {
+      throw errorMessage;
+    }
     if (user) {
       const { server: savedServer, state, player: savedPlayer, fullPlayer, achievements } = user;
       return this.formatPlayer({
         server: savedServer,
-        state: { type: player.message, updatedAt: state.updatedAt },
+        state: { statusCode: errorCode || 'internalServerError', updatedAt: state.updatedAt },
         player: savedPlayer,
         fullPlayer,
         achievements,
@@ -167,8 +180,11 @@ export class PlayerService {
   }
 
   async get(nickname: string) {
-    const player = await this.playerRepository.getOneBy({ nickname: ILike(nickname) }, { relations: { playerAchievements: true } });
-    
+    const player = await this.playerRepository.getOneBy(
+      { nickname: ILike(nickname) },
+      { relations: { playerAchievements: true } },
+    );
+
     if (player) {
       const { server, type, updated_at } = player;
       const state = { type, updatedAt: updated_at };
@@ -211,7 +227,7 @@ export class PlayerService {
 
     return {
       server,
-      state: { type: state.type, updatedAt: state.updatedAt },
+      state: { status: state.statusCode, updatedAt: state.updatedAt },
       player: omit(player, ['playerAchievements']),
       fullPlayer: this.responseToObject(fullPlayer),
       achievements: achievements.map((achievement) => omit(achievement, ['playerId'])),
