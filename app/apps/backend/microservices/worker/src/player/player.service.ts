@@ -63,7 +63,7 @@ export class PlayerService {
   private async updatePlayerAchievements(playerId: string, playerAchievements: WarfaceApiAchievement[]) {
     const existingPlayerAchievements = await this.playerAchievementRepository.getManyBy({ playerId });
 
-    const achievementsToUpdate = this.getChangedAchievements(playerAchievements, existingPlayerAchievements).map(
+    const achievementsToUpdate = this.getChangedAchievements(existingPlayerAchievements, playerAchievements).map(
       (achievement) =>
         this.playerAchievementRepository.upsert({
           id: null,
@@ -88,15 +88,15 @@ export class PlayerService {
   }
 
   private getChangedAchievements(
-    existingAchievements: WarfaceApiAchievement[],
-    newAchievements: PlayerAchievementEntity[],
+    existingAchievements: PlayerAchievementEntity[],
+    newAchievements: WarfaceApiAchievement[],
   ) {
-    return existingAchievements.filter((existingAchievement) => {
-      const newAchievement = newAchievements.find(
-        (achievement) => achievement.achievement_id === existingAchievement.achievement_id,
+    return newAchievements.filter((newAchievement) => {
+      const existingAchievement = existingAchievements.find(
+        (achievement) => achievement.achievement_id === newAchievement.achievement_id,
       );
 
-      return newAchievement ? +newAchievement.progress !== +existingAchievement.progress : true;
+      return existingAchievement ? +newAchievement.progress !== +existingAchievement.progress : true;
     });
   }
 
