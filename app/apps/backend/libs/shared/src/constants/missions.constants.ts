@@ -10,7 +10,7 @@ export const MISSIONS = [
     value: MissionEnum.PRIPYAT,
   },
   {
-    name: 'missions.coldPeak',
+    name: 'missions.cold_peak',
     value: MissionEnum.COLDPEAK,
   },
   {
@@ -26,7 +26,7 @@ export const MISSIONS = [
     value: MissionEnum.ANUBIS,
   },
   {
-    name: 'missions.earthShaker',
+    name: 'missions.earth_shaker',
     value: MissionEnum.EARTH_SHAKER,
   },
   {
@@ -34,7 +34,7 @@ export const MISSIONS = [
     value: MissionEnum.MIDGARD,
   },
   {
-    name: 'missions.cyberHorde',
+    name: 'missions.cyber_horde',
     value: MissionEnum.CYBER_HORDE,
   },
   {
@@ -42,11 +42,11 @@ export const MISSIONS = [
     value: MissionEnum.ICEBREAKER,
   },
   {
-    name: 'missions.theHQ',
+    name: 'missions.the_hq',
     value: MissionEnum.THE_HQ,
   },
   {
-    name: 'missions.blackShark',
+    name: 'missions.black_shark',
     value: MissionEnum.BLACK_SHARK,
   },
   {
