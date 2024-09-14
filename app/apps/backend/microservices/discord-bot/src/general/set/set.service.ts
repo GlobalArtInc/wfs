@@ -80,7 +80,7 @@ export class SetService {
       name: playerName,
     });
 
-    if (playerInfo.state.type === 'open') {
+    if (playerInfo.state.status === 'open') {
       user.usersPlayers = [
         {
           userId,

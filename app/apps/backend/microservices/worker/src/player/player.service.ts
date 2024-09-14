@@ -38,8 +38,8 @@ export class PlayerService {
     this.logger.log(`end to update player ${data.player.nickname}`);
   }
 
-  public async handlePlayerStatusUpdate(data: { playerId: string, status: PlayerTypeEnum }) {
-    await this.playerRepository.updateOneById(data.playerId as any, { type: data.status })
+  public async handlePlayerStatusUpdate(data: { playerId: string; status: PlayerTypeEnum }) {
+    await this.playerRepository.updateOneById(data.playerId as any, { type: data.status });
   }
 
   private extractPlayerData(player: Record<string, any>): Record<keyof PlayerEntity, any> {

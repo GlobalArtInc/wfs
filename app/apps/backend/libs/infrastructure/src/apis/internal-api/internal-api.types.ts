@@ -54,7 +54,7 @@ export type ClanInfo = {
 export type PlayerInfo = {
   server: string;
   state: {
-    type: string;
+    status: string;
     updatedAt: string;
   };
   player: Record<string, any>;

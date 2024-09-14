@@ -9,6 +9,7 @@ import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { SettingService } from '../../setting/setting.service';
 import { TranslationService } from '../../translation/translation.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class SpecService {
@@ -34,6 +35,14 @@ export class SpecService {
     });
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
+      footer: {
+        text: playerInfo.state.status
+          ? this.translationService.get(`app.errors.player.status.${playerInfo.state.status}`, {
+              name: playerInfo.player.nickname,
+              updatedAt: moment(playerInfo.state.updatedAt).format('DD.MM.YYYY hh:mm (GMT)'),
+            })
+          : undefined,
+      },
     });
 
     embed

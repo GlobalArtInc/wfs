@@ -10,6 +10,7 @@ import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
 import { TranslationService } from '../../translation/translation.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class AchievementsService {
@@ -25,7 +26,6 @@ export class AchievementsService {
   private readonly achievementsKey = 'achievements';
 
   async createEmbed(name: string, mission: string) {
-    const embed = await this.discordHelpersService.buildEmbed();
     const discordUserId = this.requestClsService.getUser().id;
     const playerName = name || (await this.userService.getLinkedPlayer(discordUserId));
 
@@ -36,6 +36,16 @@ export class AchievementsService {
     const achievementsStat = await this.settingService.getValueByKey(this.achievementsKey);
     const missionData: AchievementData = achievementsStat[mission];
     const playerInfo = await this.fetchPlayerInfo(playerName);
+    const embed = await this.discordHelpersService.buildEmbed({
+      footer: {
+        text: playerInfo.state.status
+          ? this.translationService.get(`app.errors.player.status.${playerInfo.state.status}`, {
+              name: playerInfo.player.nickname,
+              updatedAt: moment(playerInfo.state.updatedAt).format('DD.MM.YYYY hh:mm (GMT)'),
+            })
+          : undefined,
+      },
+    });
 
     if (!missionData) {
       throw new DiscordErrorException('app.errors.mission_not_found');

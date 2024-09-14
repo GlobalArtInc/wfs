@@ -70,8 +70,15 @@ export class PlayerService {
       if (fallbackResponse) {
         await this.redisService.set(savedPlayer.player.id, fallbackResponse, this.defaultCacheTime);
 
-        if ([PlayerTypeEnum.Hidden, PlayerTypeEnum.Inactive, PlayerTypeEnum.NicknameChanged].includes(fallbackResponse.state.status)) {
-          this.redisProxy.emit(PLAYER_UPDATE_STATUS_COMMAND, { playerId: fallbackResponse.player.id, status: fallbackResponse.state.status });
+        if (
+          [PlayerTypeEnum.Hidden, PlayerTypeEnum.Inactive, PlayerTypeEnum.NicknameChanged].includes(
+            fallbackResponse.state.status,
+          )
+        ) {
+          this.redisProxy.emit(PLAYER_UPDATE_STATUS_COMMAND, {
+            playerId: fallbackResponse.player.id,
+            status: fallbackResponse.state.status,
+          });
         }
 
         return fallbackResponse;
@@ -90,7 +97,7 @@ export class PlayerService {
     const achievements = await this.warfaceApiService.getAchievements(server, nickname);
     const fullPlayer = this.parseFullResponse(playerData.full_response);
     delete playerData.full_response;
-    const state = { type: 'open', updatedAt: timestamp };
+    const state = { status: 'open', updatedAt: timestamp };
     const cachedData = { playerId, state, server, player: playerData, fullPlayer, achievements };
 
     this.redisProxy.emit(PLAYER_SAVE_REDIS_COMMAND, cachedData);
@@ -157,7 +164,7 @@ export class PlayerService {
       const { server: savedServer, state, player: savedPlayer, fullPlayer, achievements } = user;
       return this.formatPlayer({
         server: savedServer,
-        state: { statusCode: errorCode || 'internalServerError', updatedAt: state.updatedAt },
+        state: { status: errorCode || 'internalServerError', updatedAt: state.updatedAt },
         player: savedPlayer,
         fullPlayer,
         achievements,
@@ -232,7 +239,7 @@ export class PlayerService {
 
     return {
       server,
-      state: { status: state.statusCode as PlayerTypeEnum, updatedAt: state.updatedAt },
+      state: { status: state.status as PlayerTypeEnum, updatedAt: state.updatedAt },
       player: omit(player, ['playerAchievements']),
       fullPlayer: this.responseToObject(fullPlayer),
       achievements: achievements.map((achievement) => omit(achievement, ['playerId'])),

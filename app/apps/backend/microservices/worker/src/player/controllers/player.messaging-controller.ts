@@ -15,7 +15,7 @@ export class PlayerMessagingController {
   }
 
   @EventPattern(PLAYER_UPDATE_STATUS_COMMAND, Transport.REDIS)
-  async updatePlayerStatus(message: { playerId: string, status: PlayerTypeEnum }) {
-    await this.playerService.handlePlayerStatusUpdate(message)
+  async updatePlayerStatus(message: { playerId: string; status: PlayerTypeEnum }) {
+    await this.playerService.handlePlayerStatusUpdate(message);
   }
 }

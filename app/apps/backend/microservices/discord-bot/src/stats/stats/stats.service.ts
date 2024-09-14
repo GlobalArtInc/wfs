@@ -8,6 +8,7 @@ import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
 import { TranslationService } from '../../translation/translation.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class StatsService {
@@ -26,11 +27,19 @@ export class StatsService {
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
       name: playerName,
     });
+    const footer = {
+      text: playerInfo.state.status
+        ? this.translationService.get(`app.errors.player.status.${playerInfo.state.status}`, {
+            name: playerInfo.player.nickname,
+            updatedAt: moment(playerInfo.state.updatedAt).format('DD.MM.YYYY hh:mm (GMT)'),
+          })
+        : undefined,
+    };
 
     const [pveEmbed, pvpEmbed, otherEmbed] = await Promise.all([
-      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
-      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
-      this.discordHelpersService.buildEmbed({ color: Colors.Blue }),
+      this.discordHelpersService.buildEmbed({ color: Colors.Blue, footer }),
+      this.discordHelpersService.buildEmbed({ color: Colors.Blue, footer }),
+      this.discordHelpersService.buildEmbed({ color: Colors.Blue, footer }),
     ]);
     const commonFields: APIEmbedField[] = this.createCommonFields(playerInfo);
 
