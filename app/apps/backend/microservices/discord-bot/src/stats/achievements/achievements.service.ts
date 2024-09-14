@@ -38,7 +38,7 @@ export class AchievementsService {
     const playerInfo = await this.fetchPlayerInfo(playerName);
     const embed = await this.discordHelpersService.buildEmbed({
       footer: {
-        text: playerInfo.state.status
+        text: playerInfo.state.errorStatus
           ? this.translationService.get(`app.errors.player.status.${playerInfo.state.status}`, {
               name: playerInfo.player.nickname,
               updatedAt: moment(playerInfo.state.updatedAt).format('DD.MM.YYYY hh:mm (GMT)'),

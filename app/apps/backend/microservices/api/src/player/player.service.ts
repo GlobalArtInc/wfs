@@ -31,6 +31,7 @@ export class PlayerService {
     private readonly redisService: RedisCacheService,
   ) {}
   private readonly defaultCacheTime = 120;
+  private ERORR_STATUSES = [PlayerTypeEnum.Hidden, PlayerTypeEnum.Inactive, PlayerTypeEnum.NicknameChanged];
 
   async getByName(nickname: string) {
     if (!nickname) {
@@ -239,7 +240,11 @@ export class PlayerService {
 
     return {
       server,
-      state: { status: state.status as PlayerTypeEnum, updatedAt: state.updatedAt },
+      state: {
+        status: state.status as PlayerTypeEnum,
+        errorStatus: this.ERORR_STATUSES.includes(state.status as PlayerTypeEnum),
+        updatedAt: state.updatedAt,
+      },
       player: omit(player, ['playerAchievements']),
       fullPlayer: this.responseToObject(fullPlayer),
       achievements: achievements.map((achievement) => omit(achievement, ['playerId'])),

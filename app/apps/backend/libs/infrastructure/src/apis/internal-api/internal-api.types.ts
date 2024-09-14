@@ -55,6 +55,7 @@ export type PlayerInfo = {
   server: string;
   state: {
     status: string;
+    errorStatus: string;
     updatedAt: string;
   };
   player: Record<string, any>;
