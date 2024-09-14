@@ -84,7 +84,10 @@ export class ClanService {
       color: Colors.Green,
     });
 
-    return embed.setTitle(formattedClan.title).setDescription(formattedClan.desc);
+    return embed
+      .setTitle(formattedClan.title)
+      .setDescription(formattedClan.desc)
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url);
   }
 
   private async formatClan(clanInfo: ClanInfo) {

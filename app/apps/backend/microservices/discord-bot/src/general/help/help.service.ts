@@ -35,12 +35,12 @@ export class GeneralHelpService {
         {
           label: this.translationService.get('app.displayEmbeds.help.openWebsite'),
           style: ButtonStyle.Link,
-          link: 'https://top.gg/bot/800354757297438750',
+          link: 'https://wfs.globalart.dev',
         },
         {
           label: this.translationService.get('app.displayEmbeds.help.leaveReview'),
           style: ButtonStyle.Link,
-          link: 'https://bots.server-discord.com/800354757297438750',
+          link: 'https://top.gg/bot/800354757297438750',
         },
         {
           label: this.translationService.get('app.displayEmbeds.help.donate'),
