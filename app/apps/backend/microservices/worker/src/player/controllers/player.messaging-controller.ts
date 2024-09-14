@@ -10,6 +10,6 @@ export class PlayerMessagingController {
 
   @EventPattern(PLAYER_SAVE_REDIS_COMMAND, Transport.REDIS)
   async emitSavePlayerData(message: WarfaceApiSavePlayerData) {
-    await this.playerService.emitSavePlayerData(message);
+    await this.playerService.handlePlayerDataUpdate(message);
   }
 }

@@ -9,6 +9,7 @@ import {
   PlayerRepository,
   PlayerStatRepository,
 } from './player';
+import { PlayerAchievementRepository } from './player/player-achievement.repository';
 import { ServerEntity, ServerRepository } from './server';
 import { SettingEntity, SettingRepository } from './setting';
 import { UserEntity, UserPlayerEntity, UserClanEntity, UserRepository } from './user';
@@ -42,6 +43,7 @@ export const DAL_REPOSITORIES = [
   GuildRepository,
   PlayerRepository,
   PlayerStatRepository,
+  PlayerAchievementRepository,
   ServerRepository,
   UserRepository,
   VipRepository,

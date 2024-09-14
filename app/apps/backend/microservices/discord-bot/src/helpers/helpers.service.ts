@@ -29,6 +29,6 @@ export class HelpersService {
   }
 
   public static filterMissions(values: MissionEnum[]) {
-    return MISSIONS.filter(mission => !values.includes(mission.value));
+    return MISSIONS.filter((mission) => !values.includes(mission.value));
   }
 }
