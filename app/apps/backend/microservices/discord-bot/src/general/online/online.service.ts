@@ -4,6 +4,7 @@ import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { OnlineInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { TranslationService } from '../../translation/translation.service';
+import { NestcordService } from '@globalart/nestcord';
 
 @Injectable()
 export class GeneralOnlineService {
@@ -11,6 +12,7 @@ export class GeneralOnlineService {
     private readonly internalBotApiService: InternalBotApiService,
     private readonly discordHelpersService: DiscordHelpersService,
     private readonly translationService: TranslationService,
+    private readonly nestcordService: NestcordService,
   ) {}
 
   public createButtons(): ActionRowBuilder<ButtonBuilder> {
@@ -26,20 +28,23 @@ export class GeneralOnlineService {
     const onlineInfo = await this.internalBotApiService.send<OnlineInfo>('get', 'online');
     const embed = await this.discordHelpersService.buildEmbed({ color: Colors.Blue });
 
-    embed.setTitle(this.translationService.get('app.displayEmbeds.online.title')).setDescription(
-      this.translationService.get('app.displayEmbeds.online.description', {
-        ruPvp: onlineInfo.ru.pvp,
-        ruPve: onlineInfo.ru.pve,
-        ruTotal: onlineInfo.ru.all,
-        ru24Max: onlineInfo.ru.max24.all,
-        ruUpdatedAt: onlineInfo.ru.updatedAt,
-        euPvp: onlineInfo.int.pvp,
-        euPve: onlineInfo.int.pve,
-        euTotal: onlineInfo.int.all,
-        eu24Max: onlineInfo.int.max24.all,
-        euUpdatedAt: onlineInfo.int.updatedAt,
-      }),
-    );
+    embed
+      .setTitle(this.translationService.get('app.displayEmbeds.online.title'))
+      .setDescription(
+        this.translationService.get('app.displayEmbeds.online.description', {
+          ruPvp: onlineInfo.ru.pvp,
+          ruPve: onlineInfo.ru.pve,
+          ruTotal: onlineInfo.ru.all,
+          ru24Max: onlineInfo.ru.max24.all,
+          ruUpdatedAt: onlineInfo.ru.updatedAt,
+          euPvp: onlineInfo.int.pvp,
+          euPve: onlineInfo.int.pve,
+          euTotal: onlineInfo.int.all,
+          eu24Max: onlineInfo.int.max24.all,
+          euUpdatedAt: onlineInfo.int.updatedAt,
+        }),
+      )
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url);
 
     return embed;
   }

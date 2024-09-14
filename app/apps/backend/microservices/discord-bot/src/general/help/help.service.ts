@@ -1,4 +1,4 @@
-import { PageBuilder } from '@globalart/nestcord';
+import { NestcordService, PageBuilder } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { ButtonInteraction, ButtonStyle, CacheType, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
@@ -9,6 +9,7 @@ export class GeneralHelpService {
   public constructor(
     private readonly translationService: TranslationService,
     private readonly discordHelpersService: DiscordHelpersService,
+    private nestcordService: NestcordService,
   ) {}
 
   public setButtons(interaction: ChatInputCommandInteraction<CacheType> | ButtonInteraction) {
@@ -66,17 +67,20 @@ export class GeneralHelpService {
       new PageBuilder().setEmbeds([
         playerEmbed
           .setTitle(this.translationService.get('app.displayEmbeds.help.player.title'))
-          .setDescription(this.translationService.get('app.displayEmbeds.help.player.description')),
+          .setDescription(this.translationService.get('app.displayEmbeds.help.player.description'))
+          .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url),
       ]),
       new PageBuilder().setEmbeds([
         clanEmbed
           .setTitle(this.translationService.get('app.displayEmbeds.help.clan.title'))
-          .setDescription(this.translationService.get('app.displayEmbeds.help.clan.description')),
+          .setDescription(this.translationService.get('app.displayEmbeds.help.clan.description'))
+          .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url),
       ]),
       new PageBuilder().setEmbeds([
         otherEmbed
           .setTitle(this.translationService.get('app.displayEmbeds.help.other.title'))
-          .setDescription(this.translationService.get('app.displayEmbeds.help.other.description')),
+          .setDescription(this.translationService.get('app.displayEmbeds.help.other.description'))
+          .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url),
       ]),
     ];
   }

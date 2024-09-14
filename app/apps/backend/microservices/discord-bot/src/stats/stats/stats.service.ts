@@ -36,13 +36,16 @@ export class StatsService {
 
     pveEmbed
       .setAuthor(this.createAuthorObject(playerInfo))
-      .setFields(...commonFields, ...this.createPveFields(playerInfo));
+      .setFields(...commonFields, ...this.createPveFields(playerInfo))
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url);
     pvpEmbed
       .setAuthor(this.createAuthorObject(playerInfo))
-      .setFields(...commonFields, ...this.createPvpFields(playerInfo));
+      .setFields(...commonFields, ...this.createPvpFields(playerInfo))
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url);
     otherEmbed
       .setAuthor(this.createAuthorObject(playerInfo))
-      .setFields(...commonFields, ...this.createOtherFields(playerInfo.achievements));
+      .setFields(...commonFields, ...this.createOtherFields(playerInfo.achievements))
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url);
 
     return [
       new PageBuilder().setEmbeds([pveEmbed]),

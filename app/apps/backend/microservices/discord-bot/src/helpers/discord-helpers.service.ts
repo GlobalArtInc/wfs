@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { Colors, EmbedBuilder, EmbedData } from 'discord.js';
-import { DefaultLocalizationAdapter, LOCALIZATION_ADAPTER } from '@globalart/nestcord';
+import { DefaultLocalizationAdapter, LOCALIZATION_ADAPTER, NestcordService } from '@globalart/nestcord';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
 import { TranslationService } from '../translation/translation.service';
 
@@ -11,6 +11,7 @@ export class DiscordHelpersService {
     private readonly translationService: TranslationService,
     private readonly requestClsService: RequestClsService,
     private readonly userService: UserService,
+    private nestcordService: NestcordService,
   ) {}
 
   async buildEmbed(data?: EmbedData) {
@@ -26,7 +27,7 @@ export class DiscordHelpersService {
     if (userVip) {
       footer = {
         text: [data?.footer?.text, this.translationService.get('app.footer.vip')].join('\r\n'),
-        iconURL: 'https://cdn.discordapp.com/emojis/891623735822549002.png',
+        iconURL: this.nestcordService.getApplicationEmoji('wfs_vip')?.imageURL(),
       };
       color = userVip.type.id === 'developer' ? Colors.Red : Colors.Gold;
     }

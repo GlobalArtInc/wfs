@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, Colors, EmbedBuilder } from 'discord.js';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { TranslationService } from '../../translation/translation.service';
+import { NestcordService } from '@globalart/nestcord';
 
 @Injectable()
 export class GeneralUrlService {
@@ -9,6 +10,7 @@ export class GeneralUrlService {
     private readonly client: Client,
     private readonly discordHelpersService: DiscordHelpersService,
     private readonly translationService: TranslationService,
+    private nestcordService: NestcordService,
   ) {}
 
   public async createEmbed() {
@@ -17,7 +19,8 @@ export class GeneralUrlService {
     });
     embed
       .setTitle(this.translationService.get('app.displayEmbeds.link.title'))
-      .setDescription(this.translationService.get('app.displayEmbeds.link.description', { link: this.createLink() }));
+      .setDescription(this.translationService.get('app.displayEmbeds.link.description', { link: this.createLink() }))
+      .setThumbnail(this.nestcordService.getApplicationAsset('common')?.url);
 
     return embed;
   }
