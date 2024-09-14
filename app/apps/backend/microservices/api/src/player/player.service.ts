@@ -13,7 +13,7 @@ import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
 import { WarfaceApiPlayerData, WarfaceApiSavePlayerData } from '@app/infrastructure/apis/warface/warface-api.types';
 import { WarfaceApiService } from '@app/infrastructure/apis/warface/warface.api.service';
 import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
-import { PLAYER_SAVE_REDIS_COMMAND } from '@app/shared/constants';
+import { PLAYER_SAVE_REDIS_COMMAND, PLAYER_UPDATE_STATUS_COMMAND } from '@app/shared/constants';
 import { HelpersService } from '@app/shared/modules/helpers/helpers.service';
 import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
 import * as moment from 'moment';
@@ -69,6 +69,11 @@ export class PlayerService {
       const fallbackResponse = await this.handlePlayerError(playerData, nickname, server, servers);
       if (fallbackResponse) {
         await this.redisService.set(savedPlayer.player.id, fallbackResponse, this.defaultCacheTime);
+
+        if ([PlayerTypeEnum.Hidden, PlayerTypeEnum.Inactive, PlayerTypeEnum.NicknameChanged].includes(fallbackResponse.state.status)) {
+          this.redisProxy.emit(PLAYER_UPDATE_STATUS_COMMAND, { playerId: fallbackResponse.player.id, status: fallbackResponse.state.status });
+        }
+
         return fallbackResponse;
       }
     }
@@ -227,7 +232,7 @@ export class PlayerService {
 
     return {
       server,
-      state: { status: state.statusCode, updatedAt: state.updatedAt },
+      state: { status: state.statusCode as PlayerTypeEnum, updatedAt: state.updatedAt },
       player: omit(player, ['playerAchievements']),
       fullPlayer: this.responseToObject(fullPlayer),
       achievements: achievements.map((achievement) => omit(achievement, ['playerId'])),
