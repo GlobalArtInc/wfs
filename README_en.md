@@ -19,7 +19,7 @@
 
 ## Features
 Among the functions of the bot there are such commands, for example: checking the current amount of players on the servers, checking statistics, clan statistics, game ratings and much more.
-For all commands, use !help
+For all commands, use /help
 
 ## Configuration and Permissions
 For correct work, the bot must have permission to read, write and manage messages. Otherwise, the bot may not work correctly.

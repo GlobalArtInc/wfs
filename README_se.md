@@ -20,7 +20,7 @@
 ## Funktion
 Bland funktionerna i stöveln finns sådana kommandon, till exempel: kontrollera det aktuella antalet spelare på servrarna, kontrollera statistik, klanstatistik, spelbetyg och mycket mer.
 
-För alla kommandon, använd !help
+För alla kommandon, använd /help
 
 ## Konfiguration och behörigheter
 För korrekt arbete måste boten ha behörighet att läsa, skriva och hantera meddelanden. Annars kan boten inte fungera korrekt.
