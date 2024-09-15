@@ -10,6 +10,7 @@ import { Injectable, UseInterceptors } from '@nestjs/common';
 import { TopCommandOptions } from './top.dtos';
 import { TopService } from './top.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class TopInteractions {
@@ -21,6 +22,7 @@ export class TopInteractions {
   @UseInterceptors(DeferCommandInterceptor)
   @SlashCommand({
     name: 'top',
+    category: CommandCategoryEnum.STATS,
     description: 'The best players on the missions',
     nameLocalizations: localizationMapByKey('app.chatCommands.top.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.top.desc'),

@@ -11,10 +11,12 @@ import { Injectable, UseInterceptors } from '@nestjs/common';
 import { SetClanOptions, SetPlayerOptions, SetServerOptions } from './set.dtos';
 import { SetService } from './set.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 export const SetCommandDecorator = createCommandGroupDecorator({
   name: 'set',
   description: 'Settings management of the bot',
+  category: CommandCategoryEnum.GENERAL,
 });
 
 @UseInterceptors(DeferCommandInterceptor)

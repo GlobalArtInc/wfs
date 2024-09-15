@@ -10,6 +10,7 @@ import { Injectable, UseInterceptors } from '@nestjs/common';
 import { AchievementsDto } from './achievements.dtos';
 import { AchievementsService } from './achievements.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class AchievementsInteractions {
@@ -21,6 +22,7 @@ export class AchievementsInteractions {
   @UseInterceptors(DeferCommandInterceptor)
   @SlashCommand({
     name: 'a',
+    category: CommandCategoryEnum.STATS,
     description: 'Retrive achievements on spec ops',
     nameLocalizations: localizationMapByKey('app.chatCommands.achievements.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.achievements.desc'),

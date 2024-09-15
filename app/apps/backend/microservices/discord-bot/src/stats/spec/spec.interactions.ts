@@ -10,6 +10,7 @@ import { Injectable, UseInterceptors } from '@nestjs/common';
 import { SpecSearchDto } from './spec.dtos';
 import { SpecService } from './spec.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class SpecInteractions {
@@ -21,6 +22,7 @@ export class SpecInteractions {
   @UseInterceptors(DeferCommandInterceptor)
   @SlashCommand({
     name: 'spec',
+    category: CommandCategoryEnum.STATS,
     description: 'Retrieve information about player missions',
     nameLocalizations: localizationMapByKey('app.chatCommands.spec.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.spec.desc'),

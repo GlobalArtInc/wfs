@@ -18,6 +18,7 @@ import { DiscordErrorException } from '../../exceptions/discord-error.exception'
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { ClanInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { TranslationService } from '../../translation/translation.service';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class ClanService {
@@ -32,6 +33,7 @@ export class ClanService {
   @UseInterceptors(DeferCommandInterceptor)
   @SlashCommand({
     name: 'clan',
+    category: CommandCategoryEnum.STATS,
     description: 'Retrieve information about clan members',
     nameLocalizations: localizationMapByKey('app.chatCommands.clan.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.clan.desc'),

@@ -17,6 +17,7 @@ import {
 import { StatsCommandOptions } from './stats.dtos';
 import { PageEnum } from './stats.enums';
 import { UserService } from '../../user/user.service';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class StatsInteractions {
@@ -34,6 +35,7 @@ export class StatsInteractions {
   @UseInterceptors(DeferCommandInterceptor)
   @SlashCommand({
     name: 'stats',
+    category: CommandCategoryEnum.STATS,
     description: 'Get player stats',
     nameLocalizations: localizationMapByKey('app.chatCommands.stats.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.stats.desc'),

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GeneralUrlService } from './url.service';
 import { SlashCommand, localizationMapByKey, Context, SlashCommandContext } from '@globalart/nestcord';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class GeneralUrlInteractions {
@@ -8,6 +9,7 @@ export class GeneralUrlInteractions {
 
   @SlashCommand({
     name: 'link',
+    category: CommandCategoryEnum.GENERAL,
     description: 'Link to invite the bot',
     nameLocalizations: localizationMapByKey('app.chatCommands.link.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.link.desc'),

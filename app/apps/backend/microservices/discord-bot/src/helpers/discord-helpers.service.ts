@@ -41,6 +41,13 @@ export class DiscordHelpersService {
     }
     embed.setColor(color);
 
+    if (data.description) {
+      embed.setDescription(data.description);
+    }
+    if (data.fields?.length) {
+      embed.addFields(...data.fields);
+    }
+
     return embed;
   }
 

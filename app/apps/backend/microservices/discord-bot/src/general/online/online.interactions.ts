@@ -10,6 +10,7 @@ import {
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { GeneralOnlineService } from './online.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class GeneralOnlineInteractions {
@@ -28,6 +29,7 @@ export class GeneralOnlineInteractions {
   @UseInterceptors(DeferCommandInterceptor)
   @SlashCommand({
     name: 'online',
+    category: CommandCategoryEnum.GENERAL,
     description: 'Retrieve online player stats',
     nameLocalizations: localizationMapByKey('app.chatCommands.online.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.online.desc'),
