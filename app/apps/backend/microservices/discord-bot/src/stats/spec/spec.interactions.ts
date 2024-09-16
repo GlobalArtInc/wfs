@@ -40,7 +40,7 @@ export class SpecInteractions {
         message:
           err?.response?.discordMessage ||
           (err?.response?.code ? `app.errors.${err.response.code}` : 'app.errors.unknown'),
-        variables: { nickname: name },
+        variables: { name },
       });
       return interaction.followUp({
         embeds: [errorEmbed],
