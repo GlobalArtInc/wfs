@@ -9,6 +9,7 @@ import { PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.t
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
 import { TranslationService } from '../../translation/translation.service';
 import * as moment from 'moment';
+import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 
 @Injectable()
 export class StatsService {
@@ -24,6 +25,11 @@ export class StatsService {
   async createEmbed(name: string) {
     const discordUser = this.requestClsService.getUser();
     const playerName = name || (await this.userService.getLinkedPlayer(discordUser.id));
+    
+    if (!playerName) {
+      throw new DiscordErrorException('app.errors.player_name_not_specified');
+    }
+
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
       name: playerName,
     });
