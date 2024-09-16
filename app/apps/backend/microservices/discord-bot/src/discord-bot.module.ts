@@ -73,6 +73,7 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
       useFactory: (configService: ConfigService) => {
         const botId = configService.getOrThrow('discord.discordUserId');
         const topGgToken = configService.get('discord.topGgToken');
+        const discordBotListComToken = configService.get('discord.discordBotListComToken');
         const sdcToken = configService.get('discord.sdcToken');
         const boticordToken = configService.get('discord.boticordToken');
 
@@ -85,6 +86,15 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
               bodyData: { server_count: '{{serverCount}}', shard_count: '{{shardCount}}' },
               headerData: {
                 Authorization: topGgToken,
+              },
+              schedule: StatCronExpression.EVERY_MINUTE,
+            },
+            {
+              name: 'DiscordBotList.Com',
+              url: `https://discordbotlist.com/api/v1/bots/${botId}/stats`,
+              bodyData: { guilds: '{{serverCount}}', shard_id: '{{shardCount}}' },
+              headerData: {
+                Authorization: discordBotListComToken,
               },
               schedule: StatCronExpression.EVERY_MINUTE,
             },

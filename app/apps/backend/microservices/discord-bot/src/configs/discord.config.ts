@@ -8,6 +8,7 @@ export default registerAs(
     discordUserId: process.env.DISCORD_USER_ID,
     topGgToken: process.env.TOP_GG_TOKEN,
     sdcToken: process.env.SDC_TOKEN,
+    discordBotListComToken: process.env.DISCORD_BOT_LIST_COM_TOKEN,
     boticordToken: process.env.BOTICORD_TOKEN,
     guildIdWithCommands: '711518189862780990',
     defaultEmbedColor: Colors.Blue,
