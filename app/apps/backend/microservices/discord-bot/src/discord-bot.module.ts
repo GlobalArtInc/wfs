@@ -82,8 +82,13 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
           services: [
             {
               name: 'top.gg',
-              url: `https://top.gg/api/bots/${botId}/stats`,
-              bodyData: { server_count: '{{serverCount}}', shard_count: '{{shardCount}}' },
+              actions: [
+                {
+                  name: 'stats',
+                  url: `https://top.gg/api/bots/${botId}/stats`,
+                  bodyData: { server_count: '{{serverCount}}', shard_count: '{{shardCount}}' },
+                },
+              ],
               headerData: {
                 Authorization: topGgToken,
               },
@@ -91,8 +96,13 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
             },
             {
               name: 'DiscordBotList.Com',
-              url: `https://discordbotlist.com/api/v1/bots/${botId}/stats`,
-              bodyData: { guilds: '{{serverCount}}' },
+              actions: [
+                {
+                  name: 'stats',
+                  url: `https://discordbotlist.com/api/v1/bots/${botId}/stats`,
+                  bodyData: { guilds: '{{serverCount}}' },
+                },
+              ],
               headerData: {
                 Authorization: discordBotListComToken,
               },
@@ -100,8 +110,13 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
             },
             {
               name: 'SDC Bots',
-              url: `https://api.server-discord.com/v2/bots/${botId}/stats`,
-              bodyData: { servers: '{{serverCount}}', shards: '{{shardCount}}' },
+              actions: [
+                {
+                  name: 'stats',
+                  url: `https://api.server-discord.com/v2/bots/${botId}/stats`,
+                  bodyData: { servers: '{{serverCount}}', shards: '{{shardCount}}' },
+                },
+              ],
               headerData: {
                 Authorization: `SDC ${sdcToken}`,
               },
@@ -109,8 +124,13 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
             },
             {
               name: 'Boticord.top',
-              url: `https://api.boticord.top/v3/bots/${botId}/stats`,
-              bodyData: { servers: '{{serverCount}}', shards: '{{shardCount}}' },
+              actions: [
+                {
+                  name: 'stats',
+                  url: `https://api.boticord.top/v3/bots/${botId}/stats`,
+                  bodyData: { servers: '{{serverCount}}', shards: '{{shardCount}}' },
+                },
+              ],
               headerData: {
                 Authorization: boticordToken,
               },

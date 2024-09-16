@@ -34,7 +34,7 @@ export class DiscordHelpersService {
       footer = {
         text: data?.footer?.text ?? null,
       };
-    }    
+    }
 
     if (footer) {
       embed.setFooter(footer);

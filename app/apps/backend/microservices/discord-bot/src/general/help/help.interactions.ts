@@ -107,20 +107,19 @@ export class GeneralHelpInteractions implements OnModuleInit {
   }
 
   private async createMenuPages(commands: Map<string, CommandDiscovery<BaseCommandMeta>[]>) {
-    const fields = Array.from(commands.entries())
-      .map(([key, value]) => ({
-        name: key,
-        value: value
-          .map((command) =>
-            command.hasSubCommands()
-              ? command
-                  .getSubCommands()
-                  .map((subCommand) => `</${command.getName()} ${subCommand.getName()}:${command.getId()}>`)
-                  .join(' ')
-              : `</${command.getName()}:${command.getId()}>`,
-          )
-          .join(' '),
-      }));
+    const fields = Array.from(commands.entries()).map(([key, value]) => ({
+      name: key,
+      value: value
+        .map((command) =>
+          command.hasSubCommands()
+            ? command
+                .getSubCommands()
+                .map((subCommand) => `</${command.getName()} ${subCommand.getName()}:${command.getId()}>`)
+                .join(' ')
+            : `</${command.getName()}:${command.getId()}>`,
+        )
+        .join(' '),
+    }));
 
     const embed = await this.discordHelperService.buildEmbed({
       title: this.translatorService.get('app.commands.help.title'),

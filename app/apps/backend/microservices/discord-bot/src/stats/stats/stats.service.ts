@@ -25,7 +25,7 @@ export class StatsService {
   async createEmbed(name: string) {
     const discordUser = this.requestClsService.getUser();
     const playerName = name || (await this.userService.getLinkedPlayer(discordUser.id));
-    
+
     if (!playerName) {
       throw new DiscordErrorException('app.errors.player_name_not_specified');
     }
