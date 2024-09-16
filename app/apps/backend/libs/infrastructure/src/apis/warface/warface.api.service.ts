@@ -13,10 +13,13 @@ export class WarfaceApiService {
   }
 
   async getClan(server: string, name: string) {
-    const apiUrl = this.getApiUrl(server);
-    const response = await fetch(encodeURI(`${apiUrl}/clan/members?clan=${name}`));
-
-    return response.json();
+    try {
+      const apiUrl = this.getApiUrl(server);
+      const response = await fetch(encodeURI(`${apiUrl}/clan/members?clan=${name}`));
+      return response.json();
+    } catch (err) {
+      return false;
+    }
   }
 
   async getStats(server: string, name: string) {

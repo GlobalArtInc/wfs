@@ -58,7 +58,7 @@ export class ClanService {
         return this.saveAndCacheClan(apiClan, server, name);
       }
     }
-    throw new NotFoundException({ message: `Клан «${name}» не найден.` });
+    throw new NotFoundException({ code: 'clan_not_found', name, message: `Клан «${name}» не найден.` });
   }
 
   private async saveAndCacheClan(apiClan: WarfaceApiClan, server: string, name: string) {
