@@ -92,7 +92,7 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
             {
               name: 'DiscordBotList.Com',
               url: `https://discordbotlist.com/api/v1/bots/${botId}/stats`,
-              bodyData: { guilds: '{{serverCount}}', shard_id: '{{shardCount}}' },
+              bodyData: { guilds: '{{serverCount}}' },
               headerData: {
                 Authorization: discordBotListComToken,
               },
