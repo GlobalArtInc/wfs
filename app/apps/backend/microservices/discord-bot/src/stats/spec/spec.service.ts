@@ -54,8 +54,21 @@ export class SpecService {
       const stats = Object.keys(mission.mode).map((itemKey) => {
         const stat = mission.mode[itemKey];
         const complexity = playerInfo.fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
-        const won = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_won || 0);
-        const lost = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0);
+        let won = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_won || 0);
+        let lost = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0);
+        if (mission.survivalMode && stat.category === 'hard') {
+          const survivalStats = playerInfo.fullPlayer?.complexity?.survival?.mission_type?.[mission.survivalMode];
+          const survivalWon = HelpersService.numeral(survivalStats?.mode?.pve?.season?.stat?.player_sessions_won || 0);
+          const survivalLost = HelpersService.numeral(
+            survivalStats?.mode?.pve?.season?.stat?.player_sessions_lost || 0,
+          );
+
+          const totalWon = +won + +survivalWon;
+          const totalLost = +lost + +survivalLost;
+
+          won = totalWon.toString();
+          lost = totalLost.toString();
+        }
 
         if (stat.category === 'survival') {
           return `${this.translationService.get('app.labels.done', { count: won })}\r\n${this.translationService.get('app.labels.failed', { count: lost })}`;
