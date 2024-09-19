@@ -1,8 +1,12 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { firstValueFrom } from 'rxjs';
 // import { InternalApi } from '../internal-api.abstract';
 
 @Injectable()
 export class WarfaceApiService {
+  constructor(private httpService: HttpService) {}
+
   getApiUrl(server: string) {
     switch (server) {
       case 'ru':
@@ -39,4 +43,10 @@ export class WarfaceApiService {
 
     return response.json();
   }
+
+  async getAllAchievements() {
+    const apiUrl = this.getApiUrl('ru');
+    const response = await firstValueFrom(this.httpService.get(`${apiUrl}/achievement/catalog`));
+    return response.data;
+  }  
 }

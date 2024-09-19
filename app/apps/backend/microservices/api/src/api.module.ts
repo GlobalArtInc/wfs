@@ -10,6 +10,7 @@ import { TopModule } from './top/top.module';
 import { WeaponsModule } from './weapons/weapons.module';
 import { RedisCacheModule } from '@app/shared/modules/redis-microservice/redis-cache.module';
 import { SharedModule } from '@app/shared/modules/shared.module';
+import { AchievementModule } from './achievement/achievement.module';
 import configs from '@app/shared/configs';
 
 @Module({
@@ -32,6 +33,7 @@ import configs from '@app/shared/configs';
     TopModule,
     WeaponsModule,
     SharedModule,
+    AchievementModule,
   ],
 })
 export class ApiModule {}
