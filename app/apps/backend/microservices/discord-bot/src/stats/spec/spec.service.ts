@@ -29,10 +29,10 @@ export class SpecService {
     }
 
     const missionsData = await this.settingService.getValueByKey('missions_stats');
-
     const playerInfo = await this.internalBotApiService.send<PlayerInfo>('get', `player`, {
       name: playerName,
     });
+
     const embed = await this.discordHelpersService.buildEmbed({
       color: Colors.Green,
       footer: {
@@ -51,31 +51,8 @@ export class SpecService {
 
     const fields: APIEmbedField[] = Object.keys(missionsData).map((item) => {
       const mission = missionsData[item];
-      const stats = Object.keys(mission.mode).map((itemKey) => {
-        const stat = mission.mode[itemKey];
-        const complexity = playerInfo.fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
-        let won = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_won || 0);
-        let lost = HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0);
-        if (mission.survivalMode && stat.category === 'hard') {
-          const survivalStats = playerInfo.fullPlayer?.complexity?.survival?.mission_type?.[mission.survivalMode];
-          const survivalWon = HelpersService.numeral(survivalStats?.mode?.pve?.season?.stat?.player_sessions_won || 0);
-          const survivalLost = HelpersService.numeral(
-            survivalStats?.mode?.pve?.season?.stat?.player_sessions_lost || 0,
-          );
-
-          const totalWon = +won + +survivalWon;
-          const totalLost = +lost + +survivalLost;
-
-          won = totalWon.toString();
-          lost = totalLost.toString();
-        }
-
-        if (stat.category === 'survival') {
-          return `${this.translationService.get('app.labels.done', { count: won })}\r\n${this.translationService.get('app.labels.failed', { count: lost })}`;
-        }
-        return `${this.translationService.get(`app.${stat.name}`)}: ${won} / ${lost}`;
-      });
-
+      const stats = this.getMissionStats(mission, playerInfo);
+      
       return {
         name: `${this.nestcordService.getApplicationEmojiPlain(`wfs_${item}`)} **${this.translationService.get(`app.${mission.name}`)}**`,
         value: stats.join('\n'),
@@ -86,6 +63,41 @@ export class SpecService {
     embed.addFields(fields);
 
     return embed;
+  }
+
+  private getMissionStats(mission: any, playerInfo: PlayerInfo): string[] {
+    return Object.keys(mission.mode).map((itemKey) => {
+      const stat = mission.mode[itemKey];
+      let { won, lost } = this.getPlayerStats(stat, playerInfo);
+
+      if (mission.survivalMode && stat.category === 'hard') {
+        const survivalStats = this.getSurvivalStats(mission, playerInfo);
+        won = (+won + +survivalStats.won).toString();
+        lost = (+lost + +survivalStats.lost).toString();
+      }
+
+      if (stat.category === 'survival') {
+        return `${this.translationService.get('app.labels.done', { count: won })}\r\n${this.translationService.get('app.labels.failed', { count: lost })}`;
+      }
+
+      return `${this.translationService.get(`app.${stat.name}`)}: ${won} / ${lost}`;
+    });
+  }
+
+  private getPlayerStats(stat: any, playerInfo: PlayerInfo): { won: string; lost: string } {
+    const complexity = playerInfo.fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
+    return {
+      won: HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_won || 0),
+      lost: HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0),
+    };
+  }
+
+  private getSurvivalStats(mission: any, playerInfo: PlayerInfo): { won: string; lost: string } {
+    const survivalStats = playerInfo.fullPlayer?.complexity?.survival?.mission_type?.[mission.survivalMode];
+    return {
+      won: HelpersService.numeral(survivalStats?.mode?.pve?.season?.stat?.player_sessions_won || 0),
+      lost: HelpersService.numeral(survivalStats?.mode?.pve?.season?.stat?.player_sessions_lost || 0),
+    };
   }
 
   private createAuthorObject(playerInfo: PlayerInfo): { name: string; url: string; iconURL: string } {
