@@ -6,6 +6,6 @@ import { SharedModule } from '@app/shared/modules/shared.module';
 @Module({
   imports: [SharedModule],
   providers: [AchievementService],
-  controllers: [AchievementController]
+  controllers: [AchievementController],
 })
 export class AchievementModule {}

@@ -6,7 +6,8 @@ import { Injectable } from '@nestjs/common';
 export class AchievementService {
   constructor(
     private readonly redisService: RedisCacheService,
-    private readonly warfaceApiService: WarfaceApiService) {}
+    private readonly warfaceApiService: WarfaceApiService,
+  ) {}
 
   private readonly achievementRedisKey = 'achievements_catalog';
 

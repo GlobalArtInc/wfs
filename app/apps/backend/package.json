@@ -30,6 +30,7 @@
     "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate --pretty -d libs/shared/src/configs/ormconfig.ts"
   },
   "dependencies": {
+    "@discordjs/proxy": "^2.1.1",
     "@globalart/nest-swagger": "^1.1.1",
     "@globalart/nestcord": "^1.8.7",
     "@nestjs/axios": "^3.0.3",
@@ -53,12 +54,15 @@
     "cookie-parser": "^1.4.6",
     "deepmerge": "^4.3.1",
     "discord.js": "^14.16.2",
+    "https-proxy-agent": "^7.0.5",
     "husky": "^9.1.6",
+    "install": "^0.13.0",
     "ioredis": "^5.4.1",
     "lint-staged": "^15.2.10",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "nestjs-cls": "^4.4.1",
+    "node-global-proxy": "^1.0.1",
     "number-format.js": "^2.0.9",
     "pg": "^8.12.0",
     "postgres": "^3.4.4",
@@ -69,6 +73,7 @@
     "typeorm": "^0.3.20",
     "typeorm-naming-strategies": "^4.1.0",
     "typeorm-transactional": "^0.5.0",
+    "undici": "^6.19.8",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

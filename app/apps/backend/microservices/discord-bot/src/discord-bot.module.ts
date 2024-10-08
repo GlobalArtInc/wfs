@@ -23,6 +23,7 @@ import { RequestClsModule } from '@app/shared/modules/request-cls';
 import { SharedModule } from '@app/shared/modules/shared.module';
 import { TranslationModule } from '@app/shared/translation/translation.module';
 import { TranslationModule as DiscordTranslationModule } from './translation/translation.module';
+import { ProxyAgent } from 'undici';
 
 const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
 
@@ -43,6 +44,11 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
     NestCordModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         token: configService.getOrThrow('discord.token'),
+        rest: {
+          agent: new ProxyAgent(
+            `http://${process.env.PROXY_USER}:${process.env.PROXY_PASS}@${process.env.PROXY_HOST}:${process.env.PROXY_PORT}`,
+          ),
+        },
         intents: [
           GatewayIntentBits.Guilds,
           GatewayIntentBits.GuildMessages,

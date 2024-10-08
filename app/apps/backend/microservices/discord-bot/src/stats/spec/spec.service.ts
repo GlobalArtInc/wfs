@@ -52,7 +52,7 @@ export class SpecService {
     const fields: APIEmbedField[] = Object.keys(missionsData).map((item) => {
       const mission = missionsData[item];
       const stats = this.getMissionStats(mission, playerInfo);
-      
+
       return {
         name: `${this.nestcordService.getApplicationEmojiPlain(`wfs_${item}`)} **${this.translationService.get(`app.${mission.name}`)}**`,
         value: stats.join('\n'),

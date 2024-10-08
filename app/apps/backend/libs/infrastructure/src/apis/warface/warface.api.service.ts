@@ -48,5 +48,5 @@ export class WarfaceApiService {
     const apiUrl = this.getApiUrl('ru');
     const response = await firstValueFrom(this.httpService.get(`${apiUrl}/achievement/catalog`));
     return response.data;
-  }  
+  }
 }
