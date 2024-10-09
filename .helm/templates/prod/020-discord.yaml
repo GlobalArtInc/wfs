@@ -1,5 +1,5 @@
 {{ $replicaCount := index .Values "discordBotReplicaCount" }}
-{{ if  (ne .Values.werf.env "dev") }}
+{{ if (ne .Values.werf.env "dev") }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -9,8 +9,8 @@ metadata:
 spec:
   replicas: {{ $replicaCount }}
   selector:
-      matchLabels:
-        app: {{ .Chart.Name }}-discord
+    matchLabels:
+      app: {{ .Chart.Name }}-discord
   template:
     metadata:
       labels:
@@ -19,11 +19,23 @@ spec:
       containers:
       - name: {{ .Chart.Name }}-discord
         image: '{{ index .Values.werf.image "wfs-discord" }}'
+        env:
+          - name: http_proxy
+            value: "{{.Values.proxyUrl}}"
+          - name: https_proxy
+            value: "{{.Values.proxyUrl}}"
         envFrom:
         - configMapRef:
             name: {{ .Chart.Name }}-common-config
-      volumes:
+        # command: ["/bin/sh", "-c"]
+        # args:
+        #   - sleep infinity
+        volumeMounts:
         - name: config-files
-          configMap:
-            name: {{ .Chart.Name }}-common-config
+          mountPath: /config
+
+      volumes:
+      - name: config-files
+        configMap:
+          name: {{ .Chart.Name }}-common-config
 {{ end }}
