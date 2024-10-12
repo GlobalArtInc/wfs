@@ -1,5 +1,14 @@
 {{ $replicaCount := index .Values "discordBotReplicaCount" }}
 {{ if (ne .Values.werf.env "dev") }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wg-config
+data:
+  wg0.conf: |
+{{ .Values.wireguardConfig | indent 4 }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,23 +28,34 @@ spec:
       containers:
       - name: {{ .Chart.Name }}-discord
         image: '{{ index .Values.werf.image "wfs-discord" }}'
-        env:
-          - name: http_proxy
-            value: "{{.Values.proxyUrl}}"
-          - name: https_proxy
-            value: "{{.Values.proxyUrl}}"
         envFrom:
         - configMapRef:
             name: {{ .Chart.Name }}-common-config
-        # command: ["/bin/sh", "-c"]
-        # args:
-        #   - sleep infinity
         volumeMounts:
         - name: config-files
           mountPath: /config
-
+      - name: wg-client
+        image: linuxserver/wireguard
+        securityContext:
+          privileged: true
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Moscow"
+        volumeMounts:
+        - name: wg-config
+          mountPath: /config/wg0.conf
+          subPath: wg0.conf
+    
       volumes:
       - name: config-files
         configMap:
           name: {{ .Chart.Name }}-common-config
+      - name: wg-config
+        configMap:
+          name: wg-config
+      hostNetwork: false
 {{ end }}
