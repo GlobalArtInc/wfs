@@ -1,14 +1,6 @@
 {{ $replicaCount := index .Values "discordBotReplicaCount" }}
 {{ if (ne .Values.werf.env "dev") }}
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wg-config
-data:
-  wg0.conf: |
-{{ .Values.wireguardConfig | indent 4 }}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,9 +39,17 @@ spec:
           value: "Europe/Moscow"
         volumeMounts:
         - name: wg-config
-          mountPath: /config/wg0.conf
+          mountPath: /etc/wireguard/wg0.conf
           subPath: wg0.conf
-    
+        - name: wg-config
+          mountPath: /etc/wireguard/pre-up.sh
+          subPath: wg-pre-up.sh
+        - name: wg-config
+          mountPath: /etc/wireguard/post-up.sh
+          subPath: wg-post-up.sh
+        - name: wg-config
+          mountPath: /etc/wireguard/post-down.sh
+          subPath: wg-post-down.sh
       volumes:
       - name: config-files
         configMap:
@@ -57,5 +57,6 @@ spec:
       - name: wg-config
         configMap:
           name: wg-config
+          defaultMode: 0755
       hostNetwork: false
 {{ end }}
