@@ -1,7 +1,7 @@
 deployEnv: prod
 replicaCount: 1
-apiUrl: http://wfs.globalart.dev/api
-translatorUrl: http://translator.globalart.dev/api
+apiUrl: http://wfs-api.wfs-prod.svc.cluster.local/api
+translatorUrl: http://translator-service-api.translator-prod.svc.cluster.local/api
 apiHost: wfs.globalart.dev
 remoteDictsBotUrl: https://translator.globalart.dev/api/public/translates?projectId=8
 remoteDictsAchievementsUrl: https://translator.globalart.dev/api/public/translates?projectId=9
