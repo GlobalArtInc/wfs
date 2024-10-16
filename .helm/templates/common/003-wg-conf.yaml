@@ -7,5 +7,7 @@ data:
 {{ .Values.wireguardPreUpScript | indent 4 }}
   wg-post-up.sh: |
 {{ .Values.wireguardPostUpScript | indent 4 }}
-  wg0.conf: |
+  wg-api.conf: |
 {{ .Values.wireguardConfig | indent 4 }}
+  wg-discord.conf: |
+{{ .Values.wireguardDiscordConfig | indent 4 }}

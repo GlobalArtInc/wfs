@@ -40,7 +40,7 @@ spec:
         volumeMounts:
         - name: wg-config
           mountPath: /etc/wireguard/wg0.conf
-          subPath: wg0.conf
+          subPath: wg-discord.conf
         - name: wg-config
           mountPath: /etc/wireguard/pre-up.sh
           subPath: wg-pre-up.sh

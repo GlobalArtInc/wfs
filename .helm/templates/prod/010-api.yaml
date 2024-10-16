@@ -22,4 +22,37 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Chart.Name }}-common-config
+      - name: wg-client
+        image: globalartltd/wireguard:rc3
+        securityContext:
+          privileged: true
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Moscow"
+        volumeMounts:
+        - name: wg-config
+          mountPath: /etc/wireguard/wg0.conf
+          subPath: wg-api.conf
+        - name: wg-config
+          mountPath: /etc/wireguard/pre-up.sh
+          subPath: wg-pre-up.sh
+        - name: wg-config
+          mountPath: /etc/wireguard/post-up.sh
+          subPath: wg-post-up.sh
+        - name: wg-config
+          mountPath: /etc/wireguard/post-down.sh
+          subPath: wg-post-down.sh
+      volumes:
+      - name: config-files
+        configMap:
+          name: {{ .Chart.Name }}-common-config
+      - name: wg-config
+        configMap:
+          name: wg-config
+          defaultMode: 0755
+      hostNetwork: false
 {{ end }}
