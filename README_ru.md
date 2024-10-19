@@ -1,6 +1,6 @@
 # wfbot
+- english [English](./README.md)
 - russian [Русский]
-- english [English](./README_en.md)
 - swedish [Swedish](./README_se.md)
 
 [![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-1f425f.svg)](https://nodejs.org)
