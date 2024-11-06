@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsEnum } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { FilterConditionOperatorsEnum } from '../enums';
 
 export class FilterDto<T> {

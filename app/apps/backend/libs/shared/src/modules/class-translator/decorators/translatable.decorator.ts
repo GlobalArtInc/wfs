@@ -1,7 +1,7 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
 
+import { ClassConstructor } from 'class-transformer';
 import { TRANSLATABLE_KEY } from '../translation.di-tokens';
-import { ClassConstructor, Type } from 'class-transformer';
 
 //eslint-disable-next-line @typescript-eslint/ban-types
 export const Translatable = <T>(dto: ClassConstructor<T>, fieldPlacement?: string, fieldKey?: string) => {

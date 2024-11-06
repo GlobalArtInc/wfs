@@ -1,10 +1,9 @@
-import { NestFactory, Reflector } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { WorkerModule } from './worker.module';
-import { initializeTransactionalContext } from 'typeorm-transactional';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import 'reflect-metadata';
+import { initializeTransactionalContext } from 'typeorm-transactional';
+import { WorkerModule } from './worker.module';
 
 async function bootstrap() {
   initializeTransactionalContext();

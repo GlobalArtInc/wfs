@@ -1,7 +1,7 @@
-import { BaseRepository } from '../../base-repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PlayerAchievementEntity, PlayerStatEntity } from './player.entity';
+import { BaseRepository } from '../../base-repository';
+import { PlayerAchievementEntity } from './player.entity';
 
 // @ts-ignore
 export class PlayerAchievementRepository extends BaseRepository<PlayerAchievementEntity> {

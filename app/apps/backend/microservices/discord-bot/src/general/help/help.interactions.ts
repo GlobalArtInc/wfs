@@ -1,24 +1,23 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import {
-  BaseCommandMeta,
-  CommandDiscovery,
-  CommandsService,
-  ComponentParam,
-  Context,
-  NestCordPaginationService,
-  PageBuilder,
-  PaginatorTypeEnum,
-  SelectedStrings,
-  SlashCommand,
-  SlashCommandContext,
-  StringSelect,
-  StringSelectContext,
-  localizationMapByKey,
-} from '@globalart/nestcord';
-import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { Logger } from '@nestjs/common';
 import { CommandCategoryEnum } from '@app/shared/enums';
+import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
+import {
+    BaseCommandMeta,
+    CommandDiscovery,
+    CommandsService,
+    ComponentParam,
+    Context,
+    NestCordPaginationService,
+    PageBuilder,
+    PaginatorTypeEnum,
+    SelectedStrings,
+    SlashCommand,
+    SlashCommandContext,
+    StringSelect,
+    StringSelectContext,
+    localizationMapByKey,
+} from '@globalart/nestcord';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()

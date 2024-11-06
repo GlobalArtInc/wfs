@@ -1,6 +1,6 @@
-import { BaseRepository } from '../../base-repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
+import { BaseRepository } from '../../base-repository';
 import { UserEntity } from './user.entity';
 
 export class UserRepository extends BaseRepository<UserEntity> {

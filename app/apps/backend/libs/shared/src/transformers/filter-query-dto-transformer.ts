@@ -1,8 +1,8 @@
+import { BaseEntity } from '@app/dal/base-entity';
 import { BadRequestException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { FilterQueryDto } from '../dtos';
 import { FilterConditionOperatorsEnum } from '../enums';
-import { plainToInstance } from 'class-transformer';
-import { BaseEntity } from '@app/dal/base-entity';
 
 export const transformToFilterQueryDto = <T extends BaseEntity>(value: string | string[]) => {
   value = value instanceof Array ? [...value] : [value];

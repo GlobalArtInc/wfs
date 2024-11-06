@@ -1,28 +1,28 @@
-import { Module } from '@nestjs/common';
-import { addTransactionalDataSource } from 'typeorm-transactional';
-import { DataSource } from 'typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  DefaultLocalizationAdapter,
-  NestCordLocalizationModule,
-  NestCordModule,
-  NestCordStatReporterModule,
-  StatCronExpression,
-  UserResolver,
-} from '@globalart/nestcord';
-import { GatewayIntentBits, Partials } from 'discord.js';
-import configs from './configs';
-import { DiscordBotGateway } from './discord-bot.gateway';
-import { GeneralModule } from './general/general.module';
-import { UtilityModule } from './utility/utility.module';
-import { StatsModule } from './stats/stats.module';
-import { UserModule } from './user/user.module';
 import { TranslatorService } from '@app/shared/modules/class-translator/translation.service';
 import { RequestClsModule } from '@app/shared/modules/request-cls';
 import { SharedModule } from '@app/shared/modules/shared.module';
 import { TranslationModule } from '@app/shared/translation/translation.module';
+import {
+    DefaultLocalizationAdapter,
+    NestCordLocalizationModule,
+    NestCordModule,
+    NestCordStatReporterModule,
+    StatCronExpression,
+    UserResolver,
+} from '@globalart/nestcord';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { GatewayIntentBits, Partials } from 'discord.js';
+import { DataSource } from 'typeorm';
+import { addTransactionalDataSource } from 'typeorm-transactional';
+import configs from './configs';
+import { DiscordBotGateway } from './discord-bot.gateway';
+import { GeneralModule } from './general/general.module';
+import { StatsModule } from './stats/stats.module';
 import { TranslationModule as DiscordTranslationModule } from './translation/translation.module';
+import { UserModule } from './user/user.module';
+import { UtilityModule } from './utility/utility.module';
 
 const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
 

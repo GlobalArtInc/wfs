@@ -1,17 +1,17 @@
+import { CommandCategoryEnum } from '@app/shared/enums';
 import {
-  Context,
-  DeferCommandInterceptor,
-  Options,
-  SlashCommandContext,
-  Subcommand,
-  createCommandGroupDecorator,
-  localizationMapByKey,
+    Context,
+    DeferCommandInterceptor,
+    Options,
+    SlashCommandContext,
+    Subcommand,
+    createCommandGroupDecorator,
+    localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { SetClanOptions, SetPlayerOptions, SetServerOptions } from './set.dtos';
 import { SetService } from './set.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { CommandCategoryEnum } from '@app/shared/enums';
 
 export const SetCommandDecorator = createCommandGroupDecorator({
   name: 'set',

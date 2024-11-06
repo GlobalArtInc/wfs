@@ -1,8 +1,8 @@
-import { SlashCommand, localizationMapByKey, Context, SlashCommandContext, Options } from '@globalart/nestcord';
+import { Context, Options, SlashCommand, SlashCommandContext, localizationMapByKey } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { WeaponsInteractionDto } from './weapons.dtos';
 import { UtilityWeaponsService } from './weapons.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 
 @Injectable()
 export class UtilityWeaponsInteractions {

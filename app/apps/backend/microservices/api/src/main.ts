@@ -1,12 +1,12 @@
-import { NestFactory, Reflector } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ApiModule } from './api.module';
-import { initializeTransactionalContext } from 'typeorm-transactional';
-import 'reflect-metadata';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions } from '@nestjs/microservices';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import 'reflect-metadata';
+import { initializeTransactionalContext } from 'typeorm-transactional';
+import { ApiModule } from './api.module';
 import { ErrorLoggingInterceptor } from './interceptors/error-logging.interceptor';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 async function bootstrap() {
   initializeTransactionalContext();

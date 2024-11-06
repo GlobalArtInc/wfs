@@ -1,13 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { SettingService } from '../../setting/setting.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { Colors } from 'discord.js';
-import { NestcordService } from '@globalart/nestcord';
-import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { ServerRepository } from '@app/dal/repositories/server';
-import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
-import { PlayerInfo, ClanInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { UserRepository } from '@app/dal/repositories/user';
+import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
+import { ClanInfo, PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
+import { NestcordService } from '@globalart/nestcord';
+import { Injectable } from '@nestjs/common';
+import { Colors } from 'discord.js';
+import { DiscordErrorException } from '../../exceptions/discord-error.exception';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()

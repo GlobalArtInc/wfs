@@ -1,16 +1,16 @@
+import { CommandCategoryEnum } from '@app/shared/enums';
 import {
-  Button,
-  Context,
-  ButtonContext,
-  SlashCommand,
-  localizationMapByKey,
-  SlashCommandContext,
-  DeferCommandInterceptor,
+    Button,
+    ButtonContext,
+    Context,
+    DeferCommandInterceptor,
+    localizationMapByKey,
+    SlashCommand,
+    SlashCommandContext,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
-import { GeneralOnlineService } from './online.service';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { CommandCategoryEnum } from '@app/shared/enums';
+import { GeneralOnlineService } from './online.service';
 
 @Injectable()
 export class GeneralOnlineInteractions {

@@ -1,7 +1,7 @@
+import { DAL_ENTITIES as entities } from '@app/dal/repositories';
 import { registerAs } from '@nestjs/config';
 import { MIGRATIONS } from 'migrations';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { DAL_ENTITIES as entities } from '@app/dal/repositories';
 
 export const databaseCredentials = {
   host: process.env.DB_HOST,

@@ -1,9 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
-import { Colors, EmbedBuilder, EmbedData } from 'discord.js';
-import { DefaultLocalizationAdapter, LOCALIZATION_ADAPTER, NestcordService } from '@globalart/nestcord';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
+import { NestcordService } from '@globalart/nestcord';
+import { Injectable } from '@nestjs/common';
+import { Colors, EmbedBuilder, EmbedData } from 'discord.js';
 import { TranslationService } from '../translation/translation.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class DiscordHelpersService {

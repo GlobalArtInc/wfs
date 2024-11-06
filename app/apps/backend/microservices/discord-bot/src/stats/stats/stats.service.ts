@@ -1,15 +1,15 @@
-import { NestcordService, PageBuilder } from '@globalart/nestcord';
-import { Injectable } from '@nestjs/common';
-import { UserService } from '../../user/user.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { APIEmbedField, ButtonStyle, CacheType, ChatInputCommandInteraction, Colors } from 'discord.js';
-import { HelpersService } from '../../helpers/helpers.service';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { PlayerInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
-import { TranslationService } from '../../translation/translation.service';
+import { NestcordService, PageBuilder } from '@globalart/nestcord';
+import { Injectable } from '@nestjs/common';
+import { APIEmbedField, ButtonStyle, CacheType, ChatInputCommandInteraction, Colors } from 'discord.js';
 import * as moment from 'moment';
 import { DiscordErrorException } from '../../exceptions/discord-error.exception';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { HelpersService } from '../../helpers/helpers.service';
+import { TranslationService } from '../../translation/translation.service';
+import { UserService } from '../../user/user.service';
 
 @Injectable()
 export class StatsService {

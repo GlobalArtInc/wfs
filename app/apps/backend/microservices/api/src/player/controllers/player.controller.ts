@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PlayerService } from '../player.service';
 import { GetPlayerAchievementsDto } from '../dtos';
+import { PlayerService } from '../player.service';
 
 @ApiTags('player')
 @Controller('player')

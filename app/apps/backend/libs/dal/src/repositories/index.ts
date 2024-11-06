@@ -3,18 +3,18 @@ import { ClanEntity, ClanMemberEntity, ClanRepository } from './clan';
 import { EventsEntity, EventsRepository } from './events';
 import { GuildEntity, GuildRepository } from './guild';
 import {
-  PlayerEntity,
-  PlayerAchievementEntity,
-  PlayerStatEntity,
-  PlayerRepository,
-  PlayerStatRepository,
+    PlayerAchievementEntity,
+    PlayerEntity,
+    PlayerRepository,
+    PlayerStatEntity,
+    PlayerStatRepository,
 } from './player';
 import { PlayerAchievementRepository } from './player/player-achievement.repository';
 import { ServerEntity, ServerRepository } from './server';
 import { SettingEntity, SettingRepository } from './setting';
-import { UserEntity, UserPlayerEntity, UserClanEntity, UserRepository } from './user';
+import { UserClanEntity, UserEntity, UserPlayerEntity, UserRepository } from './user';
 import { VipEntity, VipRepository, VipTypeEntity } from './vip';
-import { WeaponEntity, WeaponCategoryEntity, WeaponRepository } from './weapon';
+import { WeaponCategoryEntity, WeaponEntity, WeaponRepository } from './weapon';
 
 export const DAL_ENTITIES = [
   AchievementEntity,

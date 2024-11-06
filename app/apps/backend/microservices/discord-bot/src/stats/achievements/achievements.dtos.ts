@@ -1,7 +1,6 @@
-import { MISSIONS } from '@app/shared/constants';
+import { MissionEnum } from '@app/shared/enums';
 import { StringOption, localizationMapByKey } from '@globalart/nestcord';
 import { HelpersService } from '../../helpers/helpers.service';
-import { MissionEnum } from '@app/shared/enums';
 
 export class AchievementsDto {
   @StringOption({

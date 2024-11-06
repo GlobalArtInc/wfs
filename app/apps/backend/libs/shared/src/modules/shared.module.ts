@@ -1,10 +1,10 @@
-import { ConfigService } from '@nestjs/config';
+import { DAL_ENTITIES, DAL_REPOSITORIES } from '@app/dal/repositories';
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HealthModule } from './health/health.module';
-import { InterApiModule } from './inter-api.module';
 import { HelpersModule } from './helpers/helpers.module';
-import { DAL_ENTITIES, DAL_REPOSITORIES } from '@app/dal/repositories';
+import { InterApiModule } from './inter-api.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([...DAL_ENTITIES]), InterApiModule, HelpersModule, HealthModule],

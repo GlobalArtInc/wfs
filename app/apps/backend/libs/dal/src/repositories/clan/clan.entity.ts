@@ -1,16 +1,14 @@
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  Unique,
-  UpdateDateColumn,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryColumn,
+    Unique,
+    UpdateDateColumn
 } from 'typeorm';
-import { v4 } from 'uuid';
 
 @Entity('clan')
 @Unique(['id', 'server'])

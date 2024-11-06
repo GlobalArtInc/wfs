@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { addTransactionalDataSource } from 'typeorm-transactional';
-import { DataSource } from 'typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { PlayerModule } from './player/player.module';
-import { ClanModule } from './clan/clan.module';
+import configs from '@app/shared/configs';
 import { RedisCacheModule } from '@app/shared/modules/redis-microservice/redis-cache.module';
 import { SharedModule } from '@app/shared/modules/shared.module';
-import configs from '@app/shared/configs';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import { addTransactionalDataSource } from 'typeorm-transactional';
+import { ClanModule } from './clan/clan.module';
+import { PlayerModule } from './player/player.module';
 
 @Module({
   imports: [

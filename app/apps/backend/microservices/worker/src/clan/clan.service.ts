@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { ClanRepository, ClanEntity } from '@app/dal/repositories/clan';
+import { ClanEntity, ClanRepository } from '@app/dal/repositories/clan';
 import { WarfaceApiClan, WarfaceApiClanMember } from '@app/infrastructure/apis/warface/warface-api.types';
+import { Injectable } from '@nestjs/common';
 import * as moment from 'moment';
 
 @Injectable()

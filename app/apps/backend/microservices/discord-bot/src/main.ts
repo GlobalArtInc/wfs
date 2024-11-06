@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { DiscordBotModule } from './discord-bot.module';
-import { initializeTransactionalContext } from 'typeorm-transactional';
 import 'reflect-metadata';
+import { initializeTransactionalContext } from 'typeorm-transactional';
+import { DiscordBotModule } from './discord-bot.module';
 
 async function bootstrap() {
   initializeTransactionalContext();

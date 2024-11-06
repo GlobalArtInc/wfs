@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { OnlineService } from './online.service';
-import { OnlineController } from './controllers/online.controller';
 import { SharedModule } from '@app/shared/modules/shared.module';
+import { Module } from '@nestjs/common';
+import { OnlineController } from './controllers/online.controller';
+import { OnlineService } from './online.service';
 
 @Module({
   imports: [SharedModule],

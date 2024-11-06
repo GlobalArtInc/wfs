@@ -1,16 +1,16 @@
+import { CommandCategoryEnum } from '@app/shared/enums';
 import {
-  SlashCommand,
-  localizationMapByKey,
-  Context,
-  SlashCommandContext,
-  Options,
-  DeferCommandInterceptor,
+    Context,
+    DeferCommandInterceptor,
+    Options,
+    SlashCommand,
+    SlashCommandContext,
+    localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { SpecSearchDto } from './spec.dtos';
 import { SpecService } from './spec.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class SpecInteractions {

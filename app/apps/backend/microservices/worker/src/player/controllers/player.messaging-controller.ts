@@ -1,9 +1,9 @@
-import { Controller } from '@nestjs/common';
-import { PlayerService } from '../player.service';
-import { EventPattern, Transport } from '@nestjs/microservices';
+import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
 import { WarfaceApiSavePlayerData } from '@app/infrastructure/apis/warface/warface-api.types';
 import { PLAYER_SAVE_REDIS_COMMAND, PLAYER_UPDATE_STATUS_COMMAND } from '@app/shared/constants';
-import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
+import { Controller } from '@nestjs/common';
+import { EventPattern, Transport } from '@nestjs/microservices';
+import { PlayerService } from '../player.service';
 
 @Controller()
 export class PlayerMessagingController {

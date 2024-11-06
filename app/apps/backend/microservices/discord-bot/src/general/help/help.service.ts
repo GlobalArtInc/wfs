@@ -1,6 +1,6 @@
 import { NestcordService, PageBuilder } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
-import { ButtonInteraction, ButtonStyle, CacheType, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
+import { ButtonInteraction, ButtonStyle, CacheType, ChatInputCommandInteraction } from 'discord.js';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { TranslationService } from '../../translation/translation.service';
 

@@ -1,19 +1,19 @@
-import {
-  ComponentParam,
-  Context,
-  NestcordService,
-  SelectedStrings,
-  StringSelect,
-  StringSelectContext,
-} from '@globalart/nestcord';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ActionRowBuilder, Colors, InteractionReplyOptions, StringSelectMenuBuilder } from 'discord.js';
-import { HelpersService } from '../../helpers/helpers.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { WeaponRepository } from '@app/dal/repositories/weapon';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { WeaponInfo, WeaponList } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { WeaponCategoryToEmojiEnum } from '@app/shared/enums';
+import {
+    ComponentParam,
+    Context,
+    NestcordService,
+    SelectedStrings,
+    StringSelect,
+    StringSelectContext,
+} from '@globalart/nestcord';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { ActionRowBuilder, Colors, InteractionReplyOptions, StringSelectMenuBuilder } from 'discord.js';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { HelpersService } from '../../helpers/helpers.service';
 import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()

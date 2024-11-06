@@ -1,8 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { getWeaponsDto } from './weapons.dto';
 import { WeaponRepository } from 'libs/dal/src/repositories/weapon';
+import { getWeaponsDto } from './weapons.dto';
 
 @Injectable()
 export class WeaponsService {

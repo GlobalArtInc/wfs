@@ -1,7 +1,7 @@
+import { CommandCategoryEnum } from '@app/shared/enums';
+import { Context, SlashCommand, SlashCommandContext, localizationMapByKey } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
 import { GeneralUrlService } from './url.service';
-import { SlashCommand, localizationMapByKey, Context, SlashCommandContext } from '@globalart/nestcord';
-import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class GeneralUrlInteractions {

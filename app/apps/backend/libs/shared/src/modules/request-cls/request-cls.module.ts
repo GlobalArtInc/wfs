@@ -1,9 +1,9 @@
 import { Global, Module, Provider } from '@nestjs/common';
 
-import { ClsModule as NestClsModule } from 'nestjs-cls';
-import { RequestClsService } from './request-cls.service';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { CacheType, ChatInputCommandInteraction } from 'discord.js';
+import { ClsModule as NestClsModule } from 'nestjs-cls';
+import { RequestClsService } from './request-cls.service';
 
 const IMPORTS = [
   NestClsModule.forRoot({

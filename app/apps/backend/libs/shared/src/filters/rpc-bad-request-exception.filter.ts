@@ -1,4 +1,4 @@
-import { Catch, RpcExceptionFilter, ArgumentsHost, BadRequestException } from '@nestjs/common';
+import { ArgumentsHost, BadRequestException, Catch, RpcExceptionFilter } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 
 @Catch(BadRequestException)

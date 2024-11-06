@@ -1,13 +1,3 @@
-import {
-  ForbiddenException,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
-import { GetPlayerAchievementsDto } from './dtos';
-import { omit } from 'lodash';
-import { ClientProxy } from '@nestjs/microservices';
 import { PlayerRepository, PlayerStatRepository } from '@app/dal/repositories/player';
 import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
 import { WarfaceApiPlayerData, WarfaceApiSavePlayerData } from '@app/infrastructure/apis/warface/warface-api.types';
@@ -16,8 +6,18 @@ import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
 import { PLAYER_SAVE_REDIS_COMMAND, PLAYER_UPDATE_STATUS_COMMAND } from '@app/shared/constants';
 import { HelpersService } from '@app/shared/modules/helpers/helpers.service';
 import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
+import {
+    ForbiddenException,
+    Inject,
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
+} from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { omit } from 'lodash';
 import * as moment from 'moment';
 import { ILike } from 'typeorm';
+import { GetPlayerAchievementsDto } from './dtos';
 
 @Injectable()
 export class PlayerService {

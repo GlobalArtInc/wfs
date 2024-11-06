@@ -1,7 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { TopService } from '../top.service';
-import { ApiTags, ApiQuery } from '@nestjs/swagger';
 import { MissionEnum } from '@app/shared/enums';
+import { Controller, Get, Query } from '@nestjs/common';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { TopService } from '../top.service';
 
 @ApiTags('top')
 @Controller('top')

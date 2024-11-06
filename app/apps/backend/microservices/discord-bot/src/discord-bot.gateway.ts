@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ActivityType, Client } from 'discord.js';
-import { Context, ContextOf, On, Once, SlashCommandContext } from '@globalart/nestcord';
 import { ServerRepository } from '@app/dal/repositories/server';
 import { UserRepository } from '@app/dal/repositories/user';
+import { Context, ContextOf, On, Once, SlashCommandContext } from '@globalart/nestcord';
+import { Injectable, Logger } from '@nestjs/common';
+import { ActivityType, Client } from 'discord.js';
 
 @Injectable()
 export class DiscordBotGateway {

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import { UserRepository } from '@app/dal/repositories/user';
 import { VipRepository } from '@app/dal/repositories/vip';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UserService {

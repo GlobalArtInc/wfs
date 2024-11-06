@@ -4,12 +4,11 @@ import { Inject, Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import { isArray, isString, map, set } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 
-import { ITranslateDecoratorValue, ITranslatorOptions, ITranslatorService } from './interfaces';
+import { ITranslateDecoratorValue, ITranslatorOptions } from './interfaces';
+import { Language } from './language.class';
 import { REMOTE_DICTS_TIMEOUT } from './translation.consts';
 import { TRANSLATION_DECORATOR_KEY, TRANSLATOR_OPTIONS } from './translation.di-tokens';
 import { Dict } from './types';
-import { Language } from './language.class';
-import { access, accessSync } from 'fs';
 
 @Injectable()
 export class TranslatorService implements OnModuleInit {

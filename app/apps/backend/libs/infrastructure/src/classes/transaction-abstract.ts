@@ -1,5 +1,5 @@
-import { Connection } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+import { Connection } from 'typeorm';
 import { Transactional } from 'typeorm-transactional';
 
 @Injectable()

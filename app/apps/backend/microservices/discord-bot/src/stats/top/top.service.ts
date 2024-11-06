@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { Colors } from 'discord.js';
-import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { TopInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { NestcordService } from '@globalart/nestcord';
+import { Injectable } from '@nestjs/common';
+import { Colors } from 'discord.js';
+import { DiscordErrorException } from '../../exceptions/discord-error.exception';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 
 @Injectable()
 export class TopService {

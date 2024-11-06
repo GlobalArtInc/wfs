@@ -1,24 +1,23 @@
-import {
-  Context,
-  DeferCommandInterceptor,
-  NestcordService,
-  Options,
-  SlashCommand,
-  SlashCommandContext,
-  localizationMapByKey,
-} from '@globalart/nestcord';
-import { Injectable, UseInterceptors } from '@nestjs/common';
-import { ClanSearchDto } from './clan.dtos';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors } from 'discord.js';
-import { HelpersService } from '../../helpers/helpers.service';
-import { UserService } from '../../user/user.service';
-import { SettingService } from '../../setting/setting.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { ClanInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
-import { TranslationService } from '../../translation/translation.service';
 import { CommandCategoryEnum } from '@app/shared/enums';
+import {
+    Context,
+    DeferCommandInterceptor,
+    NestcordService,
+    Options,
+    SlashCommand,
+    SlashCommandContext,
+    localizationMapByKey,
+} from '@globalart/nestcord';
+import { Injectable, UseInterceptors } from '@nestjs/common';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors } from 'discord.js';
+import { DiscordErrorException } from '../../exceptions/discord-error.exception';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { HelpersService } from '../../helpers/helpers.service';
+import { TranslationService } from '../../translation/translation.service';
+import { UserService } from '../../user/user.service';
+import { ClanSearchDto } from './clan.dtos';
 
 @Injectable()
 export class ClanService {

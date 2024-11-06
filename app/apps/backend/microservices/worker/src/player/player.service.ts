@@ -1,13 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
 import {
-  PlayerAchievementEntity,
-  PlayerEntity,
-  PlayerRepository,
-  PlayerStatRepository,
+    PlayerAchievementEntity,
+    PlayerEntity,
+    PlayerRepository,
+    PlayerStatRepository,
 } from '@app/dal/repositories/player';
+import { PlayerAchievementRepository } from '@app/dal/repositories/player/player-achievement.repository';
 import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
 import { WarfaceApiAchievement, WarfaceApiSavePlayerData } from '@app/infrastructure/apis/warface/warface-api.types';
-import { PlayerAchievementRepository } from '@app/dal/repositories/player/player-achievement.repository';
+import { Injectable, Logger } from '@nestjs/common';
 import * as moment from 'moment';
 
 @Injectable()

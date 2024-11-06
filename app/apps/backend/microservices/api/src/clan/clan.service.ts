@@ -1,14 +1,14 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { ILike } from 'typeorm';
-import { ClanRepository, ClanEntity } from '@app/dal/repositories/clan';
+import { ClanEntity, ClanRepository } from '@app/dal/repositories/clan';
 import { WarfaceApiClan } from '@app/infrastructure/apis/warface/warface-api.types';
 import { WarfaceApiService } from '@app/infrastructure/apis/warface/warface.api.service';
 import { REDIS_PROVIDER } from '@app/shared/configs/redis-microservice.config';
 import { CLAN_SAVE_REDIS_COMMAND } from '@app/shared/constants';
 import { HelpersService } from '@app/shared/modules/helpers/helpers.service';
 import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import * as moment from 'moment';
+import { ILike } from 'typeorm';
 
 @Injectable()
 export class ClanService {

@@ -1,8 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { type DynamicModule, Global, Logger, Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
 
-import { TranslatorAsyncOptions, ITranslatorOptions } from './interfaces';
+import { ITranslatorOptions, TranslatorAsyncOptions } from './interfaces';
 import { TRANSLATOR_OPTIONS } from './translation.di-tokens';
 import { TranslatorService } from './translation.service';
 

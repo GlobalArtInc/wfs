@@ -1,8 +1,8 @@
-import { Entity, PrimaryColumn, ManyToOne, JoinColumn, Column, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { ServerEntity } from '../server';
+import { VipEntity } from '../vip';
 import { UserClanEntity } from './user-clan.entity';
 import { UserPlayerEntity } from './user-player.entity';
-import { VipEntity } from '../vip';
 
 @Entity('user')
 export class UserEntity {

@@ -1,11 +1,11 @@
+import { BaseEntity } from '@app/dal/base-entity';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsDefined, IsNumber, IsOptional, IsString, Max } from 'class-validator';
-import { FilterQueryDto } from './filter-query.dto';
 import { MAX_QUERY_LIMIT } from '../constants';
-import { OrderValue } from '../types';
 import { transformToFilterQueryDto } from '../transformers';
-import { BaseEntity } from '@app/dal/base-entity';
+import { OrderValue } from '../types';
+import { FilterQueryDto } from './filter-query.dto';
 
 export class GetDataWithFilterDto<T extends BaseEntity> {
   @ApiPropertyOptional()

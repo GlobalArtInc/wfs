@@ -1,16 +1,16 @@
+import { CommandCategoryEnum } from '@app/shared/enums';
 import {
-  Context,
-  DeferCommandInterceptor,
-  Options,
-  SlashCommand,
-  SlashCommandContext,
-  localizationMapByKey,
+    Context,
+    DeferCommandInterceptor,
+    Options,
+    SlashCommand,
+    SlashCommandContext,
+    localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
+import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { AchievementsDto } from './achievements.dtos';
 import { AchievementsService } from './achievements.service';
-import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
-import { CommandCategoryEnum } from '@app/shared/enums';
 
 @Injectable()
 export class AchievementsInteractions {

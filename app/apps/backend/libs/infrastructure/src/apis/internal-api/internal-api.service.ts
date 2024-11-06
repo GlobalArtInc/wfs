@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { InternalApi } from '../internal-api.abstract';
 import { ConfigService } from '@nestjs/config';
+import { InternalApi } from '../internal-api.abstract';
 
 @Injectable()
 export class InternalBotApiService extends InternalApi {
