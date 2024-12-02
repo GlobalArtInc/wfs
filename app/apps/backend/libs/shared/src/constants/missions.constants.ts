@@ -34,6 +34,10 @@ export const MISSIONS = [
     value: MissionEnum.MIDGARD,
   },
   {
+    name: 'missions.asgard',
+    value: MissionEnum.ASGARD,
+  },
+  {
     name: 'missions.cyber_horde',
     value: MissionEnum.CYBER_HORDE,
   },

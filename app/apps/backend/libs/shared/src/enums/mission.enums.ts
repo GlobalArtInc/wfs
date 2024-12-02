@@ -16,4 +16,5 @@ export enum MissionEnum {
   HEIST = 'heist',
   ENDOR = 'endorsurvival',
   MIDGARD = 'midgard',
+  ASGARD = 'asgard',
 }
