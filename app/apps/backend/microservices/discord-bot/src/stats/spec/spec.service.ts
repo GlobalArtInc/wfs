@@ -86,9 +86,19 @@ export class SpecService {
 
   private getPlayerStats(stat: any, playerInfo: PlayerInfo): { won: string; lost: string } {
     const complexity = playerInfo.fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
+    let totalWon = 0;
+    let totalLost = 0;
+
+    if (complexity?.mode?.pve?.season) {
+      Object.values(complexity.mode.pve.season).forEach((seasonData: any) => {
+        totalWon += seasonData?.stat?.player_sessions_won || seasonData?.player_sessions_won || 0;
+        totalLost += seasonData?.stat?.player_sessions_lost || seasonData?.player_sessions_lost || 0;
+      });
+    }
+
     return {
-      won: HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_won || 0),
-      lost: HelpersService.numeral(complexity?.mode?.pve?.season?.stat?.player_sessions_lost || 0),
+      won: HelpersService.numeral(totalWon),
+      lost: HelpersService.numeral(totalLost),
     };
   }
 

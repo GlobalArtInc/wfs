@@ -5,11 +5,11 @@ import { UserModule } from '../user/user.module';
 import { DiscordHelpersService } from './discord-helpers.service';
 import { HelpersService } from './helpers.service';
 
-const IMPORTS = [DiscordHelpersService, HelpersService];
+const importS = [DiscordHelpersService, HelpersService];
 
 @Module({
   imports: [SharedModule, UserModule, DiscordTranslationModule],
-  providers: [...IMPORTS],
-  exports: [...IMPORTS],
+  providers: [...importS],
+  exports: [...importS],
 })
 export class HelpersModule {}

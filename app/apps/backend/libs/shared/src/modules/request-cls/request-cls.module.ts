@@ -5,7 +5,7 @@ import { CacheType, ChatInputCommandInteraction } from 'discord.js';
 import { ClsModule as NestClsModule } from 'nestjs-cls';
 import { RequestClsService } from './request-cls.service';
 
-const IMPORTS = [
+const importS = [
   NestClsModule.forRoot({
     interceptor: {
       mount: true,
@@ -32,8 +32,8 @@ const PROVIDERS: Provider[] = [
 
 @Global()
 @Module({
-  imports: [...IMPORTS],
+  imports: [...importS],
   providers: [...PROVIDERS],
-  exports: [...IMPORTS, ...PROVIDERS],
+  exports: [...importS, ...PROVIDERS],
 })
 export class RequestClsModule {}
