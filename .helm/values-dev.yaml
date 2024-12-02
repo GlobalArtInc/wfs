@@ -11,9 +11,9 @@ redisReplicaCount: 1
 apiReplicaCount: 1
 workerReplicaCount: 1
 discordBotReplicaCount: 1
-redisHost: redis
+redisHost: wfs-redis
 redisPort: 6379
-redisSentinelHost: sentinel
+redisSentinelHost: wfs-sentinel
 redisSentinelPort: 26379
 redisSentinelMasterName: mymaster
 redisCacheDatabase: 1
