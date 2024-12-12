@@ -1,15 +1,16 @@
 import { CommandCategoryEnum } from '@app/shared/enums';
 import {
-    Context,
-    DeferCommandInterceptor,
-    Options,
-    SlashCommandContext,
-    Subcommand,
-    createCommandGroupDecorator,
-    localizationMapByKey,
+  Context,
+  DeferCommandInterceptor,
+  Options,
+  SlashCommandContext,
+  Subcommand,
+  createCommandGroupDecorator,
+  localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { AutoCompleteNicknameInterceptor } from '../../interceptors';
 import { SetClanOptions, SetPlayerOptions, SetServerOptions } from './set.dtos';
 import { SetService } from './set.service';
 
@@ -19,8 +20,9 @@ export const SetCommandDecorator = createCommandGroupDecorator({
   category: CommandCategoryEnum.GENERAL,
 });
 
-@UseInterceptors(DeferCommandInterceptor)
 @Injectable()
+@UseInterceptors(DeferCommandInterceptor)
+@UseInterceptors(AutoCompleteNicknameInterceptor)
 @SetCommandDecorator()
 export class SetInteractions {
   constructor(

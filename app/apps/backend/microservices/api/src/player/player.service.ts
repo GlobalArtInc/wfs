@@ -51,14 +51,15 @@ export class PlayerService {
   }
 
   async getAllNicknames(nickname: string) {
-    const items = await this.playerRepository.getManyBy({
+    return this.playerRepository.getManyBy({
       nickname: ILike(`%${nickname}%`),
     }, {
-      select: { server: true, nickname: true, },
-      order: { created_at: 'desc' }
+      select: { id: true, server: true, nickname: true, },
+      order: { created_at: 'desc' },
+      cache: 60000,
+      take: 100,
     });
 
-    return items;
   }
 
   private async formatCachedPlayer(cachedPlayer: WarfaceApiPlayerData) {
