@@ -5,6 +5,7 @@ export class StatsCommandOptions {
     name: 'nickname',
     description: 'Player name',
     required: false,
+    autocomplete: true,
     name_localizations: localizationMapByKey('app.chatCommands.options.nickname.name'),
     description_localizations: localizationMapByKey('app.chatCommands.options.nickname.desc'),
   })

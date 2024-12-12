@@ -1,19 +1,20 @@
 import { CommandCategoryEnum } from '@app/shared/enums';
 import {
-    Button,
-    ButtonContext,
-    ComponentParam,
-    Context,
-    DeferCommandInterceptor,
-    NestCordPaginationService,
-    Options,
-    PaginatorTypeEnum,
-    SlashCommand,
-    SlashCommandContext,
-    localizationMapByKey,
+  Button,
+  ButtonContext,
+  ComponentParam,
+  Context,
+  DeferCommandInterceptor,
+  NestCordPaginationService,
+  Options,
+  PaginatorTypeEnum,
+  SlashCommand,
+  SlashCommandContext,
+  localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
+import { AutoCompleteNicknameInterceptor } from '../../interceptors';
 import { UserService } from '../../user/user.service';
 import { StatsCommandOptions } from './stats.dtos';
 import { PageEnum } from './stats.enums';
@@ -32,6 +33,7 @@ export class StatsInteractions {
     this.paginationService.register(PaginatorTypeEnum.BUTTONS, (builder) => builder.setCustomId('stats'));
   }
 
+  @UseInterceptors(AutoCompleteNicknameInterceptor)
   @UseInterceptors(DeferCommandInterceptor)
   @SlashCommand({
     name: 'stats',

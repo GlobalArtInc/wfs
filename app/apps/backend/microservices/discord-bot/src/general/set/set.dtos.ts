@@ -24,6 +24,7 @@ export class SetPlayerOptions {
     name_localizations: localizationMapByKey('app.chatCommands.options.nickname.name'),
     description_localizations: localizationMapByKey('app.chatCommands.options.nickname.desc'),
     required: true,
+    autocomplete: true,
   })
   name: string;
 }
