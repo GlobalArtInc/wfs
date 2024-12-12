@@ -7,11 +7,11 @@ import { PLAYER_SAVE_REDIS_COMMAND, PLAYER_UPDATE_STATUS_COMMAND } from '@app/sh
 import { HelpersService } from '@app/shared/modules/helpers/helpers.service';
 import { RedisCacheService } from '@app/shared/modules/redis-microservice/redis.service';
 import {
-    ForbiddenException,
-    Inject,
-    Injectable,
-    InternalServerErrorException,
-    NotFoundException,
+  ForbiddenException,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { omit } from 'lodash';
@@ -48,6 +48,17 @@ export class PlayerService {
     }
 
     return this.fetchAndCachePlayer(savedPlayer, nickname);
+  }
+
+  async getAllNicknames(nickname: string) {
+    const items = await this.playerRepository.getManyBy({
+      nickname: ILike(`%${nickname}%`),
+    }, {
+      select: { server: true, nickname: true, },
+      order: { created_at: 'desc' }
+    });
+
+    return items;
   }
 
   private async formatCachedPlayer(cachedPlayer: WarfaceApiPlayerData) {

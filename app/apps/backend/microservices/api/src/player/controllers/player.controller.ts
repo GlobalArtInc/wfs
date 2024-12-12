@@ -14,6 +14,12 @@ export class PlayerController {
     return this.playerService.getByName(nickname);
   }
 
+  @Get('searchByName')
+  searchByName(@Query('name') nickname: string) {
+    return this.playerService.getAllNicknames(nickname);
+  }
+
+  
   @ApiOperation({ summary: 'List of player missions' })
   @Get('pve')
   getPlayerMissions(@Query('name') nickname: string) {

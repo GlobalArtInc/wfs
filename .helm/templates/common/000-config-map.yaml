@@ -1,3 +1,4 @@
+{{ if (eq .Values.werf.env "prod") }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,3 +7,4 @@ data:
   {{ range $key, $val := index .Values }}
   {{ $key | snakecase | upper }}: {{ quote $val }} 
   {{ end }}
+{{ end }}
