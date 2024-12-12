@@ -33,8 +33,8 @@ export class StatsInteractions {
     this.paginationService.register(PaginatorTypeEnum.BUTTONS, (builder) => builder.setCustomId('stats'));
   }
 
-  @UseInterceptors(AutoCompleteNicknameInterceptor)
   @UseInterceptors(DeferCommandInterceptor)
+  @UseInterceptors(AutoCompleteNicknameInterceptor)
   @SlashCommand({
     name: 'stats',
     category: CommandCategoryEnum.STATS,
