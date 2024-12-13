@@ -3,12 +3,12 @@ import { RequestClsModule } from '@app/shared/modules/request-cls';
 import { SharedModule } from '@app/shared/modules/shared.module';
 import { TranslationModule } from '@app/shared/translation/translation.module';
 import {
-    DefaultLocalizationAdapter,
-    NestCordLocalizationModule,
-    NestCordModule,
-    NestCordStatReporterModule,
-    StatCronExpression,
-    UserResolver,
+  DefaultLocalizationAdapter,
+  NestCordLocalizationModule,
+  NestCordModule,
+  NestCordStatReporterModule,
+  StatCronExpression,
+  UserResolver,
 } from '@globalart/nestcord';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';

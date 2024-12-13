@@ -2,13 +2,13 @@ import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { ClanInfo } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { CommandCategoryEnum } from '@app/shared/enums';
 import {
-    Context,
-    DeferCommandInterceptor,
-    NestcordService,
-    Options,
-    SlashCommand,
-    SlashCommandContext,
-    localizationMapByKey,
+  Context,
+  DeferCommandInterceptor,
+  NestcordService,
+  Options,
+  SlashCommand,
+  SlashCommandContext,
+  localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors } from 'discord.js';

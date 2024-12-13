@@ -16,7 +16,7 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { omit } from 'lodash';
 import * as moment from 'moment';
-import { ILike } from 'typeorm';
+import { ILike, In, Not } from 'typeorm';
 import { GetPlayerAchievementsDto } from './dtos';
 
 @Injectable()
@@ -51,16 +51,19 @@ export class PlayerService {
   }
 
   async getAllNicknames(nickname: string) {
-    return this.playerRepository.getManyBy({
-      nickname: ILike(`%${nickname}%`),
-      server: 'ru',
-    }, {
-      select: { id: true, server: true, nickname: true, },
-      order: { created_at: 'desc' },
-      cache: 60000,
-      take: 100,
-    });
-
+    return this.playerRepository.getManyBy(
+      {
+        nickname: ILike(`%${nickname}%`),
+        server: 'ru',
+        type: Not(In([PlayerTypeEnum.NicknameChanged])),
+      },
+      {
+        select: { id: true, server: true, nickname: true },
+        order: { created_at: 'desc' },
+        cache: 60000,
+        take: 100,
+      },
+    );
   }
 
   private async formatCachedPlayer(cachedPlayer: WarfaceApiPlayerData) {

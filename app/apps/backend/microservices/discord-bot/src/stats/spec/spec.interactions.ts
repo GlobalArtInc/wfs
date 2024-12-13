@@ -5,7 +5,7 @@ import {
   Options,
   SlashCommand,
   SlashCommandContext,
-  localizationMapByKey
+  localizationMapByKey,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';

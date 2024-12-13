@@ -19,7 +19,6 @@ export class PlayerController {
     return this.playerService.getAllNicknames(nickname);
   }
 
-  
   @ApiOperation({ summary: 'List of player missions' })
   @Get('pve')
   getPlayerMissions(@Query('name') nickname: string) {

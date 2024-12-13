@@ -3,11 +3,11 @@ import { ClanEntity, ClanMemberEntity, ClanRepository } from './clan';
 import { EventsEntity, EventsRepository } from './events';
 import { GuildEntity, GuildRepository } from './guild';
 import {
-    PlayerAchievementEntity,
-    PlayerEntity,
-    PlayerRepository,
-    PlayerStatEntity,
-    PlayerStatRepository,
+  PlayerAchievementEntity,
+  PlayerEntity,
+  PlayerRepository,
+  PlayerStatEntity,
+  PlayerStatRepository,
 } from './player';
 import { PlayerAchievementRepository } from './player/player-achievement.repository';
 import { ServerEntity, ServerRepository } from './server';

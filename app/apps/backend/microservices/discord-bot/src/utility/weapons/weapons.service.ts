@@ -3,12 +3,12 @@ import { InternalBotApiService } from '@app/infrastructure/apis/internal-api';
 import { WeaponInfo, WeaponList } from '@app/infrastructure/apis/internal-api/internal-api.types';
 import { WeaponCategoryToEmojiEnum } from '@app/shared/enums';
 import {
-    ComponentParam,
-    Context,
-    NestcordService,
-    SelectedStrings,
-    StringSelect,
-    StringSelectContext,
+  ComponentParam,
+  Context,
+  NestcordService,
+  SelectedStrings,
+  StringSelect,
+  StringSelectContext,
 } from '@globalart/nestcord';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ActionRowBuilder, Colors, InteractionReplyOptions, StringSelectMenuBuilder } from 'discord.js';

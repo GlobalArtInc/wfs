@@ -1,8 +1,8 @@
 import {
-    PlayerAchievementEntity,
-    PlayerEntity,
-    PlayerRepository,
-    PlayerStatRepository,
+  PlayerAchievementEntity,
+  PlayerEntity,
+  PlayerRepository,
+  PlayerStatRepository,
 } from '@app/dal/repositories/player';
 import { PlayerAchievementRepository } from '@app/dal/repositories/player/player-achievement.repository';
 import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';

@@ -5,9 +5,7 @@ import { AutocompleteInteraction } from 'discord.js';
 
 @Injectable()
 export class AutoCompleteNicknameInterceptor extends AutocompleteInterceptor {
-  constructor(
-    private readonly internalBotApiService: InternalBotApiService,
-  ) {
+  constructor(private readonly internalBotApiService: InternalBotApiService) {
     super();
   }
 
@@ -24,20 +22,20 @@ export class AutoCompleteNicknameInterceptor extends AutocompleteInterceptor {
       response = await this.internalBotApiService.send<{ id: string; server: string; nickname: string }[]>(
         'get',
         'player/searchByName',
-        { name: nickname }
+        { name: nickname },
       );
     } catch (error) {
       console.error('Error fetching player data:', error);
       return interaction.respond([]);
     }
 
-    const choices = response.map(player => ({
+    const choices = response.map((player) => ({
       server: player.server,
       nickname: player.nickname,
     }));
 
     const lowerCaseNickname = nickname.toLowerCase();
-    const foundChoice = choices.find(choice => choice.nickname.toLowerCase() === lowerCaseNickname);
+    const foundChoice = choices.find((choice) => choice.nickname.toLowerCase() === lowerCaseNickname);
 
     if (!foundChoice) {
       choices.unshift({ server: '-', nickname });
@@ -46,10 +44,10 @@ export class AutoCompleteNicknameInterceptor extends AutocompleteInterceptor {
     const limitedChoices = choices.slice(0, 25);
 
     await interaction.respond(
-      limitedChoices.map(choice => ({
+      limitedChoices.map((choice) => ({
         name: choice.nickname,
         value: choice.nickname,
-      }))
+      })),
     );
   }
 }
