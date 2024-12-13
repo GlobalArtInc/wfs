@@ -14,26 +14,39 @@ export class AutoCompleteNicknameInterceptor extends AutocompleteInterceptor {
   public async transformOptions(interaction: AutocompleteInteraction): Promise<void> {
     const focused = interaction.options.getFocused(true);
     const nickname = focused.value.toString();
-    const response = await this.internalBotApiService.send<{ id: string; server: string; nickname: string }[]>(
-      'get', 
-      'player/searchByName', 
-      { name: nickname }
-    );
-
-    const choices = response.map(player => player.nickname);
-
-    if (!choices.includes(nickname)) {
-      choices.unshift(nickname);
-    }
-
-    const limitedChoices = choices.slice(0, 25);
 
     if (!nickname) {
       return interaction.respond([]);
     }
 
+    let response;
+    try {
+      response = await this.internalBotApiService.send<{ id: string; server: string; nickname: string }[]>(
+        'get',
+        'player/searchByName',
+        { name: nickname }
+      );
+    } catch (error) {
+      console.error('Error fetching player data:', error);
+      return interaction.respond([]);
+    }
+
+    const choices = response.map(player => ({
+      server: player.server,
+      nickname: player.nickname,
+    }));
+
+    if (!choices.some(choice => choice.nickname === nickname)) {
+      choices.unshift({ server: '-', nickname });
+    }
+
+    const limitedChoices = choices.slice(0, 25);
+
     await interaction.respond(
-      limitedChoices.map(choice => ({ name: choice, value: choice }))
+      limitedChoices.map(choice => ({
+        name: `[${choice.server}] ${choice.nickname}`,
+        value: choice.nickname,
+      }))
     );
   }
 }
