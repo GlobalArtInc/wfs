@@ -46,6 +46,7 @@ export class PlayerService {
     if (savedPlayer && cachedPlayer) {
       return this.formatCachedPlayer(cachedPlayer);
     }
+    
 
     return this.fetchAndCachePlayer(savedPlayer, nickname);
   }
@@ -59,7 +60,7 @@ export class PlayerService {
       },
       {
         select: { id: true, server: true, nickname: true },
-        order: { created_at: 'desc' },
+        order: { updatedAt: 'desc' },
         cache: 60000,
         take: 100,
       },
@@ -115,7 +116,7 @@ export class PlayerService {
     const fullPlayer = this.parseFullResponse(playerData.full_response);
     delete playerData.full_response;
     const state = { status: 'open', updatedAt: timestamp };
-    const cachedData = { playerId, state, server, player: playerData, fullPlayer, achievements };
+    const cachedData = { playerId, state, server, player: this.formatPlayerFromApi(playerData), fullPlayer, achievements };
 
     this.redisProxy.emit(PLAYER_SAVE_REDIS_COMMAND, cachedData);
     await this.redisService.set(playerId, cachedData, this.defaultCacheTime);
@@ -123,10 +124,43 @@ export class PlayerService {
     return this.formatPlayer({
       server,
       state,
-      player: playerData,
+      player: this.formatPlayerFromApi(playerData),
       fullPlayer,
       achievements,
     });
+  }
+
+  private formatPlayerFromApi(playerData: any) {
+    return {
+      userId: playerData.user_id,
+      nickname: playerData.nickname,
+      experience: playerData.experience,
+      rankId: playerData.rank_id,
+      clanId: playerData.clan_id,
+      clanName: playerData.clan_name,
+      kill: playerData.kill,
+      friendlyKills: playerData.friendly_kills,
+      kills: playerData.kills,
+      death: playerData.death,
+      pvp: playerData.pvp,
+      pveKill: playerData.pve_kill,
+      pveFriendlyKills: playerData.pve_friendly_kills,
+      pveKills: playerData.pve_kills,
+      pveDeath: playerData.pve_death,
+      pve: playerData.pve,
+      playtime: playerData.playtime,
+      playtimeH: playerData.playtime_h,
+      playtimeM: playerData.playtime_m,
+      favoritPve: playerData.favoritPVE,
+      favoritPvp: playerData.favoritPVP,
+      pveWins: playerData.pve_wins,
+      pvpWins: playerData.pvp_wins,
+      pveLost: playerData.pve_lost,
+      pvpLost: playerData.pvp_lost,
+      pveAll: playerData.pve_all,
+      pvpAll: playerData.pvp_all,
+      pvpwl: playerData.pvpwl, 
+    }
   }
 
   private determineServers(savedPlayer: any) {
@@ -215,8 +249,8 @@ export class PlayerService {
     );
 
     if (player) {
-      const { server, type, updated_at } = player;
-      const state = { type, updatedAt: updated_at };
+      const { server, type, updatedAt } = player;
+      const state = { type, updatedAt: updatedAt };
       const fullPlayerRes = await this.playerStatRepository.getManyBy({ playerId: player.id });
       const fullPlayer = this.responseToObject(
         fullPlayerRes.reduce(
@@ -299,7 +333,7 @@ export class PlayerService {
     const missions = {};
     return {
       nickname: playerData.player.nickname,
-      rank_id: playerData.player.rank_id,
+      rank_id: playerData.player.rankId,
       server: playerData.server,
       state: { type: playerData.state.type, updatedAt: playerData.state.updatedAt },
       missions,

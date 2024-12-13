@@ -18,7 +18,7 @@ import { PlayerModule } from './player/player.module';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        ...configService.get('db'),
+        ...configService.get('database'),
       }),
       dataSourceFactory: async (options) => addTransactionalDataSource(new DataSource(options)),
     }),

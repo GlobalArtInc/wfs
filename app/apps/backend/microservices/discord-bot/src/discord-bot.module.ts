@@ -35,7 +35,7 @@ const INTERACTION_MODULES = [GeneralModule, UtilityModule, StatsModule];
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        ...configService.get('db'),
+        ...configService.get('database'),
       }),
       dataSourceFactory: async (options) => addTransactionalDataSource(new DataSource(options)),
     }),
