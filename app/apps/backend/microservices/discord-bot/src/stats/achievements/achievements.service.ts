@@ -89,9 +89,9 @@ export class AchievementsService {
 
   private createAuthorObject(playerInfo: PlayerInfo): { name: string; url: string; iconURL: string } {
     return {
-      name: `[${playerInfo.server.toUpperCase()}] ${playerInfo.player.nickname} (${playerInfo.player.rank_id})`,
+      name: `[${playerInfo.server.toUpperCase()}] ${playerInfo.player.nickname} (${playerInfo.player.rankId})`,
       url: `https://wfts.su/profile/${playerInfo.player.nickname}`,
-      iconURL: this.nestcordService.getApplicationEmoji(`wfs_rank_${playerInfo.player.rank_id}`)?.imageURL() || '',
+      iconURL: this.nestcordService.getApplicationEmoji(`wfs_rank_${playerInfo.player.rankId}`)?.imageURL() || '',
     };
   }
 

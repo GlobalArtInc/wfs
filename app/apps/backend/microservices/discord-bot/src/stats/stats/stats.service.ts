@@ -101,14 +101,14 @@ export class StatsService {
     return [
       {
         name: this.translationService.get('app.stats.clan'),
-        value: playerInfo.player.clan_name || 'no',
+        value: playerInfo.player.clanName || 'no',
         inline: true,
       },
       {
         name: this.translationService.get('app.stats.time_in_game.name'),
         value: this.translationService.get('app.stats.time_in_game.value', {
-          hours: playerInfo.player.playtime_h,
-          minutes: playerInfo.player.playtime_m,
+          hours: playerInfo.player.playtimeH,
+          minutes: playerInfo.player.playtimeM,
         }),
         inline: true,
       },
@@ -121,7 +121,7 @@ export class StatsService {
   }
 
   private createPveFields(playerInfo: PlayerInfo): APIEmbedField[] {
-    const totalGames = Number(playerInfo.player.pve_wins || 0) + Number(playerInfo.player.pve_lost || 0);
+    const totalGames = Number(playerInfo.player.pveWins || 0) + Number(playerInfo.player.pveLost || 0);
 
     const classFields = ['rifleman', 'medic', 'engineer', 'recon', 'heavy'].map((className) => ({
       name: this.translationService.get(`app.stats.pve.${className}.name`, {
@@ -151,7 +151,7 @@ export class StatsService {
     return [
       {
         name: `${this.nestcordService.getApplicationEmojiPlain('wfs_pve')} PVE`,
-        value: `**${this.translationService.get('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPVE}\n**${this.translationService.get(
+        value: `**${this.translationService.get('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPve}\n**${this.translationService.get(
           'app.stats.kd',
         )}:** ${playerInfo.player.pve || 0}`,
       },
@@ -174,12 +174,12 @@ export class StatsService {
       },
       {
         name: this.translationService.get('app.stats.wins'),
-        value: HelpersService.numeral(playerInfo.player.pve_wins || 0),
+        value: HelpersService.numeral(playerInfo.player.pveWins || 0),
         inline: true,
       },
       {
         name: this.translationService.get('app.stats.lost'),
-        value: HelpersService.numeral(playerInfo.player.pve_lost || 0),
+        value: HelpersService.numeral(playerInfo.player.pveLost || 0),
         inline: true,
       },
       {
@@ -248,7 +248,7 @@ export class StatsService {
     return [
       {
         name: `${this.nestcordService.getApplicationEmojiPlain('wfs_pvp')} PVP`,
-        value: `**${this.translationService.get('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPVP}\n**${this.translationService.get(
+        value: `**${this.translationService.get('app.stats.favoriteClass')}:** ${playerInfo.player.favoritPvp}\n**${this.translationService.get(
           'app.stats.kd',
         )}:** ${playerInfo.player.pvp || 0}`,
       },
@@ -264,12 +264,12 @@ export class StatsService {
       },
       {
         name: this.translationService.get('app.stats.wins'),
-        value: HelpersService.numeral(playerInfo.player.pvp_wins || 0),
+        value: HelpersService.numeral(playerInfo.player.pvpWins || 0),
         inline: true,
       },
       {
         name: this.translationService.get('app.stats.lost'),
-        value: HelpersService.numeral(playerInfo.player.pvp_lost || 0),
+        value: HelpersService.numeral(playerInfo.player.pvpLost || 0),
         inline: true,
       },
       {
@@ -310,9 +310,9 @@ export class StatsService {
 
   private createAuthorObject(playerInfo: PlayerInfo): { name: string; url: string; iconURL: string } {
     return {
-      name: `[${playerInfo.server.toUpperCase()}] ${playerInfo.player.nickname} (${playerInfo.player.rank_id})`,
+      name: `[${playerInfo.server.toUpperCase()}] ${playerInfo.player.nickname} (${playerInfo.player.rankId})`,
       url: `https://wfts.su/profile/${playerInfo.player.nickname}`,
-      iconURL: this.nestcordService.getApplicationEmoji(`wfs_rank_${playerInfo.player.rank_id}`)?.imageURL() || '',
+      iconURL: this.nestcordService.getApplicationEmoji(`wfs_rank_${playerInfo.player.rankId}`)?.imageURL() || '',
     };
   }
 }

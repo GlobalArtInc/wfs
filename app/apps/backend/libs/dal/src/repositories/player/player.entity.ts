@@ -8,7 +8,7 @@ export class PlayerEntity {
   id: string;
 
   @Column('int', { default: 0 })
-  vip_level: number;
+  vipLevel: number;
 
   @Column('character varying')
   server: string;
@@ -17,7 +17,7 @@ export class PlayerEntity {
   type: PlayerTypeEnum;
 
   @Column('character varying', { name: 'user_id', nullable: true })
-  user_id: string;
+  userId: string;
 
   @Column('character varying')
   nickname: string;
@@ -26,22 +26,22 @@ export class PlayerEntity {
   experience: number;
 
   @Column('int', { nullable: true })
-  rank_id: number;
+  rankId: number;
 
   @Column('int', { default: 1 })
-  is_transparent: number;
+  isTransparent: number;
 
   @Column('int', { nullable: true })
-  clan_id: number;
+  clanId: number;
 
   @Column('character varying', { nullable: true })
-  clan_name: string;
+  clanName: string;
 
   @Column('int')
   kill: number;
 
   @Column('int')
-  friendly_kills: number;
+  friendlyKills: number;
 
   @Column('int')
   kills: number;
@@ -53,16 +53,16 @@ export class PlayerEntity {
   pvp: string;
 
   @Column('int')
-  pve_kill: number;
+  pveKill: number;
 
   @Column('int')
-  pve_friendly_kills: number;
+  pveFriendlyKills: number;
 
   @Column('int')
-  pve_kills: number;
+  pveKills: number;
 
   @Column('int')
-  pve_death: number;
+  pveDeath: number;
 
   @Column('float')
   pve: string;
@@ -71,43 +71,43 @@ export class PlayerEntity {
   playtime: number;
 
   @Column('int')
-  playtime_h: number;
+  playtimeH: number;
 
   @Column('int')
-  playtime_m: number;
+  playtimeM: number;
 
   @Column('character varying', { name: 'favoritPVP', nullable: true })
-  favoritPVP: string;
+  favoritPvp: string;
 
   @Column('character varying', { name: 'favoritPVE', nullable: true })
-  favoritPVE: string;
+  favoritPve: string;
 
   @Column('int')
-  pve_wins: number;
+  pveWins: number;
 
   @Column('int')
-  pvp_wins: number;
+  pvpWins: number;
 
   @Column('int')
-  pve_lost: number;
+  pveLost: number;
 
   @Column('int')
-  pvp_lost: number;
+  pvpLost: number;
 
   @Column('int')
-  pve_all: number;
+  pveAll: number;
 
   @Column('int')
-  pvp_all: number;
+  pvpAll: number;
 
   @Column('float')
   pvpwl: number;
 
   @Column('timestamp with time zone', { default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
+  createdAt: Date;
 
   @Column('timestamp with time zone', { default: () => 'CURRENT_TIMESTAMP' })
-  updated_at: Date;
+  updatedAt: Date;
 
   @OneToMany(() => PlayerStatEntity, (playerStat) => playerStat.player, {
     cascade: true,

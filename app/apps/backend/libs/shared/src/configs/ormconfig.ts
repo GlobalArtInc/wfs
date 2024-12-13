@@ -1,9 +1,8 @@
 import { DataSource } from 'typeorm';
 import { databaseCredentials, defaultDatabaseConfig } from './db.config';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 const connectDB = new DataSource({ ...defaultDatabaseConfig, ...databaseCredentials });
+
 connectDB
   .initialize()
   .then(() => {

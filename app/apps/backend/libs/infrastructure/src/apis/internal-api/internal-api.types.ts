@@ -1,3 +1,5 @@
+import { PlayerEntity } from "@app/dal/repositories/player";
+
 export type OnlineInfo = Record<
   'ru' | 'int',
   {
@@ -58,7 +60,7 @@ export type PlayerInfo = {
     errorStatus: string;
     updatedAt: string;
   };
-  player: Record<string, any>;
+  player: PlayerEntity;
   fullPlayer: any;
   achievements: {
     achievement_id: string;

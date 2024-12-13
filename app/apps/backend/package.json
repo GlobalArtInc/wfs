@@ -25,9 +25,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "cd ../ && husky install",
     "pre-commit": "lint-staged",
-    "migration:up": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d libs/shared/src/configs/ormconfig.ts",
-    "migration:down": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d libs/shared/src/configs/ormconfig.ts",
-    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate --pretty -d libs/shared/src/configs/ormconfig.ts"
+    "migrate:up": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d libs/shared/src/configs/ormconfig.ts",
+    "migrate:down": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d libs/shared/src/configs/ormconfig.ts",
+    "migrate:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate --pretty -d libs/shared/src/configs/ormconfig.ts",
+    "migrate:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create"
   },
   "dependencies": {
     "@discordjs/proxy": "^2.1.1",

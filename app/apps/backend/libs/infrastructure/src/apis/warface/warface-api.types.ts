@@ -53,7 +53,7 @@ export interface WarfaceApiSavePlayerData {
 export interface WarfaceApiPlayerData {
   server: string;
   state: Record<string, unknown>;
-  player: PlayerEntity;
+  player: Partial<PlayerEntity>;
   fullPlayer: Record<string, unknown>;
   achievements: any[];
 }
