@@ -8,7 +8,7 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 export const databaseCredentials: PostgresConnectionCredentialsOptions = {
   host: process.env.DB_HOST,
   username: process.env.DB_USER,
-  // password: process.env.DB_PASS,
+  password: process.env.DB_PASS,
   database: process.env.DB_NAME,
 };
 export const defaultDatabaseConfig: PostgresConnectionOptions = {
