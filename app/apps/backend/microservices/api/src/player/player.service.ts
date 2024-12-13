@@ -53,6 +53,7 @@ export class PlayerService {
   async getAllNicknames(nickname: string) {
     return this.playerRepository.getManyBy({
       nickname: ILike(`%${nickname}%`),
+      server: 'ru',
     }, {
       select: { id: true, server: true, nickname: true, },
       order: { created_at: 'desc' },

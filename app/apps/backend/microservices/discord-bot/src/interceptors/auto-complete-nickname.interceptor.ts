@@ -36,7 +36,10 @@ export class AutoCompleteNicknameInterceptor extends AutocompleteInterceptor {
       nickname: player.nickname,
     }));
 
-    if (!choices.some(choice => choice.nickname === nickname)) {
+    const lowerCaseNickname = nickname.toLowerCase();
+    const foundChoice = choices.find(choice => choice.nickname.toLowerCase() === lowerCaseNickname);
+
+    if (!foundChoice) {
       choices.unshift({ server: '-', nickname });
     }
 
@@ -44,7 +47,7 @@ export class AutoCompleteNicknameInterceptor extends AutocompleteInterceptor {
 
     await interaction.respond(
       limitedChoices.map(choice => ({
-        name: `[${choice.server}] ${choice.nickname}`,
+        name: choice.nickname,
         value: choice.nickname,
       }))
     );
