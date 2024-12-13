@@ -8,6 +8,7 @@ import { PlayerAchievementRepository } from '@app/dal/repositories/player/player
 import { PlayerTypeEnum } from '@app/dal/repositories/player/player.enums';
 import { WarfaceApiAchievement, WarfaceApiSavePlayerData } from '@app/infrastructure/apis/warface/warface-api.types';
 import { Injectable, Logger } from '@nestjs/common';
+import { omit } from 'lodash';
 import * as moment from 'moment';
 
 @Injectable()
@@ -28,7 +29,7 @@ export class PlayerService {
       type: PlayerTypeEnum.Open,
       server: data.server,
       updated_at: moment().toDate(),
-      ...playerData,
+      ...omit(playerData, data.playerId ? ['nickname'] : []),
     });
 
     await Promise.all([
