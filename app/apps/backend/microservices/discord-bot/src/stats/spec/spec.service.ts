@@ -69,22 +69,26 @@ export class SpecService {
     return Object.keys(mission.mode).map((itemKey) => {
       const stat = mission.mode[itemKey];
       let { won, lost } = this.getPlayerStats(stat, playerInfo);
+      const statsData = {
+        won,
+        lost,
+      }
 
       if (mission.survivalMode && stat.category === 'hard') {
         const survivalStats = this.getSurvivalStats(mission, playerInfo);
-        won = (+won + +survivalStats.won).toString();
-        lost = (+lost + +survivalStats.lost).toString();
+        statsData.won = (+won + +survivalStats.won);
+        statsData.lost = (+lost + +survivalStats.lost);
       }
 
       if (stat.category === 'survival') {
-        return `${this.translationService.get('app.labels.done', { count: won })}\r\n${this.translationService.get('app.labels.failed', { count: lost })}`;
+        return `${this.translationService.get('app.labels.done', { count: HelpersService.numeral(statsData.won) })}\r\n${this.translationService.get('app.labels.failed', { count: HelpersService.numeral(statsData.lost) })}`;
       }
 
-      return `${this.translationService.get(`app.${stat.name}`)}: ${won} / ${lost}`;
+      return `${this.translationService.get(`app.${stat.name}`)}: ${HelpersService.numeral(statsData.won)} / ${HelpersService.numeral(statsData.lost)}`;
     });
   }
 
-  private getPlayerStats(stat: any, playerInfo: PlayerInfo): { won: string; lost: string } {
+  private getPlayerStats(stat: any, playerInfo: PlayerInfo): { won: number; lost: number } {
     const complexity = playerInfo.fullPlayer?.complexity?.[stat.category]?.mission_type?.[stat.code];
     let totalWon = 0;
     let totalLost = 0;
@@ -97,16 +101,17 @@ export class SpecService {
     }
 
     return {
-      won: HelpersService.numeral(totalWon),
-      lost: HelpersService.numeral(totalLost),
+      won: totalWon,
+      lost: totalLost
     };
   }
 
-  private getSurvivalStats(mission: any, playerInfo: PlayerInfo): { won: string; lost: string } {
+  private getSurvivalStats(mission: any, playerInfo: PlayerInfo): { won: number; lost: number } {
     const survivalStats = playerInfo.fullPlayer?.complexity?.survival?.mission_type?.[mission.survivalMode];
+
     return {
-      won: HelpersService.numeral(survivalStats?.mode?.pve?.season?.stat?.player_sessions_won || 0),
-      lost: HelpersService.numeral(survivalStats?.mode?.pve?.season?.stat?.player_sessions_lost || 0),
+      won: Number(survivalStats?.mode?.pve?.season?.stat?.player_sessions_won) || 0,
+      lost: Number(survivalStats?.mode?.pve?.season?.stat?.player_sessions_lost) || 0,
     };
   }
 
