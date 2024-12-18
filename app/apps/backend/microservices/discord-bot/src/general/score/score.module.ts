@@ -8,6 +8,6 @@ import { GeneralScoreService } from './score.service';
 
 @Module({
   imports: [SharedModule, SettingModule, TranslationModule, HelpersModule],
-  providers: [GeneralScoreService, GeneralScoreInteractions]
+  providers: [GeneralScoreService, GeneralScoreInteractions],
 })
 export class GeneralScoreModule {}

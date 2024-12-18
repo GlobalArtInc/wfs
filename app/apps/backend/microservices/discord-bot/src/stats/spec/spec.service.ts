@@ -72,12 +72,12 @@ export class SpecService {
       const statsData = {
         won,
         lost,
-      }
+      };
 
       if (mission.survivalMode && stat.category === 'hard') {
         const survivalStats = this.getSurvivalStats(mission, playerInfo);
-        statsData.won = (+won + +survivalStats.won);
-        statsData.lost = (+lost + +survivalStats.lost);
+        statsData.won = +won + +survivalStats.won;
+        statsData.lost = +lost + +survivalStats.lost;
       }
 
       if (stat.category === 'survival') {
@@ -102,7 +102,7 @@ export class SpecService {
 
     return {
       won: totalWon,
-      lost: totalLost
+      lost: totalLost,
     };
   }
 

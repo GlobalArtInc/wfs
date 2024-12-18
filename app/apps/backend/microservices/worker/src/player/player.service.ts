@@ -22,7 +22,7 @@ export class PlayerService {
   public async handlePlayerDataUpdate(data: WarfaceApiSavePlayerData) {
     this.logger.log(`start to update player ${data.player.nickname}`);
     const playerData = this.extractPlayerData(data.player);
-    
+
     await this.playerRepository.upsert({
       id: data.playerId,
       type: PlayerTypeEnum.Open,

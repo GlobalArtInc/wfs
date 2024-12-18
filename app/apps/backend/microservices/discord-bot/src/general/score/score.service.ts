@@ -18,23 +18,36 @@ export class GeneralScoreService {
   private readonly settingKey = 'score';
 
   async createEmbed(missionName: string) {
-    const discordUserId = this.requestClsService.getUser().id;
     const scoreSettings = await this.settingService.getValueByKey(this.settingKey);
     const scoreStat = scoreSettings[missionName];
     const embed = await this.discordHelpersService.buildEmbed({});
-  
+
     const description = Object.values(scoreStat.mode)
       .map((mode: any) => {
-        return this.translationService.get('app.displayEmbeds.score.descriptionItem', { emoji: this.nestcordService.getApplicationEmoji(`wfs_${mode.name}`), mode });
+        return this.translationService.get('app.displayEmbeds.score.descriptionItem', {
+          modeName: this.translationService.get(`app.mode.${mode.name}`),
+          emoji: {
+            mode: this.nestcordService.getApplicationEmojiPlain(`wfs_${mode.name}`),
+            score: this.nestcordService.getApplicationEmojiPlain(`wfs_kills_wf`),
+            time: this.nestcordService.getApplicationEmojiPlain(`wfs_time_wf`),
+            crown: this.nestcordService.getApplicationEmojiPlain(`wfs_crown_wf`),
+          },
+          stats: {
+            time: mode.time,
+            score: mode.score,
+            crown: mode.crown,
+          }
+        });
       })
       .join('\n\n');
-  
-    embed.setTitle(this.translationService.get('app.displayEmbeds.score.title', {
-      missionName,
-    }));
+
+    embed.setTitle(
+      this.translationService.get('app.displayEmbeds.score.title', {
+        missionName: this.translationService.get(`app.missions.${missionName}`),
+      }),
+    );
     embed.setDescription(description);
-    
+
     return embed;
   }
-  
 }

@@ -5,7 +5,7 @@ import {
   localizationMapByKey,
   Options,
   SlashCommand,
-  SlashCommandContext
+  SlashCommandContext,
 } from '@globalart/nestcord';
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
@@ -27,15 +27,13 @@ export class GeneralScoreInteractions {
     nameLocalizations: localizationMapByKey('app.chatCommands.score.name'),
     descriptionLocalizations: localizationMapByKey('app.chatCommands.score.desc'),
   })
-  async execute(
-    @Options() { mission }: ScoreDto,
-    @Context() [interaction]: SlashCommandContext) {
+  async execute(@Options() { mission }: ScoreDto, @Context() [interaction]: SlashCommandContext) {
     try {
       const embed = await this.generalScoreService.createEmbed(mission);
 
       return interaction.followUp({ embeds: [embed] });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       const errorEmbed = this.discordHelpersService.buildErrorEmbed({
         message:
           err?.response?.discordMessage ||

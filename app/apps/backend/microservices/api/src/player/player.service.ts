@@ -46,7 +46,6 @@ export class PlayerService {
     if (savedPlayer && cachedPlayer) {
       return this.formatCachedPlayer(cachedPlayer);
     }
-    
 
     return this.fetchAndCachePlayer(savedPlayer, nickname);
   }
@@ -116,7 +115,14 @@ export class PlayerService {
     const fullPlayer = this.parseFullResponse(playerData.full_response);
     delete playerData.full_response;
     const state = { status: 'open', updatedAt: timestamp };
-    const cachedData = { playerId, state, server, player: this.formatPlayerFromApi(playerData), fullPlayer, achievements };
+    const cachedData = {
+      playerId,
+      state,
+      server,
+      player: this.formatPlayerFromApi(playerData),
+      fullPlayer,
+      achievements,
+    };
 
     this.redisProxy.emit(PLAYER_SAVE_REDIS_COMMAND, cachedData);
     await this.redisService.set(playerId, cachedData, this.defaultCacheTime);
@@ -159,8 +165,8 @@ export class PlayerService {
       pvpLost: playerData.pvp_lost,
       pveAll: playerData.pve_all,
       pvpAll: playerData.pvp_all,
-      pvpwl: playerData.pvpwl, 
-    }
+      pvpwl: playerData.pvpwl,
+    };
   }
 
   private determineServers(savedPlayer: any) {

@@ -1,4 +1,4 @@
-import { PlayerEntity } from "@app/dal/repositories/player";
+import { PlayerEntity } from '@app/dal/repositories/player';
 
 export type OnlineInfo = Record<
   'ru' | 'int',
