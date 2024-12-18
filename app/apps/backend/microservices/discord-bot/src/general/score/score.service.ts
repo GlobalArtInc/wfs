@@ -36,7 +36,7 @@ export class GeneralScoreService {
             time: mode.time,
             score: mode.score,
             crown: mode.crown,
-          }
+          },
         });
       })
       .join('\n\n');
@@ -46,6 +46,7 @@ export class GeneralScoreService {
         missionName: this.translationService.get(`app.missions.${missionName}`),
       }),
     );
+    embed.setThumbnail(this.nestcordService.getApplicationAsset(missionName)?.url);
     embed.setDescription(description);
 
     return embed;
