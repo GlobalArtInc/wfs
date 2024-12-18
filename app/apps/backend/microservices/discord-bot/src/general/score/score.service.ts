@@ -1,6 +1,7 @@
 import { RequestClsService } from '@app/shared/modules/request-cls/request-cls.service';
 import { NestcordService } from '@globalart/nestcord';
 import { Injectable } from '@nestjs/common';
+import { DiscordErrorException } from '../../exceptions/discord-error.exception';
 import { DiscordHelpersService } from '../../helpers/discord-helpers.service';
 import { SettingService } from '../../setting/setting.service';
 import { TranslationService } from '../../translation/translation.service';
@@ -21,6 +22,10 @@ export class GeneralScoreService {
     const scoreSettings = await this.settingService.getValueByKey(this.settingKey);
     const scoreStat = scoreSettings[missionName];
     const embed = await this.discordHelpersService.buildEmbed({});
+    
+    if (!scoreStat) {
+      throw new DiscordErrorException('app.errors.mission_not_found');
+    }
 
     const description = Object.values(scoreStat.mode)
       .map((mode: any) => {
