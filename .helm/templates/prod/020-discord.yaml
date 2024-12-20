@@ -26,20 +26,20 @@ spec:
         volumeMounts:
         - name: config-files
           mountPath: /config
-        readinessProbe:
-          httpGet:
-            path: /api/healthz
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          failureThreshold: 3
-        livenessProbe:
-          httpGet:
-            path: /api/healthz
-            port: 3000
-          initialDelaySeconds: 15
-          periodSeconds: 20
-          failureThreshold: 3
+        # readinessProbe:
+        #   httpGet:
+        #     path: /api/healthz
+        #     port: 3000
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        #   failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /api/healthz
+        #     port: 3000
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 20
+        #   failureThreshold: 3
       - name: wg-client
         image: globalartltd/wireguard:rc3
         securityContext:

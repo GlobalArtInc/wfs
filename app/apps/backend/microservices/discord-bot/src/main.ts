@@ -1,4 +1,3 @@
-import { EnvEnum } from '@app/shared/enums';
 import { NestFactory } from '@nestjs/core';
 import 'reflect-metadata';
 import { initializeTransactionalContext } from 'typeorm-transactional';
@@ -9,6 +8,6 @@ async function bootstrap() {
   const app = await NestFactory.create(DiscordBotModule);
   app.setGlobalPrefix('/api');
 
-  await app.listen(process.env.DEPLOY_ENV === EnvEnum.DEV ? 0 : 3000);
+  await app.listen(0);
 }
 bootstrap();
