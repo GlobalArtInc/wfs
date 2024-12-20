@@ -9,6 +9,6 @@ async function bootstrap() {
   const app = await NestFactory.create(DiscordBotModule);
   app.setGlobalPrefix('/api');
 
-  await app.listen(process.env.DEPLOY_ENV === EnvEnum.DEV ? 0 : 80);
+  await app.listen(process.env.DEPLOY_ENV === EnvEnum.DEV ? 0 : 3000);
 }
 bootstrap();
